@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curriculum Vitae - Ikhwan Maulana</title>
+  <style>
+    :root {
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --text-color: #000000;
+      --muted-color: #333333;
+      --line-color: #000000;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--text-color);
+      line-height: 1.42;
+      background: #e2e8f0;
+      font-size: 9.8pt;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Floating Web Controls */
+    .no-print-bar {
+      max-width: 860px;
+      margin: 16px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #090d16;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 10px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .no-print-bar h1 {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .btn-action-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-print {
+      background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+      color: #ffffff;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-print:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-back {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 7px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .btn-back:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Page Container (A4) */
+    .cv-page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 20px auto;
+      background: #ffffff;
+      padding: 16mm 18mm;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.12);
+      position: relative;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .name {
+      font-size: 19pt;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+      color: #000;
+    }
+
+    .headline {
+      font-size: 9.8pt;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 4px;
+    }
+
+    .contacts {
+      font-size: 8.8pt;
+      color: #1f2937;
+      line-height: 1.4;
+    }
+
+    .contacts a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .contacts a:hover {
+      text-decoration: underline;
+    }
+
+    .section-title {
+      font-size: 10.2pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      border-bottom: 1.2px solid #000;
+      padding-bottom: 2px;
+      margin-top: 14px;
+      margin-bottom: 8px;
+    }
+
+    p.summary {
+      font-size: 9.3pt;
+      text-align: justify;
+      text-justify: inter-word;
+      line-height: 1.45;
+      margin-bottom: 4px;
+    }
+
+    /* Skills Table */
+    .skills-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9.1pt;
+      margin-bottom: 4px;
+    }
+
+    .skills-table td {
+      padding: 2.2px 0;
+      vertical-align: top;
+      text-align: justify;
+      text-justify: inter-word;
+    }
+
+    .skills-table td.skill-cat {
+      width: 175px;
+      font-weight: 700;
+      color: #000;
+      white-space: nowrap;
+      padding-right: 12px;
+      text-align: left;
+    }
+
+    /* Projects & Items */
+    .item {
+      margin-bottom: 11px;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .item-title {
+      font-size: 9.6pt;
+      font-weight: 700;
+      color: #000;
+    }
+
+    .item-tech {
+      font-size: 8.9pt;
+      font-style: italic;
+      color: #262626;
+      margin-bottom: 3px;
+    }
+
+    ul.bullets {
+      padding-left: 17px;
+      margin-top: 2px;
+      list-style-type: disc;
+    }
+
+    ul.bullets li {
+      font-size: 9.1pt;
+      margin-bottom: 3.5px;
+      text-align: justify;
+      text-justify: inter-word;
+      line-height: 1.38;
+    }
+
+    .edu-block {
+      margin-bottom: 9px;
+    }
+
+    .edu-title {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #000;
+    }
+
+    .edu-meta {
+      font-size: 8.9pt;
+      font-style: italic;
+      color: #262626;
+      margin-bottom: 2px;
+    }
+
+    .edu-coursework {
+      font-size: 8.9pt;
+      text-align: justify;
+      text-justify: inter-word;
+      line-height: 1.35;
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+        font-size: 9.5pt;
+      }
+
+      .no-print-bar {
+        display: none !important;
+      }
+
+      .cv-page {
+        width: 100%;
+        min-height: auto;
+        margin: 0;
+        padding: 13mm 15mm;
+        box-shadow: none;
+        page-break-after: always;
+        break-after: page;
+      }
+
+      .cv-page:last-child {
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="no-print-bar">
+    <div>
+      <h1>Curriculum Vitae (3-Page Full Stack Dossier) &bull; Ikhwan Maulana</h1>
+      <span style="font-size: 11px; opacity: 0.8;">Complete full-stack & AI engineering dossier matching official CV.</span>
+    </div>
+    <div class="btn-action-group">
+      <button class="btn-print" onclick="window.print()">
+        Print / Save as PDF
+      </button>
+      <a href="/" class="btn-back">&larr; Back to Portfolio</a>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 1 ==================== -->
+  <div class="cv-page">
+    <header class="header">
+      <div class="name">IKHWAN MAULANA</div>
+      <div class="headline">Full Stack Developer | JavaScript Ecosystem | React · Vue · Node.js | AI-Integrated Web Applications</div>
+      <div class="contacts">
+        Bekasi, Indonesia | +62 896-7367-4598 | <a href="mailto:ikhwanmaulana796@gmail.com">ikhwanmaulana796@gmail.com</a> | 
+        <a href="https://linkedin.com/in/ikhwan-maulana-1700b842b" target="_blank">linkedin.com/in/ikhwan-maulana-1700b842b</a> | 
+        <a href="https://github.com/IkhwanMaulana07" target="_blank">github.com/IkhwanMaulana07</a>
+      </div>
+    </header>
+
+    <div class="section-title">PROFESSIONAL SUMMARY</div>
+    <p class="summary">
+      Full Stack Developer with hands-on experience designing, building, and deploying end-to-end web applications across the modern JavaScript ecosystem. Skilled in building responsive front-ends with React, Vue, and Tailwind CSS, and robust back-ends with Node.js, Express, and PHP Native MVC, backed by relational (MySQL) database design. Experienced in RESTful API architecture, asynchronous data handling (Fetch/AJAX), authentication and role-based access control, and integrating AI/ML capabilities (Google Gemini API, Python model inference) directly into production web applications. Comfortable owning a project from database schema and API design through to a polished, deployed UI.
+    </p>
+
+    <div class="section-title">TECHNICAL SKILLS</div>
+    <table class="skills-table">
+      <tr>
+        <td class="skill-cat">Languages</td>
+        <td>JavaScript (ES6+), TypeScript, PHP, Python, Java, SQL, HTML5, CSS3</td>
+      </tr>
+      <tr>
+        <td class="skill-cat">JS Runtimes</td>
+        <td>Node.js</td>
+      </tr>
+      <tr>
+        <td class="skill-cat">Frontend</td>
+        <td>ReactJs, Next.js, Vue.js, Angular (familiar), Redux, jQuery</td>
+      </tr>
+      <tr>
+        <td class="skill-cat">Backend</td>
+        <td>Express.js, Nest.js (familiar), PHP Native MVC, Laravel (familiar)</td>
+      </tr>
+      <tr>
+        <td class="skill-cat">API & Real-Time</td>
+        <td>REST API design, Fetch API/AJAX, Axios, GraphQL (familiar), WebSocket/Socket.IO, JWT & OAuth</td>
+      </tr>
+      <tr>
+        <td class="skill-cat">Styling & UI</td>
+        <td>Tailwind CSS, Bootstrap, Material UI, responsive & mobile-first design</td>
+      </tr>
+      <tr>
+        <td class="skill-cat">Databases & ORMs</td>
+        <td>MySQL, PostgreSQL, MongoDB</td>
+      </tr>
+      <tr>
+        <td class="skill-cat">Build & Package Tools</td>
+        <td>Vite, npm, pnpm, ESLint, Prettier</td>
+      </tr>
+      <tr>
+        <td class="skill-cat">Testing</td>
+        <td>Jest, React Testing Library, Postman/API testing</td>
+      </tr>
+      <tr>
+        <td class="skill-cat">DevOps & Deployment</td>
+        <td>Git/GitHub, GitHub Actions (familiar), Docker (familiar), Vercel, Netlify, Streamlit</td>
+      </tr>
+      <tr>
+        <td class="skill-cat">AI & Machine Learning</td>
+        <td>Python, PyTorch, TensorFlow/Keras, Ultralytics YOLO, OpenCV, scikit-learn, Gemini API</td>
+      </tr>
+    </table>
+
+    <div class="section-title">SELECTED FULL STACK & WEB DEVELOPMENT PROJECTS</div>
+
+    <div class="item">
+      <div class="item-title">Malaka Jaya Digital MSME Community Web Portal (AI-Powered Web Application)</div>
+      <div class="item-tech">PHP Native (MVC) | MySQL | JavaScript | Fetch API/AJAX | Leaflet JS | PHPMailer | Google Gemini API | Tailwind CSS</div>
+      <ul class="bullets">
+        <li>Architected a full-stack community enterprise and product catalog platform with a three-tier role system (Admin, Merchant, Resident), enabling direct customer ordering via WhatsApp.</li>
+        <li>Built the backend with PHP Native MVC and a 10-table normalized MySQL schema covering users, merchants, products, articles, and audit logs; exposed data through internal RESTful endpoints.</li>
+        <li>Integrated Google Gemini API (LLM) capabilities directly into application workflows to power an AI assistant chatbot for resident assistance and automated news drafting.</li>
+        <li>Developed responsive, mobile-first front-end pages (JavaScript, Tailwind CSS) including MSME directories, product galleries, merchant location maps (Leaflet JS), news publishing, and global search.</li>
+        <li>Implemented secure authentication and role-based access control with email OTP verification (PHPMailer) and password recovery flows.</li>
+        <li>Used Fetch API/AJAX for asynchronous, no-reload interactions across interactive Admin and Merchant dashboards, including live sales metrics and full CRUD product management with photo uploads.</li>
+      </ul>
+    </div>
+
+    <div class="item">
+      <div class="item-title">Student Academic Grading System — SMP Islam Al-Amin</div>
+      <div class="item-tech">PHP Native MVC | MySQL (mysqli) | JavaScript | HTML5/CSS3</div>
+      <ul class="bullets">
+        <li>Engineered a role-gated full-stack academic grading system (Admin, Teacher, Student) with secure session-based authentication.</li>
+        <li>Built teacher-facing grading interfaces with dynamic weighted calculations and real-time client-side grade recapitulation using JavaScript.</li>
+        <li>Implemented upsert database logic and server-side 0–100 score validation, plus filterable grade summary tables and printable report cards.</li>
+        <li>Designed a relational schema linking users, students, teachers, and grades, with automated pass/fail thresholding and TSV-based Excel export for reporting.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 2 ==================== -->
+  <div class="cv-page">
+
+    <div class="item">
+      <div class="item-title">AI-Powered Movie Recommender & Image Classification Apps</div>
+      <div class="item-tech">Python | Streamlit | TensorFlow/Keras | TF-IDF | Cosine Similarity</div>
+      <ul class="bullets">
+        <li>Built interactive, front-end-driven Python web applications (Streamlit) featuring real-time search/filtering, dynamic content rendering, and file-upload based inference — applying core UI/UX and state-management principles shared with JS front-end development.</li>
+        <li>Integrated external APIs for dynamic data fetching (poster retrieval, metadata) and designed responsive, non-technical-user-friendly interfaces.</li>
+      </ul>
+    </div>
+
+    <div class="item">
+      <div class="item-title">Black Soldier Fly (BSF) Larva Detection & Classification System (Bachelor's Thesis)</div>
+      <div class="item-tech">Python | YOLOv11s | TensorFlow Lite | Flutter</div>
+      <ul class="bullets">
+        <li>Developed an end-to-end computer vision system, later deployed on-device via a Flutter mobile front-end, demonstrating cross-platform application delivery beyond the web.</li>
+        <li>Achieved 0.9723 precision, 0.8315 recall, and 0.8720 mAP50 across 4 classification stages on a 21,974-image dataset.</li>
+      </ul>
+    </div>
+
+    <div class="section-title">SOFTWARE ENGINEERING EXPERIENCE</div>
+    <ul class="bullets" style="margin-bottom: 12px;">
+      <li>Engineered full-stack applications end-to-end: relational database design, backend business logic, RESTful API architecture, and front-end implementation through to production deployment.</li>
+      <li>Applied modular programming paradigms to cleanly decouple data layer, business logic, API layer, and presentation layer across both JavaScript and PHP stacks.</li>
+      <li>Experienced diagnosing runtime environments, resolving package/dependency conflicts (npm/yarn), and configuring build tooling (Vite/Webpack) and GPU/CUDA acceleration for ML workloads.</li>
+      <li>Proficient with Git/GitHub version control workflows, code review, and deploying applications to platforms such as Vercel, Netlify, and Streamlit Cloud.</li>
+    </ul>
+
+    <div class="section-title">EDUCATION</div>
+    <div class="edu-block">
+      <div class="edu-title">Bachelor of Computer Science (S.Kom) in Informatics Engineering</div>
+      <div class="edu-meta">Universitas Gunadarma — Bekasi, Indonesia | Faculty of Industrial Technology, Dept. of Informatics | NPM: 50422698 | GPA: 3.78/4.00</div>
+      <div class="edu-coursework">
+        <strong>Relevant Coursework:</strong> Software Engineering, Web Programming, Database Systems, Artificial Intelligence, Machine Learning, Computer Vision, Data Science
+      </div>
+    </div>
+
+    <div class="edu-block">
+      <div class="edu-title">Computer and Network Engineering (TKJ)</div>
+      <div class="edu-meta">SMK Islam Al-Amin | Focus: Computer Networking, Hardware Maintenance, Server & Network Administration</div>
+    </div>
+
+    <div class="section-title">CERTIFICATIONS & TECHNICAL TRAINING</div>
+    <ul class="bullets">
+      <li>Programmer — National Professional Certification Board (BNSP) / LSP (2025)</li>
+      <li>Golang for Intermediate — Universitas Gunadarma (2025, 2-Month Intensive)</li>
+      <li>Oracle for Intermediate — Universitas Gunadarma (2025, 2-Month Intensive)</li>
+    </ul>
+  </div>
+
+  <!-- ==================== PAGE 3 ==================== -->
+  <div class="cv-page">
+    <ul class="bullets" style="margin-bottom: 12px; margin-top: 0;">
+      <li>Programmer Course — Universitas Gunadarma (2025, 1-Week Technical Bootcamp)</li>
+      <li>Application Development Design — Universitas Gunadarma (2024)</li>
+      <li>Wireless LAN Installation — Universitas Gunadarma (2024)</li>
+    </ul>
+
+    <div class="section-title">CONFERENCES & SEMINARS</div>
+    <ul class="bullets" style="margin-bottom: 14px;">
+      <li>Tech Talk: "Designing Future with Back End in Tech Industry" — Google Developer Student Clubs (GDSC), Universitas Gunadarma (2024)</li>
+      <li>National Symposium: "Synergy of University and Industry Collaboration: Software and Hardware for Artificial Intelligence" — Universitas Gunadarma (2025)</li>
+    </ul>
+
+    <div class="section-title">ORGANIZATIONAL EXPERIENCE</div>
+    <div class="edu-block">
+      <div class="edu-title">Head of Entrepreneurship & Skills Division — Student Council (OSIS), SMK Islam Al-Amin</div>
+      <ul class="bullets">
+        <li>Led student entrepreneurship initiatives, organized hands-on technical workshops, and coordinated cross-functional student project teams.</li>
+      </ul>
+    </div>
+
+    <div class="section-title">ADDITIONAL INFORMATION</div>
+    <p style="font-size: 9.2pt; margin-bottom: 5px; text-align: justify; text-justify: inter-word;">
+      <strong>Languages:</strong> Indonesian (Native), English (Intermediate / Professional Working Proficiency)
+    </p>
+    <p style="font-size: 9.2pt; text-align: justify; text-justify: inter-word;">
+      <strong>Interests:</strong> Full Stack Web Development, JavaScript Ecosystem, Artificial Intelligence, Generative AI, Cloud & Mobile Deployment
+    </p>
+  </div>
+
+</body>
+</html>

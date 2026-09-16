@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume - Ikhwan Maulana (ATS-Friendly 1-Page)</title>
+  <style>
+    :root {
+      --font-family: 'Times New Roman', Times, serif;
+      --text-color: #111827;
+      --muted-color: #374151;
+      --line-color: #4b5563;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--text-color);
+      line-height: 1.35;
+      background: #f3f4f6;
+      font-size: 10.5pt;
+      padding: 24px;
+    }
+
+    /* Print Controls Banner */
+    .no-print-bar {
+      max-width: 820px;
+      margin: 0 auto 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .no-print-bar h1 {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .btn-action-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-print {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-print:hover {
+      background: #7dd3fc;
+      transform: translateY(-1px);
+    }
+
+    .btn-back {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .btn-back:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Resume Sheet (A4 Dimensions) */
+    .resume-sheet {
+      max-width: 820px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 32px 38px;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+      border-radius: 4px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 12px;
+      border-bottom: 1.5px solid var(--line-color);
+      padding-bottom: 8px;
+    }
+
+    .name {
+      font-size: 20pt;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .headline {
+      font-size: 11pt;
+      font-weight: bold;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+
+    .contacts {
+      font-size: 9pt;
+      color: var(--muted-color);
+    }
+
+    .contacts a {
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    /* Section Headings */
+    .section-title {
+      font-size: 10.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-bottom: 1px solid var(--line-color);
+      padding-bottom: 2px;
+      margin-top: 10px;
+      margin-bottom: 6px;
+    }
+
+    p.summary {
+      font-size: 9.3pt;
+      text-align: justify;
+      margin-bottom: 6px;
+      line-height: 1.38;
+    }
+
+    /* Skills Grid */
+    .skills-list {
+      font-size: 9.2pt;
+      margin-bottom: 6px;
+      line-height: 1.38;
+    }
+
+    .skills-list p {
+      margin-bottom: 2px;
+    }
+
+    /* Project Item */
+    .item {
+      margin-bottom: 8px;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 9.8pt;
+      font-weight: bold;
+    }
+
+    .item-sub {
+      font-size: 9pt;
+      font-style: italic;
+      color: #374151;
+      margin-bottom: 2px;
+    }
+
+    ul.bullets {
+      padding-left: 18px;
+      margin-top: 2px;
+    }
+
+    ul.bullets li {
+      font-size: 9pt;
+      margin-bottom: 2px;
+      text-align: justify;
+      line-height: 1.35;
+    }
+
+    /* Education & Certs Inline */
+    .edu-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 9.5pt;
+      font-weight: bold;
+    }
+
+    .edu-detail {
+      font-size: 9pt;
+      color: var(--muted-color);
+      margin-bottom: 4px;
+    }
+
+    .certs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px 20px;
+      font-size: 9pt;
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+      }
+
+      .no-print-bar {
+        display: none !important;
+      }
+
+      .resume-sheet {
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        max-width: 100%;
+      }
+
+      @page {
+        size: A4 portrait;
+        margin: 10mm 14mm 10mm 14mm;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Web Controls (Hidden on Print) -->
+  <div class="no-print-bar">
+    <div>
+      <h1>ATS Standard Resume (1-Page) &bull; Ikhwan Maulana</h1>
+      <span style="font-size: 11px; opacity: 0.8;">Clean, single-column format optimized for applicant tracking systems &amp; corporate recruiters.</span>
+    </div>
+    <div class="btn-action-group">
+      <button class="btn-print" onclick="window.print()">
+        🖨️ Print / Save as PDF
+      </button>
+      <a href="/" class="btn-back">&larr; Back to Portfolio</a>
+    </div>
+  </div>
+
+  <!-- A4 ATS Sheet -->
+  <div class="resume-sheet">
+    <header class="header">
+      <div class="name">IKHWAN MAULANA</div>
+      <div class="headline">AI Engineer | Machine Learning | Computer Vision | Backend Developer</div>
+      <div class="contacts">
+        Bekasi, Indonesia &bull; +62 896-7367-4598 &bull; ikhwanmaulana796@gmail.com &bull; 
+        <a href="https://linkedin.com/in/ikhwan-maulana-1700b842b" target="_blank">LinkedIn: /in/ikhwan-maulana</a> &bull; 
+        <a href="https://github.com/IkhwanMaulana07" target="_blank">GitHub: /IkhwanMaulana07</a>
+      </div>
+    </header>
+
+    <!-- Professional Summary -->
+    <section>
+      <div class="section-title">Professional Summary</div>
+      <p class="summary">
+        Bachelor of Computer Science from Universitas Gunadarma (GPA 3.78/4.00) with hybrid expertise across Artificial Intelligence (Machine Learning, Computer Vision, Deep Learning) and Backend Software Engineering (PHP Native MVC, Golang, MySQL, REST APIs). Experienced in building end-to-end AI pipelines from annotating 21,000+ dataset images to fine-tuning YOLOv11s models (mAP50 0.8720) and deploying on-device via TensorFlow Lite on Flutter Android mobile apps and web services. Nationally certified Programmer by BNSP (2026) with a strong commitment to clean architecture, modular software design, and high-impact engineering.
+      </p>
+    </section>
+
+    <!-- Technical Skills -->
+    <section>
+      <div class="section-title">Technical Skills</div>
+      <div class="skills-list">
+        <p><strong>Programming Languages:</strong> Python, Golang, PHP, JavaScript (ES6+), SQL, Java, HTML5, CSS3</p>
+        <p><strong>AI &amp; Machine Learning:</strong> Computer Vision, Object Detection (YOLOv8/v11s), Deep Learning, Image Classification, Recommender Systems (Content-Based Filtering, TF-IDF, Cosine Similarity)</p>
+        <p><strong>Frameworks &amp; Edge AI:</strong> PyTorch, TensorFlow/Keras, Ultralytics YOLO, Scikit-Learn, OpenCV, TensorFlow Lite (Mobile Inference), Streamlit, Gemini API</p>
+        <p><strong>Backend, Web &amp; Tools:</strong> PHP Native (MVC Architecture), RESTful APIs, MySQL, Flutter (Dart), Leaflet JS, Git/GitHub, Docker, Linux/Bash, Tailwind CSS, Pandas, Postman</p>
+      </div>
+    </section>
+
+    <!-- Featured Projects -->
+    <section>
+      <div class="section-title">Featured AI &amp; Software Engineering Projects</div>
+
+      <div class="item">
+        <div class="item-header">
+          <span>BSF Larva Growth Stage Classification System (Bachelor's Thesis)</span>
+          <span>Python, YOLOv11s, K-Means, TFLite, Flutter</span>
+        </div>
+        <ul class="bullets">
+          <li>Engineered an end-to-end computer vision system to detect 4 growth stages of Black Soldier Fly (BSF) larvae, replacing subjective manual visual inspection with automated harvest window recommendations.</li>
+          <li>Curated and annotated a custom dataset of 21,974 images (28,388 annotations). Fine-tuned YOLOv11s object detection model integrated with K-Means dominant color extraction and Laplacian texture variance.</li>
+          <li>Achieved 0.9723 precision, 0.8315 recall, and 0.8720 mAP50 (Prepupa stage mAP50: 0.9950). Converted model to TensorFlow Lite and deployed on-device within an offline-capable Flutter Android mobile app.</li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <span>Malaka Jaya Digital MSME Community Web Portal</span>
+          <span>PHP Native MVC, MySQL, Leaflet JS, Gemini AI</span>
+        </div>
+        <ul class="bullets">
+          <li>Architected a multi-role web platform (Admin, Merchant, Resident) with a 10-table normalized relational MySQL database for digital product catalogs, merchant verification, local news, and activity tracking.</li>
+          <li>Implemented role-based authentication with email OTP verification (PHPMailer), sitewide Google Gemini AI chatbot assistance, and Leaflet JS geolocation mapping.</li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <span>Student Academic Grading System &mdash; SMP Islam Al-Amin</span>
+          <span>PHP Native MVC, MySQLi, JavaScript, HTML5/CSS3</span>
+        </div>
+        <ul class="bullets">
+          <li>Developed a role-gated academic web management system (Admin, Teacher, Student) with session-based access control and dynamic grading weights (Assignments 30%, Midterm 30%, Final 40%).</li>
+          <li>Built real-time client-side grade recapitulation, automated pass/fail status determination (&ge;70 = Pass), printable student report cards, and Excel export (.xls).</li>
+        </ul>
+      </div>
+
+      <div class="item">
+        <div class="item-header">
+          <span>AI-Powered Movie Recommender System</span>
+          <span>Python, Streamlit, Scikit-Learn, TF-IDF, Cosine Similarity</span>
+        </div>
+        <ul class="bullets">
+          <li>Engineered an intelligent movie recommendation platform using Content-Based Filtering with TF-IDF Vectorization and Cosine Similarity metrics over movie metadata, deployed publicly on Streamlit Cloud.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section>
+      <div class="section-title">Education</div>
+      <div class="edu-row">
+        <span>Universitas Gunadarma &bull; Bachelor of Computer Science (S.Kom) in Informatics Engineering</span>
+        <span>2022 &ndash; 2026</span>
+      </div>
+      <div class="edu-detail">
+        GPA: 3.78 / 4.00 (Faculty of Industrial Technology) &bull; Focus: Artificial Intelligence, Machine Learning, Computer Vision, Software Engineering
+      </div>
+    </section>
+
+    <!-- Certifications -->
+    <section>
+      <div class="section-title">Professional Certifications &amp; Training</div>
+      <div class="certs-grid">
+        <div>&bull; <strong>Programmer</strong> &mdash; National Professional Certification Board (BNSP), 2026</div>
+        <div>&bull; <strong>Golang for Intermediate</strong> &mdash; Universitas Gunadarma, 2025</div>
+        <div>&bull; <strong>Oracle for Intermediate</strong> &mdash; Universitas Gunadarma, 2025</div>
+        <div>&bull; <strong>Wireless LAN Installation</strong> &mdash; Universitas Gunadarma, 2024</div>
+      </div>
+    </section>
+  </div>
+
+</body>
+</html>
