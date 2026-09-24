@@ -2,15 +2,13 @@ import React from 'react';
 import { 
   Sparkles, 
   ArrowRight, 
-  Download, 
   Layers, 
   CheckCircle2, 
   Code2, 
   Database, 
   Cpu, 
   MapPin,
-  Send,
-  ExternalLink
+  Send
 } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
@@ -133,15 +131,6 @@ export default function Hero() {
                 <ArrowRight size={17} />
               </a>
 
-              <a href={profile.resumeUrl} target="_blank" rel="noreferrer" className="btn-secondary">
-                <Download size={17} color="var(--accent-cyan)" />
-                <span>Download CV (PDF)</span>
-              </a>
-
-              <a href={profile.cvOnlineUrl || '/cv_ikhwan_maulana.html'} target="_blank" rel="noreferrer" className="btn-secondary">
-                <ExternalLink size={16} color="var(--accent-sky)" />
-                <span>View CV Online</span>
-              </a>
 
               <a href="#contact" className="btn-secondary">
                 <Send size={16} />

@@ -106,7 +106,7 @@ export default function About() {
           })}
         </div>
 
-        {/* Software Engineering Experience (Directly from CV) */}
+        {/* Software Engineering Experience */}
         <div style={{ marginBottom: '3.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '1.5rem' }}>
             <div
@@ -129,7 +129,7 @@ export default function About() {
                 Software Engineering Experience
               </h3>
               <div style={{ fontSize: '0.84rem', color: 'var(--text-muted)' }}>
-                Core competencies and execution practices from official CV
+                Core competencies and execution practices across software systems
               </div>
             </div>
           </div>

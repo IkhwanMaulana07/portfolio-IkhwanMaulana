@@ -9,10 +9,7 @@ import {
   Check, 
   Github, 
   Linkedin, 
-  FileText,
   Sparkles,
-  Download,
-  ExternalLink,
   Loader2,
   CheckCircle2,
   AlertCircle
@@ -225,46 +222,6 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Download Resume Highlight */}
-            <div
-              className="glass-panel"
-              style={{
-                padding: '1.5rem',
-                background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(99, 102, 241, 0.1))',
-                border: '1px solid rgba(6, 182, 212, 0.3)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-                <FileText size={28} color="var(--accent-cyan)" />
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: '0.98rem' }}>Official Curriculum Vitae</div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>PDF Version • Updated 2026</div>
-                </div>
-              </div>
-              <div style={{ display: 'flex', gap: '0.6rem' }}>
-                <a
-                  href={profile.resumeUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn-primary"
-                  style={{ padding: '0.55rem 1rem', fontSize: '0.84rem' }}
-                >
-                  <Download size={14} /> PDF
-                </a>
-                <a
-                  href={profile.cvOnlineUrl || '/cv_ikhwan_maulana.html'}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn-secondary"
-                  style={{ padding: '0.55rem 1rem', fontSize: '0.84rem' }}
-                >
-                  <ExternalLink size={14} /> Web
-                </a>
-              </div>
-            </div>
           </div>
 
           {/* Right Column: Direct Message Form */}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Terminal, Download, Menu, X, Github, Linkedin, ExternalLink } from 'lucide-react';
+import { Terminal, Send, Menu, X, Github, Linkedin } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 export default function Navbar() {
@@ -120,9 +120,7 @@ export default function Navbar() {
           </a>
 
           <a
-            href={PORTFOLIO_DATA.profile.resumeUrl}
-            target="_blank"
-            rel="noreferrer"
+            href="#contact"
             className="btn-primary"
             style={{
               padding: '0.55rem 1.15rem',
@@ -130,8 +128,8 @@ export default function Navbar() {
               borderRadius: 'var(--radius-full)'
             }}
           >
-            <Download size={15} />
-            <span>CV PDF</span>
+            <Send size={14} />
+            <span>Contact</span>
           </a>
 
           {/* Mobile Menu Toggle */}

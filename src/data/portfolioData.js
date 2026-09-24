@@ -9,8 +9,6 @@ export const PORTFOLIO_DATA = {
     whatsapp: "https://wa.me/6289673674598?text=Halo%20Ikhwan,%20saya%20tertarik%20dengan%20profil%20Full%20Stack%20Developer%20Anda",
     linkedin: "https://linkedin.com/in/ikhwan-maulana-1700b842b",
     github: "https://github.com/IkhwanMaulana07",
-    resumeUrl: "/cv_ikhwan_maulana.pdf",
-    cvOnlineUrl: "/cv_ikhwan_maulana.html",
     avatar: "/profile.jpg",
     availability: "Available for Full-Stack Roles",
     summary:
@@ -25,7 +23,7 @@ export const PORTFOLIO_DATA = {
     { value: "21K+", label: "Dataset Images", sub: "Computer Vision" }
   ],
 
-  // Software Engineering Experience directly from CV
+  // Software Engineering Experience
   softwareEngineeringExperience: [
     {
       id: "architecture",
@@ -53,7 +51,7 @@ export const PORTFOLIO_DATA = {
     }
   ],
 
-  // Technical Skills formatted strictly matching CV categories
+  // Technical Skills and Competencies
   skills: {
     languages: [
       { name: "JavaScript (ES6+)", role: "Core Language", applied: "Full-Stack Web & SPAs", desc: "Modern asynchronous syntax, closures, event-driven DOM, and modular client-side architecture." },
