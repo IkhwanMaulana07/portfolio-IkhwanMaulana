@@ -249,15 +249,106 @@ export default function BrunoHUD({
         )}
       </div>
 
-      {/* 3. BOTTOM BAR: INSTRUCTIONS & QUICK WAYPOINT DOCK */}
+      {/* 3. BOTTOM BAR: INSTRUCTIONS, VIRTUAL CONTROLS & QUICK WAYPOINT DOCK */}
       <div className="flex flex-col gap-3 w-full">
         
-        {/* Help Bubble */}
-        {showHelp && (
-          <div className="pointer-events-auto self-center px-4 py-2 rounded-2xl bg-[#0B0D14]/90 backdrop-blur-md border border-amber-200/25 text-center shadow-xl text-xs font-mono text-zinc-300 max-w-md w-full">
-            <span className="text-[#E5C378] font-bold">KONTROL 3D:</span> Gunakan <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-amber-300 border border-zinc-700">W A S D</kbd> / <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-amber-300 border border-zinc-700">Panah Keyboard</kbd> untuk mengemudi, atau <strong>klik lantai di mana saja dengan kursor</strong> untuk navigasi otomatis!
+        {/* Floating Virtual Driving Controls (For touch screens or mouse driving) */}
+        <div className="pointer-events-none w-full flex items-end justify-between px-2 sm:px-6 mb-1">
+          {/* Left: Steering Buttons */}
+          <div className="pointer-events-auto flex items-center gap-2">
+            <button
+              onPointerDown={() => {
+                const fn = (window as unknown as { brunoSetControl?: (c: string, a: boolean) => void }).brunoSetControl;
+                if (fn) fn('left', true);
+              }}
+              onPointerUp={() => {
+                const fn = (window as unknown as { brunoSetControl?: (c: string, a: boolean) => void }).brunoSetControl;
+                if (fn) fn('left', false);
+              }}
+              onPointerLeave={() => {
+                const fn = (window as unknown as { brunoSetControl?: (c: string, a: boolean) => void }).brunoSetControl;
+                if (fn) fn('left', false);
+              }}
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#090B14]/90 active:bg-amber-400/30 border border-white/20 active:border-amber-400 text-white active:text-amber-200 font-bold text-xl flex items-center justify-center backdrop-blur-xl shadow-2xl select-none transition-transform active:scale-95 touch-none"
+              title="Belok Kiri (Tombol A / Panah Kiri)"
+              aria-label="Belok Kiri"
+            >
+              ◀
+            </button>
+
+            <button
+              onPointerDown={() => {
+                const fn = (window as unknown as { brunoSetControl?: (c: string, a: boolean) => void }).brunoSetControl;
+                if (fn) fn('right', true);
+              }}
+              onPointerUp={() => {
+                const fn = (window as unknown as { brunoSetControl?: (c: string, a: boolean) => void }).brunoSetControl;
+                if (fn) fn('right', false);
+              }}
+              onPointerLeave={() => {
+                const fn = (window as unknown as { brunoSetControl?: (c: string, a: boolean) => void }).brunoSetControl;
+                if (fn) fn('right', false);
+              }}
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#090B14]/90 active:bg-amber-400/30 border border-white/20 active:border-amber-400 text-white active:text-amber-200 font-bold text-xl flex items-center justify-center backdrop-blur-xl shadow-2xl select-none transition-transform active:scale-95 touch-none"
+              title="Belok Kanan (Tombol D / Panah Kanan)"
+              aria-label="Belok Kanan"
+            >
+              ▶
+            </button>
           </div>
-        )}
+
+          {/* Center Help Bubble */}
+          {showHelp && (
+            <div className="pointer-events-auto hidden md:block px-4 py-2 rounded-2xl bg-[#0B0D14]/90 backdrop-blur-md border border-amber-200/25 text-center shadow-xl text-xs font-mono text-zinc-300 max-w-sm">
+              <span className="text-[#E5C378] font-bold">KONTROL:</span> <kbd className="px-1 py-0.5 rounded bg-zinc-800 text-amber-300">W A S D</kbd> / <kbd className="px-1 py-0.5 rounded bg-zinc-800 text-amber-300">Panah</kbd> atau klik tombol di layar!
+            </div>
+          )}
+
+          {/* Right: Gas & Brake Pedals */}
+          <div className="pointer-events-auto flex items-center gap-2">
+            <button
+              onPointerDown={() => {
+                const fn = (window as unknown as { brunoSetControl?: (c: string, a: boolean) => void }).brunoSetControl;
+                if (fn) fn('down', true);
+              }}
+              onPointerUp={() => {
+                const fn = (window as unknown as { brunoSetControl?: (c: string, a: boolean) => void }).brunoSetControl;
+                if (fn) fn('down', false);
+              }}
+              onPointerLeave={() => {
+                const fn = (window as unknown as { brunoSetControl?: (c: string, a: boolean) => void }).brunoSetControl;
+                if (fn) fn('down', false);
+              }}
+              className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#090B14]/90 active:bg-red-500/30 border border-white/20 active:border-red-400 text-zinc-300 active:text-red-300 font-bold text-xs font-mono flex flex-col items-center justify-center backdrop-blur-xl shadow-2xl select-none transition-transform active:scale-95 touch-none"
+              title="Rem / Mundur (Tombol S / Panah Bawah)"
+              aria-label="Rem dan Mundur"
+            >
+              <span className="text-base">▼</span>
+              <span className="text-[10px]">REM</span>
+            </button>
+
+            <button
+              onPointerDown={() => {
+                const fn = (window as unknown as { brunoSetControl?: (c: string, a: boolean) => void }).brunoSetControl;
+                if (fn) fn('up', true);
+              }}
+              onPointerUp={() => {
+                const fn = (window as unknown as { brunoSetControl?: (c: string, a: boolean) => void }).brunoSetControl;
+                if (fn) fn('up', false);
+              }}
+              onPointerLeave={() => {
+                const fn = (window as unknown as { brunoSetControl?: (c: string, a: boolean) => void }).brunoSetControl;
+                if (fn) fn('up', false);
+              }}
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-t from-amber-500/30 to-amber-400/20 active:from-amber-400/50 active:to-amber-300/40 border border-amber-300/50 text-amber-200 font-bold text-sm font-mono flex flex-col items-center justify-center backdrop-blur-xl shadow-[0_0_20px_rgba(229,195,120,0.3)] select-none transition-transform active:scale-95 touch-none"
+              title="Gas Maju (Tombol W / Panah Atas)"
+              aria-label="Gas Maju"
+            >
+              <span className="text-lg">▲</span>
+              <span className="text-[11px] font-extrabold tracking-wider">GAS</span>
+            </button>
+          </div>
+        </div>
 
         {/* Quick Waypoint Navigation Dock (Click with cursor to autopilot) */}
         <div className="pointer-events-auto w-full max-w-3xl mx-auto p-2 sm:p-2.5 rounded-2xl bg-[#090B12]/95 backdrop-blur-xl border border-amber-200/25 shadow-2xl flex items-center justify-between gap-2 overflow-x-auto">

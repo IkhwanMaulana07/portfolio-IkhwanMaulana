@@ -557,7 +557,36 @@ export default function BrunoWorld({
     // 14. ANIMATION & PHYSICS GAME LOOP
     let animId: number;
     const fixedTimeStep = 1 / 60;
-    let currentCarAngle = 0;
+
+    // Arcade Car Physics State
+    const carState = {
+      angle: Math.PI, // Facing forward (-Z)
+      speed: 0,
+      maxSpeed: 26,
+      reverseMax: -12,
+      accel: 0.55,
+      decel: 0.35,
+      friction: 0.965,
+      turnSpeed: 0.048
+    };
+
+    // Global Virtual Controls for Touch / Mouse HUD buttons
+    const virtualControls: { [key: string]: boolean } = {
+      up: false,
+      down: false,
+      left: false,
+      right: false,
+      brake: false
+    };
+
+    (window as unknown as { brunoSetControl: (ctrl: string, active: boolean) => void }).brunoSetControl = (ctrl: string, active: boolean) => {
+      virtualControls[ctrl] = active;
+      if (active) {
+        autopilotTargetRef.current = null;
+        if (targetBeaconRef.current) targetBeaconRef.current.visible = false;
+        audioSynth.init();
+      }
+    };
 
     const tick = () => {
       // Step Cannon Physics
@@ -567,80 +596,93 @@ export default function BrunoWorld({
       const keys = keysPressed.current;
 
       if (body) {
-        // Vehicle forward direction vector from quaternion
-        const forward = new CANNON.Vec3(0, 0, -1);
-        body.quaternion.vmult(forward, forward);
+        // Controls Input State
+        const isGas = keys['ArrowUp'] || keys['KeyW'] || virtualControls.up;
+        const isBrake = keys['ArrowDown'] || keys['KeyS'] || virtualControls.down;
+        const isLeft = keys['ArrowLeft'] || keys['KeyA'] || virtualControls.left;
+        const isRight = keys['ArrowRight'] || keys['KeyD'] || virtualControls.right;
+        const isHandbrake = keys['Space'] || virtualControls.brake;
 
-        const currentVelocity = body.velocity;
-        const forwardSpeed = -forward.dot(currentVelocity);
-
-        // Controls
-        const isGas = keys['ArrowUp'] || keys['KeyW'];
-        const isBrake = keys['ArrowDown'] || keys['KeyS'];
-        const isLeft = keys['ArrowLeft'] || keys['KeyA'];
-        const isRight = keys['ArrowRight'] || keys['KeyD'];
-        const isHandbrake = keys['Space'];
-
-        const driveForce = 2200;
-        const reverseForce = 1400;
-        const maxVelocity = 28;
-
-        // Autopilot / Cursor Raycast Drive
+        // 1. AUTOPILOT / RAYCAST CURSOR TARGET NAVIGATION
         if (autopilotTargetRef.current) {
           const target = autopilotTargetRef.current;
           const dx = target.x - body.position.x;
           const dz = target.z - body.position.z;
           const distance = Math.hypot(dx, dz);
 
-          if (distance > 2.5) {
+          if (distance > 2.0) {
+            // Desired angle to target
             const desiredHeading = Math.atan2(dx, dz);
-            // Calculate current yaw angle
-            const euler = new CANNON.Vec3();
-            body.quaternion.toEuler(euler, 'YZX');
-            let diff = desiredHeading - euler.y;
+            let diff = desiredHeading - carState.angle;
             while (diff > Math.PI) diff -= Math.PI * 2;
             while (diff < -Math.PI) diff += Math.PI * 2;
 
-            body.angularVelocity.y = Math.sign(diff) * Math.min(Math.abs(diff) * 3.5, 3.2);
+            // Turn towards target
+            carState.angle += Math.sign(diff) * Math.min(Math.abs(diff), carState.turnSpeed * 1.8);
 
-            const throttleSpeed = Math.min(driveForce, distance * 350);
-            body.applyForce(forward.scale(throttleSpeed), body.position);
+            // Accelerate towards target
+            const targetSpeed = Math.min(carState.maxSpeed * 0.85, distance * 2.8);
+            if (carState.speed < targetSpeed) {
+              carState.speed = Math.min(carState.speed + carState.accel, targetSpeed);
+            } else {
+              carState.speed = Math.max(carState.speed - carState.decel, targetSpeed);
+            }
           } else {
-            // Reached target
-            autopilotTargetRef.current = null;
-            if (targetBeaconRef.current) targetBeaconRef.current.visible = false;
+            // Reached target destination
+            carState.speed *= 0.8;
+            if (Math.abs(carState.speed) < 0.2) {
+              carState.speed = 0;
+              autopilotTargetRef.current = null;
+              if (targetBeaconRef.current) targetBeaconRef.current.visible = false;
+            }
           }
         } else {
-          // Manual Keyboard Driving
-          if (isGas && forwardSpeed < maxVelocity) {
-            body.applyForce(forward.scale(driveForce), body.position);
+          // 2. MANUAL KEYBOARD / VIRTUAL BUTTON DRIVING
+          if (isGas) {
+            carState.speed = Math.min(carState.speed + carState.accel, carState.maxSpeed);
           } else if (isBrake) {
-            if (forwardSpeed > 1) {
-              // Brake
-              body.velocity.scale(0.92, body.velocity);
-            } else {
-              // Reverse
-              body.applyForce(forward.scale(-reverseForce), body.position);
-            }
+            carState.speed = Math.max(carState.speed - carState.accel, carState.reverseMax);
+          } else {
+            // Friction damping
+            carState.speed *= carState.friction;
+            if (Math.abs(carState.speed) < 0.08) carState.speed = 0;
           }
 
           if (isHandbrake) {
-            body.velocity.scale(0.88, body.velocity);
+            carState.speed *= 0.90;
           }
 
-          // Steering only when moving
-          const steerSpeed = Math.min(1, Math.abs(forwardSpeed) / 4);
-          const dir = forwardSpeed >= 0 ? 1 : -1;
+          // Steering (Responsive even at lower speed)
+          const isReversing = carState.speed < -0.1;
+          const steerDirection = isReversing ? -1 : 1;
+          const steerResponsiveness = Math.abs(carState.speed) > 0.1 ? 1 : 0.65;
+
           if (isLeft) {
-            body.angularVelocity.y = 2.8 * steerSpeed * dir;
-            currentCarAngle = 0.4;
-          } else if (isRight) {
-            body.angularVelocity.y = -2.8 * steerSpeed * dir;
-            currentCarAngle = -0.4;
-          } else {
-            currentCarAngle = 0;
+            carState.angle += carState.turnSpeed * steerResponsiveness * steerDirection;
+          }
+          if (isRight) {
+            carState.angle -= carState.turnSpeed * steerResponsiveness * steerDirection;
           }
         }
+
+        // Apply velocities to Cannon rigid body (maintaining Y velocity from gravity & ramps)
+        body.velocity.x = Math.sin(carState.angle) * carState.speed;
+        body.velocity.z = Math.cos(carState.angle) * carState.speed;
+
+        // Apply yaw rotation to Cannon rigid body
+        body.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), carState.angle);
+
+        // Keep car within arena boundaries
+        const arenaLimit = 110;
+        if (Math.abs(body.position.x) > arenaLimit) {
+          body.position.x = Math.sign(body.position.x) * arenaLimit;
+          carState.speed *= -0.5;
+        }
+        if (Math.abs(body.position.z) > arenaLimit) {
+          body.position.z = Math.sign(body.position.z) * arenaLimit;
+          carState.speed *= -0.5;
+        }
+
 
         // Clamp excessive roll or pitch so car doesn't easily stay on its roof
         const euler = new CANNON.Vec3();
@@ -657,17 +699,17 @@ export default function BrunoWorld({
 
         // Rotate wheels
         wheelMeshes.forEach((wheel, idx) => {
-          wheel.rotation.x += forwardSpeed * 0.08;
+          wheel.rotation.x += carState.speed * 0.08;
           // Turn front wheels visually when steering
           if (idx < 2) {
-            wheel.rotation.y = currentCarAngle;
+            wheel.rotation.y = isLeft ? 0.35 : isRight ? -0.35 : 0;
           }
         });
 
         // Speedometer update
-        const speedKmh = Math.round(Math.abs(forwardSpeed) * 3.6);
+        const speedKmh = Math.round(Math.abs(carState.speed) * 3.6);
         onSpeedChange(speedKmh);
-        audioSynth.updateEngine(Math.abs(forwardSpeed) / maxVelocity);
+        audioSynth.updateEngine(Math.abs(carState.speed) / carState.maxSpeed);
 
         // Camera Follow (Smooth Damping Interpolation)
         const cameraOffset = new THREE.Vector3(0, 24, 22);
