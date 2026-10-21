@@ -1,15 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { 
   FolderGit2, 
   ExternalLink, 
   Github, 
-  ArrowUpRight 
+  ArrowUpRight,
+  Gamepad2,
+  LayoutGrid
 } from 'lucide-react';
 import { COSMIC_DATA } from '../data/cosmicPortfolioData';
 import { Project } from '../types/portfolio';
+import CyberCarProjects from './CyberCarProjects';
 
 interface ProjectsProps {
   onSelectProject: (project: Project) => void;
@@ -17,26 +20,63 @@ interface ProjectsProps {
 
 export default function Projects({ onSelectProject }: ProjectsProps) {
   const { projects } = COSMIC_DATA;
+  const [viewMode, setViewMode] = useState<'car' | 'grid'>('car');
 
   return (
     <section id="projects" className="py-24 sm:py-32 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-400/[0.08] border border-amber-200/20 text-[#E5C378] text-xs font-mono font-medium uppercase tracking-wider mb-4">
-            <FolderGit2 className="w-3.5 h-3.5" /> Curated Works
+            <FolderGit2 className="w-3.5 h-3.5" /> Curated Works Expedition
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight mb-4 font-heading">
             Architectures Engineered for Real-World Impact
           </h2>
-          <p className="text-base sm:text-lg text-zinc-300 leading-relaxed text-justify sm:text-center">
-            Explore verified engineering deployments spanning on-device computer vision models, relational database web portals, and machine learning recommender systems.
+          <p className="text-base sm:text-lg text-zinc-300 leading-relaxed text-justify sm:text-center mb-8">
+            Kendalikan mobil cyber dengan tombol panah keyboard atau klik/kursor untuk menjelajahi setiap stasiun project dan membuka detail arsitekturnya.
           </p>
+
+          {/* Mode Switcher Pills */}
+          <div className="inline-flex items-center p-1 rounded-2xl bg-[#0F0F16] border border-amber-200/20 backdrop-blur-md shadow-lg">
+            <button
+              onClick={() => setViewMode('car')}
+              className={`px-4 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
+                viewMode === 'car'
+                  ? 'bg-amber-400/20 text-[#F7E7C4] border border-amber-300/40 shadow-[0_0_15px_rgba(229,195,120,0.25)]'
+                  : 'text-zinc-400 hover:text-white'
+              }`}
+              aria-label="Mode Game Mobil Interaktif"
+            >
+              <Gamepad2 className="w-4 h-4 text-amber-300" />
+              <span>Cyber Car Drive (Game Mode)</span>
+            </button>
+
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`px-4 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
+                viewMode === 'grid'
+                  ? 'bg-amber-400/20 text-[#F7E7C4] border border-amber-300/40 shadow-[0_0_15px_rgba(229,195,120,0.25)]'
+                  : 'text-zinc-400 hover:text-white'
+              }`}
+              aria-label="Mode Tampilan Grid Biasa"
+            >
+              <LayoutGrid className="w-4 h-4 text-zinc-300" />
+              <span>Tampilan Grid Biasa</span>
+            </button>
+          </div>
         </div>
 
-        {/* 2-Column Balanced Luxury Grid (2x2 for 4 curated projects) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* View Content: Cyber Car Interactive vs Classic Grid */}
+        {viewMode === 'car' ? (
+          <CyberCarProjects 
+            projects={projects} 
+            onSelectProject={onSelectProject} 
+          />
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
           {projects.map((project) => (
             <div
               key={project.id}
@@ -136,6 +176,7 @@ export default function Projects({ onSelectProject }: ProjectsProps) {
             </div>
           ))}
         </div>
+        )}
 
       </div>
     </section>
