@@ -1,8 +1,9 @@
 export const PORTFOLIO_DATA = {
   profile: {
     name: "Ikhwan Maulana",
-    role: "Full Stack Developer",
-    subtitle: "JavaScript Ecosystem | React · Vue · Node.js | AI-Integrated Web Applications",
+    role: "Full Stack & AI Systems Engineer",
+    title: "Full Stack Developer",
+    subtitle: "JavaScript Ecosystem | React · Vue · Next.js · Node.js | AI-Integrated Web Systems",
     location: "Bekasi, Indonesia",
     phone: "+62 896-7367-4598",
     email: "ikhwanmaulana796@gmail.com",
@@ -12,18 +13,18 @@ export const PORTFOLIO_DATA = {
     avatar: "/profile.jpg",
     availability: "Available for Full-Stack Roles",
     summary:
-      "Full Stack Developer with hands-on experience designing, building, and deploying end-to-end web applications across the modern JavaScript ecosystem. Skilled in building responsive front-ends with React, Vue, and Tailwind CSS, and robust back-ends with Node.js, Express, and PHP Native MVC, backed by relational (MySQL) database design. Experienced in RESTful API architecture, asynchronous data handling (Fetch/AJAX), authentication and role-based access control, and integrating AI/ML capabilities (Google Gemini API, Python model inference) directly into production web applications. Comfortable owning a project from database schema and API design through to a polished, deployed UI."
+      "Full Stack Developer with hands-on experience designing, building, and deploying end-to-end web applications across the modern JavaScript ecosystem. Skilled in building responsive front-ends with React, Vue, Next.js, and Tailwind CSS, and robust back-ends with Node.js, Express, and PHP Native MVC, backed by relational (MySQL) database design. Experienced in RESTful API architecture, asynchronous data handling (Fetch/AJAX), authentication and role-based access control, and integrating AI/ML capabilities (Google Gemini API, Python model inference) directly into production web applications. Comfortable owning a project from database schema and API design through to a polished, deployed UI."
   },
 
   stats: [
-    { value: "3.78", label: "Cumulative GPA", sub: "Gunadarma (S.Kom)" },
-    { value: "5+", label: "Fullstack & AI Projects", sub: "Production-ready" },
-    { value: "10+", label: "Normalized Schemas", sub: "Relational DBs" },
-    { value: "BNSP", label: "Certified Programmer", sub: "National LSP" },
-    { value: "21K+", label: "Dataset Images", sub: "Computer Vision" }
+    { value: "3.78", label: "Cumulative GPA", sub: "Gunadarma (S.Kom Honors)" },
+    { value: "5+", label: "Fullstack & AI Projects", sub: "Production-ready architectures" },
+    { value: "10+", label: "Normalized Schemas", sub: "Relational DBs (3NF)" },
+    { value: "BNSP", label: "Certified Programmer", sub: "National Professional LSP" },
+    { value: "21.9K+", label: "Dataset Images", sub: "Computer Vision ML Pipeline" }
   ],
 
-  // Software Engineering Experience
+  // Software Engineering Experience Pillars
   softwareEngineeringExperience: [
     {
       id: "architecture",
@@ -41,82 +42,66 @@ export const PORTFOLIO_DATA = {
       id: "tooling",
       title: "Build Tooling & Runtime Optimization",
       icon: "Cpu",
-      desc: "Experienced diagnosing runtime environments, resolving package/dependency conflicts (npm/yarn), and configuring build tooling (Vite/Webpack) and GPU/CUDA acceleration for ML workloads."
+      desc: "Experienced diagnosing runtime environments, resolving package and dependency conflicts (npm/yarn), and configuring modern build tooling (Vite/Next.js) and GPU/CUDA acceleration for ML workloads."
     },
     {
       id: "deployment",
       title: "Git Collaboration & Multi-Platform Deployment",
       icon: "Cloud",
-      desc: "Proficient with Git/GitHub version control workflows, code review, and deploying applications to platforms such as Vercel, Netlify, and Streamlit Cloud."
+      desc: "Proficient with Git/GitHub version control workflows, code review, and deploying applications to cloud platforms such as Vercel, Netlify, and Streamlit Cloud."
     }
   ],
 
   // Technical Skills and Competencies
   skills: {
     languages: [
-      { name: "JavaScript (ES6+)", role: "Core Language", applied: "Full-Stack Web & SPAs", desc: "Modern asynchronous syntax, closures, event-driven DOM, and modular client-side architecture." },
-      { name: "TypeScript", role: "Type System", applied: "Type-Safe Web Apps", desc: "Static contracts, type safety, interface definitions, and enterprise-grade maintainability." },
-      { name: "PHP", role: "Backend Language", applied: "SMP Al-Amin & Malaka Jaya", desc: "Object-oriented programming, custom router implementations, and native MVC architecture." },
-      { name: "Python", role: "AI & ML Core", applied: "Computer Vision & ML", desc: "Data processing, deep learning pipelines, model training, and Streamlit application engineering." },
-      { name: "Java", role: "Object-Oriented Programming", applied: "Enterprise Concepts", desc: "Object-oriented programming fundamentals, data structures, and algorithms." },
-      { name: "SQL", role: "Query Language", applied: "Relational Schemas", desc: "Relational query optimization, complex multi-table joins, indexing, and 3NF normalization." },
-      { name: "HTML5 & CSS3", role: "Markup & Styling", applied: "Responsive Web UI", desc: "Semantic structure, responsive Flexbox/Grid layouts, and modern glassmorphic styling." }
+      { name: "JavaScript (ES6+)", role: "Core Language", level: "Expert", applied: "Full-Stack Web & SPAs", desc: "Modern asynchronous syntax, closures, event-driven DOM, and modular client-side architecture." },
+      { name: "TypeScript", role: "Type System", level: "Advanced", applied: "Type-Safe Web Apps", desc: "Static contracts, type safety, interface definitions, and enterprise-grade maintainability." },
+      { name: "PHP", role: "Backend Language", level: "Advanced", applied: "SMP Al-Amin & Malaka Jaya", desc: "Object-oriented programming, custom router implementations, and native MVC architecture." },
+      { name: "Python", role: "AI & ML Core", level: "Advanced", applied: "Computer Vision & ML", desc: "Data processing, deep learning pipelines, model training, and Streamlit application engineering." },
+      { name: "Java", role: "OOP Core", level: "Intermediate", applied: "Enterprise Concepts", desc: "Object-oriented programming fundamentals, data structures, and algorithms." },
+      { name: "SQL", role: "Query Language", level: "Advanced", applied: "Relational Schemas", desc: "Relational query optimization, complex multi-table joins, indexing, and 3NF normalization." },
+      { name: "HTML5 & CSS3", role: "Markup & Styling", level: "Expert", applied: "Responsive Web UI", desc: "Semantic structure, responsive Flexbox/Grid layouts, and modern glassmorphic styling." }
     ],
     frontend: [
-      { name: "ReactJs", role: "UI Framework", applied: "Production Dashboards", desc: "Component architecture, declarative state management, custom hooks, and modern SPA lifecycle." },
-      { name: "Next.js", role: "Full-Stack Framework", applied: "Modern Web Apps", desc: "Server and client component rendering, API routing, and optimized web performance." },
-      { name: "Vue.js", role: "Frontend Framework", applied: "Interactive Interfaces", desc: "Reactivity system, Single File Components (SFC), and client-side routing." },
-      { name: "Angular (familiar)", role: "Framework", applied: "Component Frameworks", desc: "Familiar with TypeScript-based component structures and modular directives." },
-      { name: "Redux", role: "State Management", applied: "Centralized State", desc: "Predictable centralized state container, reducers, and unidirectional data flow." },
-      { name: "jQuery", role: "DOM Manipulation", applied: "Interactive Web Pages", desc: "Event handling, animated DOM updates, and AJAX data fetching." }
+      { name: "React.js", role: "UI Framework", level: "Expert", applied: "Production Dashboards", desc: "Component architecture, declarative state management, custom hooks, and modern SPA lifecycle." },
+      { name: "Next.js", role: "Full-Stack Framework", level: "Advanced", applied: "Modern Web Apps", desc: "Server and client component rendering, App Router architecture, and optimized web performance." },
+      { name: "Vue.js", role: "Frontend Framework", level: "Advanced", applied: "Interactive Interfaces", desc: "Reactivity system, Single File Components (SFC), and client-side routing." },
+      { name: "Tailwind CSS", role: "Utility Design System", level: "Expert", applied: "Responsive Interfaces", desc: "Utility-first CSS architecture, responsive breakpoints, and dark mode theming." },
+      { name: "Redux & State", role: "State Management", level: "Advanced", applied: "Centralized State", desc: "Predictable centralized state container, reducers, and unidirectional data flow." },
+      { name: "jQuery", role: "DOM Manipulation", level: "Intermediate", applied: "Legacy DOM & AJAX", desc: "Event handling, animated DOM updates, and AJAX data fetching." }
     ],
     backend: [
-      { name: "Node.js", role: "JavaScript Runtime", applied: "Server-Side Execution", desc: "Event-driven non-blocking I/O model for building high-concurrency network applications." },
-      { name: "Express.js", role: "Web Framework", applied: "RESTful Endpoints & Middleware", desc: "Modular route handling, JSON body parsing, and authentication middleware pipelines." },
-      { name: "Nest.js (familiar)", role: "Enterprise Framework", applied: "Modular TypeScript Backends", desc: "Familiar with decorator-based modular dependency injection architecture." },
-      { name: "PHP Native MVC", role: "Modular Backend", applied: "SMP Al-Amin Portal", desc: "Clean separation of Models, Views, and Controllers with secure authentication and session management." },
-      { name: "Laravel (familiar)", role: "PHP Framework", applied: "Modern PHP Systems", desc: "Familiar with Eloquent ORM, Blade templating, and artisan CLI workflows." }
+      { name: "Node.js", role: "JavaScript Runtime", level: "Advanced", applied: "Server-Side Execution", desc: "Event-driven non-blocking I/O model for building high-concurrency network applications." },
+      { name: "Express.js", role: "Web Framework", level: "Advanced", applied: "RESTful Endpoints & Middleware", desc: "Modular route handling, JSON body parsing, and authentication middleware pipelines." },
+      { name: "PHP Native MVC", role: "Modular Backend", level: "Expert", applied: "SMP Al-Amin & Malaka Jaya", desc: "Clean separation of Models, Views, and Controllers with secure authentication and session management." },
+      { name: "Nest.js (familiar)", role: "Enterprise Framework", level: "Familiar", applied: "Modular TypeScript Backends", desc: "Familiar with decorator-based modular dependency injection architecture." },
+      { name: "Laravel (familiar)", role: "PHP Framework", level: "Familiar", applied: "Modern PHP Systems", desc: "Familiar with Eloquent ORM, Blade templating, and artisan CLI workflows." }
     ],
     api: [
-      { name: "REST API Design", role: "API Architecture", applied: "System Integrations", desc: "Stateless endpoint architecture, structured JSON payloads, status codes, and endpoint security." },
-      { name: "Fetch API & AJAX", role: "Client-Server Sync", applied: "Dynamic UI Updates", desc: "Seamless asynchronous data transactions without page reloads for fluid user experiences." },
-      { name: "Axios", role: "HTTP Client", applied: "API Requests", desc: "Promise-based HTTP client with request/response interceptors and automated JSON transformation." },
-      { name: "GraphQL (familiar)", role: "Query Language", applied: "Flexible Data Fetching", desc: "Schema-defined queries, mutations, and typed data resolution." },
-      { name: "WebSocket & Socket.IO", role: "Real-Time Comms", applied: "Live Data Streams", desc: "Full-duplex bidirectional communication channels for real-time messaging and status." },
-      { name: "JWT & OAuth", role: "Token Authentication", applied: "Security & RBAC", desc: "Stateless JSON Web Token verification, session guards, and role permissions." }
-    ],
-    styling: [
-      { name: "Tailwind CSS", role: "Utility Design System", applied: "Responsive Interfaces", desc: "Utility-first CSS architecture, responsive breakpoints, and dark mode theming." },
-      { name: "Bootstrap", role: "UI Toolkit", applied: "Rapid Layouts", desc: "Grid system prototyping, responsive navigation, and modal components." },
-      { name: "Material UI", role: "React Components", applied: "Modern Design", desc: "Google Material Design components with comprehensive customization." },
-      { name: "Responsive & Mobile-First", role: "Design Principle", applied: "All Interfaces", desc: "Fluid layouts ensuring seamless experience from smartphones up to ultrawide monitors." }
+      { name: "REST API Design", role: "API Architecture", level: "Expert", applied: "System Integrations", desc: "Stateless endpoint architecture, structured JSON payloads, status codes, and endpoint security." },
+      { name: "Fetch API & AJAX", role: "Client-Server Sync", level: "Expert", applied: "Dynamic UI Updates", desc: "Seamless asynchronous data transactions without page reloads for fluid user experiences." },
+      { name: "Axios", role: "HTTP Client", level: "Advanced", applied: "API Requests", desc: "Promise-based HTTP client with request/response interceptors and automated JSON transformation." },
+      { name: "WebSocket & Socket.IO", role: "Real-Time Comms", level: "Advanced", applied: "Live Data Streams", desc: "Full-duplex bidirectional communication channels for real-time messaging and status." },
+      { name: "JWT & RBAC", role: "Token Authentication", level: "Advanced", applied: "Security & Permissions", desc: "Stateless JSON Web Token verification, session guards, and role permissions." }
     ],
     databases: [
-      { name: "MySQL", role: "Relational DB", applied: "Core Web Systems", desc: "Schema normalization (3NF), relational constraints, foreign keys, transaction handling, and indexing." },
-      { name: "PostgreSQL", role: "Relational DB", applied: "Structured Data", desc: "ACID compliance, complex analytical queries, and schema reliability." },
-      { name: "MongoDB", role: "Document DB", applied: "Flexible Data Models", desc: "Document-based NoSQL storage, BSON models, and aggregation pipeline operations." }
-    ],
-    tools: [
-      { name: "Vite", role: "Modern Build Tool", applied: "Portfolio & SPAs", desc: "Lightning-fast HMR, ES module bundling, tree shaking, and production asset optimization." },
-      { name: "npm / pnpm", role: "Package Management", applied: "Dependency Resolution", desc: "Package lifecycle management, semantic versioning, and monorepo workspace configurations." },
-      { name: "ESLint & Prettier", role: "Code Quality", applied: "Clean Codebase", desc: "Automated code formatting, style consistency, and static code analysis." },
-      { name: "Jest & React Testing Library", role: "Automated Testing", applied: "Component & Unit Tests", desc: "Unit testing, component rendering assertions, and mock functions." },
-      { name: "Postman", role: "API Testing", applied: "Endpoint Verification", desc: "Comprehensive REST API endpoint testing, request automated mocking, and environment variables." }
+      { name: "MySQL", role: "Relational DB", level: "Expert", applied: "Core Web Systems", desc: "Schema normalization (3NF), relational constraints, foreign keys, transaction handling, and indexing." },
+      { name: "PostgreSQL", role: "Relational DB", level: "Advanced", applied: "Structured Data", desc: "ACID compliance, complex analytical queries, and schema reliability." },
+      { name: "MongoDB", role: "Document DB", level: "Advanced", applied: "Flexible Data Models", desc: "Document-based NoSQL storage, BSON models, and aggregation pipeline operations." }
     ],
     devops: [
-      { name: "Git & GitHub", role: "Version Control", applied: "Codebase Collaboration", desc: "Branching strategies, semantic commit workflows, pull requests, and repository maintenance." },
-      { name: "GitHub Actions (familiar)", role: "CI/CD Workflows", applied: "Automated Testing", desc: "Workflow YAML automation for continuous testing and lint checks." },
-      { name: "Docker (familiar)", role: "Containerization", applied: "Environment Consistency", desc: "Containerized application environments ensuring reproducible development and deployment." },
-      { name: "Vercel & Netlify", role: "Cloud Hosting", applied: "Production Deployments", desc: "Zero-configuration automated edge deployment, SSL certificates, and custom domains." },
-      { name: "Streamlit Cloud", role: "ML Hosting", applied: "Movie Recommender", desc: "Dedicated cloud hosting and live execution of interactive Python applications." }
+      { name: "Git & GitHub", role: "Version Control", level: "Expert", applied: "Codebase Collaboration", desc: "Branching strategies, semantic commit workflows, pull requests, and repository maintenance." },
+      { name: "Vercel & Netlify", role: "Cloud Hosting", level: "Advanced", applied: "Production Deployments", desc: "Automated edge deployment, continuous delivery, and custom domain routing." },
+      { name: "Streamlit Cloud", role: "ML Hosting", level: "Advanced", applied: "Movie Recommender", desc: "Dedicated cloud hosting and live execution of interactive Python applications." },
+      { name: "Docker (familiar)", role: "Containerization", level: "Familiar", applied: "Environment Consistency", desc: "Containerized application environments ensuring reproducible development and deployment." }
     ],
     ai: [
-      { name: "Python AI Core", role: "Language Core", applied: "ML Pipelines", desc: "NumPy, Pandas, model training routines, and mathematical computation." },
-      { name: "PyTorch & TensorFlow/Keras", role: "Deep Learning", applied: "Neural Networks", desc: "Deep learning architectures, convolutional layers, and model weight checkpointing." },
-      { name: "Ultralytics YOLOv11s / v8", role: "Object Detection", applied: "BSF Larva Mobile App", desc: "Fine-tuned deep learning models on 21,974 annotated images for real-time classification." },
-      { name: "OpenCV", role: "Computer Vision", applied: "Dataset Augmentation", desc: "Image transformation, feature extraction, filtering, and dataset augmentation pipelines." },
-      { name: "scikit-learn", role: "Machine Learning", applied: "Content Recommender", desc: "TF-IDF text vectorization, cosine similarity metrics, and dataset preprocessing." },
-      { name: "Google Gemini API", role: "Generative AI & LLM", applied: "Malaka Jaya Portal", desc: "Prompt engineering, conversational AI assistants, and automated contextual responses." }
+      { name: "Google Gemini API", role: "Generative AI & LLM", level: "Advanced", applied: "Malaka Jaya Portal", desc: "Prompt engineering, conversational AI assistants, and automated contextual responses." },
+      { name: "Ultralytics YOLOv11s", role: "Object Detection", level: "Advanced", applied: "BSF Larva Mobile App", desc: "Fine-tuned deep learning models on 21,974 annotated images for real-time classification." },
+      { name: "TensorFlow Lite", role: "Edge ML Inference", level: "Advanced", applied: "On-Device Mobile AI", desc: "Converted quantized models for zero-latency, offline edge inference on smartphones." },
+      { name: "OpenCV", role: "Computer Vision", level: "Advanced", applied: "Dataset Augmentation", desc: "Image transformation, feature extraction, filtering, and dataset augmentation pipelines." },
+      { name: "scikit-learn", role: "Machine Learning", level: "Advanced", applied: "Content Recommender", desc: "TF-IDF text vectorization, cosine similarity metrics, and dataset preprocessing." }
     ]
   },
 
@@ -149,11 +134,11 @@ export const PORTFOLIO_DATA = {
         { label: "Data Flow", value: "Fetch API/AJAX (No Reload)" }
       ],
       github: "https://github.com/IkhwanMaulana07",
-      demo: "#"
+      demo: "https://github.com/IkhwanMaulana07"
     },
     {
       id: "academic-grading-system",
-      title: "Student Academic Grading System — SMP Islam Al-Amin",
+      title: "Student Academic Grading System: SMP Islam Al-Amin",
       tagline: "Role-Gated Academic Management System with Real-Time Grade Calculations",
       category: "Full-Stack Web",
       categories: ["Full-Stack Web"],
@@ -167,7 +152,7 @@ export const PORTFOLIO_DATA = {
       architecturePoints: [
         "Engineered a role-gated full-stack academic grading system (Admin, Teacher, Student) with secure session-based authentication.",
         "Built teacher-facing grading interfaces with dynamic weighted calculations and real-time client-side grade recapitulation using JavaScript.",
-        "Implemented upsert database logic and server-side 0–100 score validation, plus filterable grade summary tables and printable report cards.",
+        "Implemented upsert database logic and server-side 0-100 score validation, plus filterable grade summary tables and printable report cards.",
         "Designed a relational schema linking users, students, teachers, and grades, with automated pass/fail thresholding and TSV-based Excel export for reporting."
       ],
       metrics: [
@@ -177,13 +162,14 @@ export const PORTFOLIO_DATA = {
         { label: "Grade Recapitulation", value: "Real-time Client Calculation" }
       ],
       github: "https://github.com/IkhwanMaulana07",
-      demo: "#"
+      demo: "https://github.com/IkhwanMaulana07"
     },
     {
       id: "movie-recommender",
       title: "AI-Powered Movie Recommender & Image Classification Apps",
       tagline: "Interactive Web Application with Content-Based Filtering & Dynamic Poster Fetch",
       category: "AI-Integrated",
+      categories: ["AI-Integrated"],
       image: "/projects/movie_recommender.png",
       featured: false,
       role: "ML & Frontend Developer",
@@ -210,6 +196,7 @@ export const PORTFOLIO_DATA = {
       title: "Black Soldier Fly (BSF) Larva Detection & Classification System (Bachelor's Thesis)",
       tagline: "End-to-End Computer Vision Pipeline Deployed On-Device via Flutter",
       category: "Mobile AI & Computer Vision",
+      categories: ["Mobile AI & Computer Vision", "AI-Integrated"],
       image: "/projects/bsf_mobile_app.png",
       featured: false,
       role: "Computer Vision & Mobile Engineer",
@@ -220,7 +207,7 @@ export const PORTFOLIO_DATA = {
       solution: "Integrated a fine-tuned YOLOv11s model converted to TensorFlow Lite into a Flutter Android mobile application. Equipped with camera/gallery image processing, model readiness indicator, and automated harvest window guidance.",
       features: [
         "Direct image capture via mobile Camera or phone Gallery",
-        "Rapid & offline on-device inference using TensorFlow Lite",
+        "Rapid and offline on-device inference using TensorFlow Lite",
         "Classification of 4 BSF growth stages (Young Larva, Mature Larva, Prepupa, Pupa)",
         "Model readiness status indicator with an intuitive, farmer-friendly UI"
       ],
@@ -238,18 +225,20 @@ export const PORTFOLIO_DATA = {
         { label: "mAP50", value: "0.8720 (87.20%)" }
       ],
       github: "https://github.com/IkhwanMaulana07",
-      demo: "#"
+      demo: "https://github.com/IkhwanMaulana07"
     }
   ],
 
   fullstackArchitecture: {
     title: "Full-Stack End-to-End Engineering Lifecycle",
-    description: "How I architect robust, scalable, and AI-integrated digital products from database schema design through to production deployment.",
+    description: "How I architect robust, scalable, and AI-integrated digital systems from database schema design through to production deployment.",
     layers: [
       {
         id: "frontend",
-        title: "1. Client & Presentation Layer",
-        tech: "React.js, Vite, Vue.js, Tailwind CSS",
+        step: "01",
+        title: "Client & Presentation Layer",
+        badge: "Reactive Frontend",
+        tech: "React.js, Next.js, Vue.js, Tailwind CSS",
         icon: "Layout",
         details: [
           "Component-driven architecture with modular, reusable UI components",
@@ -260,19 +249,23 @@ export const PORTFOLIO_DATA = {
       },
       {
         id: "api",
-        title: "2. API & Business Logic Layer",
+        step: "02",
+        title: "API & Business Logic Layer",
+        badge: "API Gateway",
         tech: "Node.js, Express.js, PHP Native MVC",
         icon: "Server",
         details: [
-          "RESTful endpoint architecture following HTTP semantics & JSON standards",
+          "RESTful endpoint architecture following HTTP semantics and JSON standards",
           "Secure authentication pipelines: JWT tokens, session cookies, and email OTP flows",
           "Role-Based Access Control (RBAC) protecting endpoints and user resources",
-          "Real-time bidirectional communication via WebSocket / Socket.IO"
+          "Real-time bidirectional communication via WebSocket and Socket.IO"
         ]
       },
       {
         id: "database",
-        title: "3. Persistence & Relational Data Layer",
+        step: "03",
+        title: "Persistence & Relational Data Layer",
+        badge: "Relational 3NF",
         tech: "MySQL, PostgreSQL, MongoDB",
         icon: "Database",
         details: [
@@ -284,7 +277,9 @@ export const PORTFOLIO_DATA = {
       },
       {
         id: "ai",
-        title: "4. AI & Machine Learning Integration",
+        step: "04",
+        title: "AI & Machine Learning Integration",
+        badge: "LLM & Edge CV",
         tech: "Google Gemini API, Python Inference, TFLite",
         icon: "Cpu",
         details: [
@@ -296,8 +291,10 @@ export const PORTFOLIO_DATA = {
       },
       {
         id: "devops",
-        title: "5. Build, DevOps & Deployment",
-        tech: "Vite, Git/GitHub, Docker, Vercel, Netlify",
+        step: "05",
+        title: "Build, DevOps & Deployment",
+        badge: "Cloud Edge",
+        tech: "Next.js, Git/GitHub, Docker, Vercel, Netlify",
         icon: "Cloud",
         details: [
           "Automated continuous deployment (CI/CD) pipelines to Vercel and Netlify",
@@ -312,9 +309,9 @@ export const PORTFOLIO_DATA = {
   education: [
     {
       degree: "Bachelor of Computer Science (S.Kom) in Informatics Engineering",
-      institution: "Universitas Gunadarma — Bekasi, Indonesia",
+      institution: "Universitas Gunadarma (Bekasi, Indonesia)",
       faculty: "Faculty of Industrial Technology, Dept. of Informatics",
-      period: "2022 — 2026",
+      period: "2022 - 2026",
       gpa: "3.78 / 4.00 (NPM: 50422698)",
       coursework: [
         "Software Engineering",
@@ -325,12 +322,12 @@ export const PORTFOLIO_DATA = {
         "Computer Vision",
         "Data Science"
       ],
-      description: "Graduated with High Honors (GPA 3.78/4.00). Specialized in full-stack web software architecture, database management systems, and practical AI applications. Completed bachelor's thesis developing a computer vision system with 97.23% precision and 0.8720 mAP50."
+      description: "Graduated with High Honors (GPA 3.78/4.00). Specialized in full-stack web software architecture, database management systems, and practical AI applications. Completed bachelor thesis developing a computer vision system with 97.23% precision and 0.8720 mAP50."
     },
     {
       degree: "Computer and Network Engineering (TKJ)",
       institution: "SMK Islam Al-Amin",
-      period: "2019 — 2022",
+      period: "2019 - 2022",
       focus: "Computer Networking, Hardware Maintenance, Server & Network Administration",
       description: "Gained comprehensive foundational grounding in Linux/Windows server administration, local area networks (LAN), TCP/IP protocols, and hardware troubleshooting."
     }
@@ -383,13 +380,13 @@ export const PORTFOLIO_DATA = {
 
   conferences: [
     {
-      title: "Tech Talk: \"Designing Future with Back End in Tech Industry\"",
+      title: "Tech Talk: Designing Future with Back End in Tech Industry",
       organizer: "Google Developer Student Clubs (GDSC), Universitas Gunadarma",
       year: "2024",
       desc: "Explored scalable backend architectures, microservices vs modular monoliths, and API performance optimization in modern tech enterprises."
     },
     {
-      title: "National Symposium: \"Synergy of University and Industry Collaboration: Software and Hardware for Artificial Intelligence\"",
+      title: "National Symposium: Synergy of University and Industry Collaboration: Software and Hardware for Artificial Intelligence",
       organizer: "Universitas Gunadarma",
       year: "2025",
       desc: "Deep dive into hardware acceleration for artificial intelligence, GPU/CUDA computing, and productionizing AI models."

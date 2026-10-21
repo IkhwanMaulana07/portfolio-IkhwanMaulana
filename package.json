@@ -2,19 +2,30 @@
   "name": "ikhwan-maulana-fullstack-portfolio",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite --port 5174",
-    "build": "vite build",
-    "preview": "vite preview --port 5174"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "lucide-react": "^0.475.0"
+    "@hookform/resolvers": "^5.9.1",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "canvas-confetti": "^1.9.4",
+    "framer-motion": "^14.2.0",
+    "lucide-react": "^0.475.0",
+    "next": "latest",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-hook-form": "^7.90.0",
+    "typescript": "^7.0.2",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.4",
-    "vite": "^5.4.11"
+    "@tailwindcss/postcss": "latest",
+    "@types/canvas-confetti": "^1.9.0",
+    "postcss": "latest",
+    "tailwindcss": "latest"
   }
 }
