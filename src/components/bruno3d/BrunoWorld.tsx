@@ -24,6 +24,17 @@ export default function BrunoWorld({
 }: BrunoWorldProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
+  // Stable callback refs to prevent React state re-render loop
+  const onSelectProjectRef = useRef(onSelectProject);
+  const onZoneChangeRef = useRef(onZoneChange);
+  const onSpeedChangeRef = useRef(onSpeedChange);
+
+  useEffect(() => {
+    onSelectProjectRef.current = onSelectProject;
+    onZoneChangeRef.current = onZoneChange;
+    onSpeedChangeRef.current = onSpeedChange;
+  });
+
   // References across render frames
   const carBodyRef = useRef<CANNON.Body | null>(null);
   const carMeshRef = useRef<THREE.Group | null>(null);
@@ -130,7 +141,7 @@ export default function BrunoWorld({
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.1;
     container.appendChild(renderer.domElement);
@@ -488,31 +499,61 @@ export default function BrunoWorld({
       scene.add(socGroup);
     });
 
-    // 11. KEYBOARD LISTENERS
-    const onKeyDown = (e: KeyboardEvent) => {
+    // 11. KEYBOARD LISTENERS (WASD & ARROWS)
+    const keysState = {
+      up: false,
+      down: false,
+      left: false,
+      right: false,
+      space: false
+    };
+
+    const handleKey = (e: KeyboardEvent, isPressed: boolean) => {
       const activeTag = document.activeElement?.tagName;
       if (activeTag === 'INPUT' || activeTag === 'TEXTAREA') return;
 
-      const keys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'KeyW', 'KeyA', 'KeyS', 'KeyD', 'Space'];
-      if (keys.includes(e.code)) {
+      const key = e.key.toLowerCase();
+      const code = e.code;
+
+      let matched = false;
+      if (key === 'w' || key === 'arrowup' || code === 'KeyW' || code === 'ArrowUp') {
+        keysState.up = isPressed;
+        matched = true;
+      }
+      if (key === 's' || key === 'arrowdown' || code === 'KeyS' || code === 'ArrowDown') {
+        keysState.down = isPressed;
+        matched = true;
+      }
+      if (key === 'a' || key === 'arrowleft' || code === 'KeyA' || code === 'ArrowLeft') {
+        keysState.left = isPressed;
+        matched = true;
+      }
+      if (key === 'd' || key === 'arrowright' || code === 'KeyD' || code === 'ArrowRight') {
+        keysState.right = isPressed;
+        matched = true;
+      }
+      if (key === ' ' || code === 'Space') {
+        keysState.space = isPressed;
+        matched = true;
+      }
+
+      if (matched && isPressed) {
         e.preventDefault();
-        keysPressed.current[e.code] = true;
         autopilotTargetRef.current = null;
         if (targetBeaconRef.current) targetBeaconRef.current.visible = false;
         audioSynth.init();
       }
 
-      if (e.code === 'KeyR') {
+      if (isPressed && (key === 'r' || code === 'KeyR')) {
         resetCarPosition();
       }
-      if (e.code === 'KeyH') {
+      if (isPressed && (key === 'h' || code === 'KeyH')) {
         audioSynth.playHorn();
       }
     };
 
-    const onKeyUp = (e: KeyboardEvent) => {
-      keysPressed.current[e.code] = false;
-    };
+    const onKeyDown = (e: KeyboardEvent) => handleKey(e, true);
+    const onKeyUp = (e: KeyboardEvent) => handleKey(e, false);
 
     window.addEventListener('keydown', onKeyDown);
     window.addEventListener('keyup', onKeyUp);
@@ -597,11 +638,11 @@ export default function BrunoWorld({
 
       if (body) {
         // Controls Input State
-        const isGas = keys['ArrowUp'] || keys['KeyW'] || virtualControls.up;
-        const isBrake = keys['ArrowDown'] || keys['KeyS'] || virtualControls.down;
-        const isLeft = keys['ArrowLeft'] || keys['KeyA'] || virtualControls.left;
-        const isRight = keys['ArrowRight'] || keys['KeyD'] || virtualControls.right;
-        const isHandbrake = keys['Space'] || virtualControls.brake;
+        const isGas = keysState.up || virtualControls.up;
+        const isBrake = keysState.down || virtualControls.down;
+        const isLeft = keysState.left || virtualControls.left;
+        const isRight = keysState.right || virtualControls.right;
+        const isHandbrake = keysState.space || virtualControls.brake;
 
         // 1. AUTOPILOT / RAYCAST CURSOR TARGET NAVIGATION
         if (autopilotTargetRef.current) {
@@ -708,7 +749,7 @@ export default function BrunoWorld({
 
         // Speedometer update
         const speedKmh = Math.round(Math.abs(carState.speed) * 3.6);
-        onSpeedChange(speedKmh);
+        onSpeedChangeRef.current(speedKmh);
         audioSynth.updateEngine(Math.abs(carState.speed) / carState.maxSpeed);
 
         // Camera Follow (Smooth Damping Interpolation)
@@ -733,11 +774,11 @@ export default function BrunoWorld({
 
         if (enteredZone !== null && (enteredZone as WorldZone).id !== activeZoneRef.current) {
           activeZoneRef.current = (enteredZone as WorldZone).id;
-          onZoneChange(enteredZone);
+          onZoneChangeRef.current(enteredZone);
           audioSynth.playCheckpoint();
         } else if (enteredZone === null && activeZoneRef.current !== null) {
           activeZoneRef.current = null;
-          onZoneChange(null);
+          onZoneChangeRef.current(null);
         }
       }
 
@@ -770,7 +811,7 @@ export default function BrunoWorld({
         container.removeChild(renderer.domElement);
       }
     };
-  }, [onSelectProject, onZoneChange, onSpeedChange]);
+  }, []);
 
   return (
     <div 
