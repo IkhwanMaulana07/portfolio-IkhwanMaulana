@@ -6,6 +6,7 @@ import * as CANNON from 'cannon-es';
 import { audioSynth } from './AudioSynth';
 import { WORLD_ZONES, TECH_BRICKS, SOCIAL_BILLBOARDS, WorldZone } from './WorldData';
 import { Project } from '../../types/portfolio';
+import { createBugattiChiron, BugattiWheels } from './BugattiChironMesh';
 
 interface BrunoWorldProps {
   projects: Project[];
@@ -43,6 +44,7 @@ export default function BrunoWorld({
   const brakeLightsRef = useRef<THREE.Mesh[]>([]);
   const autopilotTargetRef = useRef<THREE.Vector3 | null>(null);
   const targetBeaconRef = useRef<THREE.Mesh | null>(null);
+  const currentLookTarget = useRef(new THREE.Vector3(0, 0.7, -0.8));
 
   // Keyboard state
   const keysPressed = useRef<{ [key: string]: boolean }>({});
@@ -127,14 +129,15 @@ export default function BrunoWorld({
     scene.background = new THREE.Color('#0A0B10');
     scene.fog = new THREE.FogExp2('#0A0B10', 0.012);
 
-    // Camera: Isometric Top-down Perspective (Bruno Simon style)
+    // Camera: Dynamic GTA 6 Hypercar Perspective
     const camera = new THREE.PerspectiveCamera(
-      42,
+      45,
       container.clientWidth / container.clientHeight,
       0.1,
-      250
+      300
     );
-    camera.position.set(0, 26, 22);
+    // Initial Front Three-Quarter View (matching the Bugatti reference photo)
+    camera.position.set(-3.8, 1.8, -4.5);
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
@@ -200,127 +203,184 @@ export default function BrunoWorld({
     groundBody.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
     world.addBody(groundBody);
 
-    // Visual Ground Plane
-    const groundGeo = new THREE.PlaneGeometry(240, 240);
+    // Procedural Wet Cobblestone Pavement Canvas Texture (GTA 6 European Boulevard)
+    const createCobblestoneTexture = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.fillStyle = '#0D0F15';
+        ctx.fillRect(0, 0, 512, 512);
+
+        // Cobblestone Belgian paving blocks
+        const blockW = 64;
+        const blockH = 32;
+        const rows = 512 / blockH;
+        const cols = 512 / blockW + 1;
+        const stoneShades = ['#161922', '#1C202B', '#12151D', '#222633', '#191D26'];
+
+        for (let r = 0; r < rows; r++) {
+          const offsetX = (r % 2 === 0) ? 0 : blockW / 2;
+          for (let c = -1; c < cols; c++) {
+            const x = c * blockW + offsetX;
+            const y = r * blockH;
+            const shade = stoneShades[(r * 7 + c * 13) % stoneShades.length];
+
+            ctx.fillStyle = shade;
+            ctx.fillRect(x + 2, y + 2, blockW - 4, blockH - 4);
+
+            // Subtle wet edge highlight
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.035)';
+            ctx.fillRect(x + 3, y + 3, blockW - 6, 3);
+
+            // Mortar joint groove
+            ctx.fillStyle = '#08090D';
+            ctx.strokeRect(x + 1, y + 1, blockW - 2, blockH - 2);
+          }
+        }
+
+        // Wet puddle reflection sheen
+        const puddleGrad = ctx.createRadialGradient(256, 256, 40, 256, 256, 240);
+        puddleGrad.addColorStop(0, 'rgba(38, 52, 75, 0.28)');
+        puddleGrad.addColorStop(0.7, 'rgba(15, 23, 42, 0.12)');
+        puddleGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        ctx.fillStyle = puddleGrad;
+        ctx.fillRect(0, 0, 512, 512);
+      }
+
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat.set(30, 30);
+      texture.colorSpace = THREE.SRGBColorSpace;
+      return texture;
+    };
+
+    // Visual Ground Plane with GTA 6 wet reflections
+    const groundGeo = new THREE.PlaneGeometry(260, 260);
     const groundMat = new THREE.MeshStandardMaterial({
-      color: '#0E1017',
-      roughness: 0.85,
-      metalness: 0.1
+      map: createCobblestoneTexture(),
+      roughness: 0.28,
+      metalness: 0.35
     });
     const groundMesh = new THREE.Mesh(groundGeo, groundMat);
     groundMesh.rotation.x = -Math.PI / 2;
     groundMesh.receiveShadow = true;
     scene.add(groundMesh);
 
-    // Subtle 3D Grid on Floor
-    const gridHelper = new THREE.GridHelper(240, 120, '#E5C378', '#202432');
+    // Subtle 3D Navigation Grid on Floor
+    const gridHelper = new THREE.GridHelper(260, 130, '#0080FF', '#1E293B');
     gridHelper.position.y = 0.02;
     scene.add(gridHelper);
 
-    // 5. BUILD THE 3D TOY CAR (Bruno Simon signature red sports coupe)
-    const carGroup = new THREE.Group();
+    // Vintage European Streetlamp Posts along the boulevard (Matching reference photo)
+    const createStreetLamp = (x: number, z: number) => {
+      const lampGroup = new THREE.Group();
+      lampGroup.position.set(x, 0, z);
+
+      // Cast iron pole base
+      const ironMat = new THREE.MeshStandardMaterial({ color: '#14161D', metalness: 0.85, roughness: 0.25 });
+      const base = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.5, 0.9, 12), ironMat);
+      base.position.y = 0.45;
+      base.castShadow = true;
+      lampGroup.add(base);
+
+      // Slender fluted pole
+      const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.16, 6.2, 12), ironMat);
+      pole.position.y = 3.8;
+      pole.castShadow = true;
+      lampGroup.add(pole);
+
+      // Ornate top bracket
+      const bracket = new THREE.Mesh(new THREE.TorusGeometry(0.45, 0.05, 8, 16, Math.PI), ironMat);
+      bracket.rotation.z = Math.PI;
+      bracket.position.y = 6.8;
+      lampGroup.add(bracket);
+
+      // Vintage Glass Lantern Housing with warm amber glow
+      const lanternMat = new THREE.MeshStandardMaterial({
+        color: '#FFA726',
+        emissive: '#FF9800',
+        emissiveIntensity: 4.2,
+        roughness: 0.1
+      });
+      const lantern = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.25, 0.7, 6), lanternMat);
+      lantern.position.y = 6.9;
+      lampGroup.add(lantern);
+
+      // Warm point light casting light on wet cobblestone
+      const pointLight = new THREE.PointLight('#FFA726', 14, 32, 1.3);
+      pointLight.position.y = 6.9;
+      lampGroup.add(pointLight);
+
+      scene.add(lampGroup);
+    };
+
+    // Streetlamp coordinates along main avenue and plaza perimeters
+    const lampCoords = [
+      [-16, -60], [16, -60],
+      [-16, -30], [16, -30],
+      [-16, 0],   [16, 0],
+      [-16, 30],  [16, 30],
+      [-16, 60],  [16, 60],
+      [-55, -45], [55, -45],
+      [-55, 45],  [55, 45]
+    ];
+    lampCoords.forEach(([x, z]) => createStreetLamp(x, z));
+
+    // Neoclassical Boutique Facades lining the outer boulevard (like in the photo)
+    const createBuildingFacade = (x: number, z: number, rotY: number, width: number, height: number) => {
+      const facadeGroup = new THREE.Group();
+      facadeGroup.position.set(x, 0, z);
+      facadeGroup.rotation.y = rotY;
+
+      // Stone Wall
+      const wallMat = new THREE.MeshStandardMaterial({ color: '#1E222D', roughness: 0.8, metalness: 0.15 });
+      const wall = new THREE.Mesh(new THREE.BoxGeometry(width, height, 4), wallMat);
+      wall.position.y = height / 2;
+      wall.castShadow = true;
+      wall.receiveShadow = true;
+      facadeGroup.add(wall);
+
+      // Warm illuminated boutique windows
+      const windowMat = new THREE.MeshStandardMaterial({
+        color: '#FFE082',
+        emissive: '#FFA726',
+        emissiveIntensity: 1.6,
+        roughness: 0.2
+      });
+      const rows = Math.floor(height / 4.5);
+      const cols = Math.floor(width / 4.2);
+      for (let r = 1; r <= rows; r++) {
+        for (let c = -cols / 2 + 0.5; c < cols / 2; c++) {
+          const win = new THREE.Mesh(new THREE.BoxGeometry(2.1, 2.6, 0.2), windowMat);
+          win.position.set(c * 4.0, r * 4.2, 2.05);
+          facadeGroup.add(win);
+        }
+      }
+
+      scene.add(facadeGroup);
+    };
+
+    // Boulevard perimeter buildings
+    createBuildingFacade(0, -115, 0, 180, 22);
+    createBuildingFacade(0, 115, Math.PI, 180, 22);
+    createBuildingFacade(-115, 0, Math.PI / 2, 180, 22);
+    createBuildingFacade(115, 0, -Math.PI / 2, 180, 22);
+
+    // 5. BUILD THE 3D BUGATTI CHIRON (GTA 6 Hypercar Quality)
+    const { carGroup, wheels: bugattiWheels, taillightMesh, setBraking } = createBugattiChiron();
     scene.add(carGroup);
     carMeshRef.current = carGroup;
 
-    // Car Body Mesh
-    const chassisGeo = new THREE.BoxGeometry(2.1, 0.75, 4.2);
-    const chassisMat = new THREE.MeshStandardMaterial({
-      color: '#E11D48', // Vibrant Bruno Simon Crimson
-      roughness: 0.25,
-      metalness: 0.5
-    });
-    const chassisMesh = new THREE.Mesh(chassisGeo, chassisMat);
-    chassisMesh.position.y = 0.7;
-    chassisMesh.castShadow = true;
-    chassisMesh.receiveShadow = true;
-    carGroup.add(chassisMesh);
-
-    // Cabin / Windshield
-    const cabinGeo = new THREE.BoxGeometry(1.7, 0.65, 2.0);
-    const cabinMat = new THREE.MeshStandardMaterial({
-      color: '#0B0F19',
-      roughness: 0.1,
-      metalness: 0.9
-    });
-    const cabinMesh = new THREE.Mesh(cabinGeo, cabinMat);
-    cabinMesh.position.set(0, 1.25, -0.3);
-    cabinMesh.castShadow = true;
-    carGroup.add(cabinMesh);
-
-    // Rear Spoiler
-    const spoilerWing = new THREE.Mesh(
-      new THREE.BoxGeometry(2.0, 0.1, 0.5),
-      chassisMat
-    );
-    spoilerWing.position.set(0, 1.35, 1.85);
-    carGroup.add(spoilerWing);
-
-    const spoilerStandL = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.35, 0.1), cabinMat);
-    spoilerStandL.position.set(-0.7, 1.15, 1.85);
-    carGroup.add(spoilerStandL);
-    const spoilerStandR = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.35, 0.1), cabinMat);
-    spoilerStandR.position.set(0.7, 1.15, 1.85);
-    carGroup.add(spoilerStandR);
-
-    // 4 Wheels
-    const wheelGeo = new THREE.CylinderGeometry(0.48, 0.48, 0.38, 18);
-    const wheelMat = new THREE.MeshStandardMaterial({ color: '#18181B', roughness: 0.7 });
-    const rimMat = new THREE.MeshStandardMaterial({ color: '#D4D4D8', metalness: 0.8, roughness: 0.2 });
-
-    const wheelPositions = [
-      [-1.15, 0.48, -1.3], // Front Left
-      [1.15, 0.48, -1.3],  // Front Right
-      [-1.15, 0.48, 1.3],  // Rear Left
-      [1.15, 0.48, 1.3]    // Rear Right
-    ];
-
-    const wheelMeshes: THREE.Mesh[] = [];
-    wheelPositions.forEach((pos) => {
-      const wheelHolder = new THREE.Mesh(wheelGeo, wheelMat);
-      wheelHolder.rotation.z = Math.PI / 2;
-      wheelHolder.position.set(pos[0], pos[1], pos[2]);
-      wheelHolder.castShadow = true;
-
-      // Rim cap
-      const rim = new THREE.Mesh(new THREE.CylinderGeometry(0.28, 0.28, 0.4, 12), rimMat);
-      wheelHolder.add(rim);
-
-      carGroup.add(wheelHolder);
-      wheelMeshes.push(wheelHolder);
-    });
-    wheelsMeshesRef.current = wheelMeshes;
-
-    // Headlight SpotLights & Bulbs
-    const headlightL = new THREE.SpotLight('#FFFBEB', 8, 32, Math.PI / 6, 0.4, 1);
-    headlightL.position.set(-0.75, 0.75, -2.1);
-    headlightL.target.position.set(-0.75, 0, -12);
-    carGroup.add(headlightL);
-    carGroup.add(headlightL.target);
-
-    const headlightR = new THREE.SpotLight('#FFFBEB', 8, 32, Math.PI / 6, 0.4, 1);
-    headlightR.position.set(0.75, 0.75, -2.1);
-    headlightR.target.position.set(0.75, 0, -12);
-    carGroup.add(headlightR);
-    carGroup.add(headlightR.target);
-    headlightsRef.current = [headlightL, headlightR];
-
-    // Red Taillight indicators
-    const brakeMat = new THREE.MeshBasicMaterial({ color: '#FF1133' });
-    const brakeL = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.15, 0.1), brakeMat);
-    brakeL.position.set(-0.75, 0.8, 2.15);
-    carGroup.add(brakeL);
-    const brakeR = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.15, 0.1), brakeMat);
-    brakeR.position.set(0.75, 0.8, 2.15);
-    carGroup.add(brakeR);
-    brakeLightsRef.current = [brakeL, brakeR];
-
-    // Cannon.js Car Rigid Body
-    const carShape = new CANNON.Box(new CANNON.Vec3(1.05, 0.65, 2.1));
+    // Cannon.js Car Rigid Body with realistic hypercar stance
+    const carShape = new CANNON.Box(new CANNON.Vec3(1.1, 0.55, 2.25));
     const carBody = new CANNON.Body({
-      mass: 140,
+      mass: 150,
       material: carMaterial,
       position: new CANNON.Vec3(0, 1.2, 0),
-      linearDamping: 0.15,
+      linearDamping: 0.12,
       angularDamping: 0.7
     });
     carBody.addShape(carShape);
@@ -363,13 +423,14 @@ export default function BrunoWorld({
 
       // Station Monument / Billboard
       const postMat = new THREE.MeshStandardMaterial({ color: '#181A24', metalness: 0.8, roughness: 0.3 });
+      const postZ = zone.id === 'zone-start' ? (zone.radius - 1.2) : (-zone.radius + 1.5);
       const postL = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 5, 12), postMat);
-      postL.position.set(-2.8, 2.5, -zone.radius + 1.5);
+      postL.position.set(-2.8, 2.5, postZ);
       postL.castShadow = true;
       zoneGroup.add(postL);
 
       const postR = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 5, 12), postMat);
-      postR.position.set(2.8, 2.5, -zone.radius + 1.5);
+      postR.position.set(2.8, 2.5, postZ);
       postR.castShadow = true;
       zoneGroup.add(postR);
 
@@ -403,7 +464,7 @@ export default function BrunoWorld({
         emissiveIntensity: 0.25
       });
       const boardMesh = new THREE.Mesh(new THREE.BoxGeometry(6, 3, 0.3), boardMat);
-      boardMesh.position.set(0, 4.5, -zone.radius + 1.5);
+      boardMesh.position.set(0, 4.5, postZ);
       boardMesh.castShadow = true;
       zoneGroup.add(boardMesh);
 
@@ -448,11 +509,11 @@ export default function BrunoWorld({
       physicsBricks.push({ mesh, body: brickBody });
     });
 
-    // 9. RAMPS FOR AIRBORNE CAR JUMPS
+    // 9. RAMPS FOR AIRBORNE CAR JUMPS (Positioned in stunt zones off the main boulevard)
     const createRamp = (x: number, z: number, rotationY: number) => {
       const rampMesh = new THREE.Mesh(
         new THREE.CylinderGeometry(0, 3, 1.2, 4),
-        new THREE.MeshStandardMaterial({ color: '#E5C378', roughness: 0.4 })
+        new THREE.MeshStandardMaterial({ color: '#1E2330', roughness: 0.6, metalness: 0.2 })
       );
       rampMesh.position.set(x, 0.6, z);
       rampMesh.rotation.y = rotationY;
@@ -470,9 +531,9 @@ export default function BrunoWorld({
       world.addBody(rampBody);
     };
 
-    createRamp(0, -18, Math.PI / 4);
-    createRamp(18, 0, Math.PI / 4);
-    createRamp(-18, 0, -Math.PI / 4);
+    // Stunt ramps placed away from the main avenue
+    createRamp(48, -15, Math.PI / 4);
+    createRamp(-48, -15, -Math.PI / 4);
 
     // 10. SOCIAL MEDIA PILLARS (Clickable or drivable into)
     SOCIAL_BILLBOARDS.forEach((social) => {
@@ -558,30 +619,57 @@ export default function BrunoWorld({
     window.addEventListener('keydown', onKeyDown);
     window.addEventListener('keyup', onKeyUp);
 
-    // 12. RAYCAST CLICK-TO-DRIVE ON THREE.JS CANVAS (Cursor Steering)
+    // 12. RAYCAST CLICK-TO-DRIVE & 360-DEGREE CAMERA ORBIT DRAG
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
+    let isPointerDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let camOrbitAngle = 0;
 
-    const onCanvasPointerDown = (e: MouseEvent) => {
-      const rect = renderer.domElement.getBoundingClientRect();
-      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-
-      raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObject(groundMesh);
-
-      if (intersects.length > 0) {
-        const point = intersects[0].point;
-        autopilotTargetRef.current = point;
-        if (targetBeaconRef.current) {
-          targetBeaconRef.current.position.set(point.x, 0.05, point.z);
-          targetBeaconRef.current.visible = true;
-        }
-        audioSynth.init();
-      }
+    const onPointerDown = (e: PointerEvent) => {
+      isPointerDragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
     };
 
-    renderer.domElement.addEventListener('pointerdown', onCanvasPointerDown);
+    const onPointerMove = (e: PointerEvent) => {
+      if (!isPointerDragging) return;
+      const dx = e.clientX - dragStartX;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      camOrbitAngle += dx * 0.006;
+    };
+
+    const onPointerUp = (e: PointerEvent) => {
+      if (isPointerDragging) {
+        const moveDist = Math.hypot(e.clientX - dragStartX, e.clientY - dragStartY);
+        if (moveDist < 6) {
+          // Quick click without drag: Raycast Click-to-Drive
+          const rect = renderer.domElement.getBoundingClientRect();
+          mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+          mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+
+          raycaster.setFromCamera(mouse, camera);
+          const intersects = raycaster.intersectObject(groundMesh);
+
+          if (intersects.length > 0) {
+            const point = intersects[0].point;
+            autopilotTargetRef.current = point;
+            if (targetBeaconRef.current) {
+              targetBeaconRef.current.position.set(point.x, 0.05, point.z);
+              targetBeaconRef.current.visible = true;
+            }
+            audioSynth.init();
+          }
+        }
+      }
+      isPointerDragging = false;
+    };
+
+    renderer.domElement.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
 
     // 13. RESIZE LISTENER
     const handleResize = () => {
@@ -599,16 +687,16 @@ export default function BrunoWorld({
     let animId: number;
     const fixedTimeStep = 1 / 60;
 
-    // Arcade Car Physics State
+    // Arcade Bugatti Chiron Physics State (1500 HP Hypercar feel)
     const carState = {
-      angle: Math.PI, // Facing forward (-Z)
+      angle: 0, // Facing forward along -Z into the boulevard
       speed: 0,
-      maxSpeed: 26,
-      reverseMax: -12,
-      accel: 0.55,
-      decel: 0.35,
-      friction: 0.965,
-      turnSpeed: 0.048
+      maxSpeed: 34,
+      reverseMax: -14,
+      accel: 0.65,
+      decel: 0.42,
+      friction: 0.97,
+      turnSpeed: 0.052
     };
 
     // Global Virtual Controls for Touch / Mouse HUD buttons
@@ -652,8 +740,8 @@ export default function BrunoWorld({
           const distance = Math.hypot(dx, dz);
 
           if (distance > 2.0) {
-            // Desired angle to target
-            const desiredHeading = Math.atan2(dx, dz);
+            // Desired angle to target (0 = -Z, Math.PI/2 = -X, -Math.PI/2 = +X)
+            const desiredHeading = Math.atan2(-dx, -dz);
             let diff = desiredHeading - carState.angle;
             while (diff > Math.PI) diff -= Math.PI * 2;
             while (diff < -Math.PI) diff += Math.PI * 2;
@@ -706,9 +794,9 @@ export default function BrunoWorld({
           }
         }
 
-        // Apply velocities to Cannon rigid body (maintaining Y velocity from gravity & ramps)
-        body.velocity.x = Math.sin(carState.angle) * carState.speed;
-        body.velocity.z = Math.cos(carState.angle) * carState.speed;
+        // Apply velocities to Cannon rigid body along car's forward heading
+        body.velocity.x = -Math.sin(carState.angle) * carState.speed;
+        body.velocity.z = -Math.cos(carState.angle) * carState.speed;
 
         // Apply yaw rotation to Cannon rigid body
         body.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), carState.angle);
@@ -738,25 +826,46 @@ export default function BrunoWorld({
         carGroup.position.copy(body.position as unknown as THREE.Vector3);
         carGroup.quaternion.copy(body.quaternion as unknown as THREE.Quaternion);
 
-        // Rotate wheels
-        wheelMeshes.forEach((wheel, idx) => {
-          wheel.rotation.x += carState.speed * 0.08;
-          // Turn front wheels visually when steering
-          if (idx < 2) {
-            wheel.rotation.y = isLeft ? 0.35 : isRight ? -0.35 : 0;
-          }
+        // Rotate Bugatti wheels and turn front steering
+        const steerAngle = isLeft ? 0.38 : isRight ? -0.38 : 0;
+        bugattiWheels.frontSteer.forEach((steer) => {
+          steer.rotation.y = steerAngle;
         });
+        bugattiWheels.allSpin.forEach((spin) => {
+          spin.rotation.x += carState.speed * 0.08;
+        });
+
+        // Dynamic Taillight Braking Reaction
+        setBraking(isBrake || isHandbrake);
 
         // Speedometer update
         const speedKmh = Math.round(Math.abs(carState.speed) * 3.6);
         onSpeedChangeRef.current(speedKmh);
         audioSynth.updateEngine(Math.abs(carState.speed) / carState.maxSpeed);
 
-        // Camera Follow (Smooth Damping Interpolation)
-        const cameraOffset = new THREE.Vector3(0, 24, 22);
-        const targetCamPos = body.position.vadd(cameraOffset as unknown as CANNON.Vec3);
-        camera.position.lerp(targetCamPos as unknown as THREE.Vector3, 0.065);
-        camera.lookAt(body.position.x, body.position.y + 1, body.position.z);
+        // Camera Follow (Dynamic GTA 6 Hypercar Perspective)
+        // When driving: 3/4 Chase perspective showcasing the Bugatti's profile and road
+        // When stationary: Cinematic 3/4 Front Showcase angle (matching the reference photo!)
+        const isMoving = Math.abs(carState.speed) > 0.4;
+        
+        const targetCamOffset = isMoving
+          ? new THREE.Vector3(2.4, 3.8, 9.2)
+          : new THREE.Vector3(-3.8, 1.8, -4.5);
+        
+        if (camOrbitAngle !== 0) {
+          if (isMoving) camOrbitAngle *= 0.94;
+          targetCamOffset.applyAxisAngle(new THREE.Vector3(0, 1, 0), camOrbitAngle);
+        }
+
+        const lookTarget = isMoving
+          ? new THREE.Vector3(body.position.x - 0.3, body.position.y + 0.6, body.position.z - 3.0)
+          : new THREE.Vector3(body.position.x, body.position.y + 0.7, body.position.z - 0.8);
+
+        const targetCamPos = body.position.vadd(targetCamOffset as unknown as CANNON.Vec3);
+        camera.position.lerp(targetCamPos as unknown as THREE.Vector3, isMoving ? 0.08 : 0.05);
+        
+        currentLookTarget.current.lerp(lookTarget, 0.08);
+        camera.lookAt(currentLookTarget.current);
 
         // Sun light shadows follow car
         sunLight.position.set(body.position.x + 30, 50, body.position.z + 25);
@@ -805,7 +914,9 @@ export default function BrunoWorld({
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
       window.removeEventListener('resize', handleResize);
-      renderer.domElement.removeEventListener('pointerdown', onCanvasPointerDown);
+      renderer.domElement.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', onPointerUp);
       renderer.dispose();
       if (container && renderer.domElement) {
         container.removeChild(renderer.domElement);

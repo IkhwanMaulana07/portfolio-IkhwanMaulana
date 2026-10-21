@@ -150,10 +150,10 @@ export default function BrunoHUD({
 
       </div>
 
-      {/* 2. CENTER / BOTTOM POPUP: ACTIVE ZONE DISCOVERY CARD */}
-      <div className="w-full flex justify-center items-center pointer-events-none">
+      {/* 2. TOP-RIGHT FLOATING TELEMETRY CARD (Unobstructed Bugatti Chiron View) */}
+      <div className="absolute top-20 right-3 sm:right-6 max-w-sm sm:max-w-md w-full pointer-events-none z-30">
         {activeZone && (
-          <div className="pointer-events-auto max-w-xl w-full mx-auto p-5 sm:p-6 rounded-3xl bg-[#0D0F18]/95 backdrop-blur-2xl border border-amber-200/35 shadow-[0_25px_60px_rgba(0,0,0,0.9)] animate-in fade-in zoom-in-95 duration-200">
+          <div className="pointer-events-auto w-full p-4 sm:p-5 rounded-2xl bg-[#0D0F18]/92 backdrop-blur-2xl border border-amber-200/35 shadow-[0_20px_50px_rgba(0,0,0,0.85)] animate-in fade-in slide-in-from-right-6 duration-300">
             
             <div className="flex items-center justify-between gap-3 mb-2">
               <div className="flex items-center gap-2">
