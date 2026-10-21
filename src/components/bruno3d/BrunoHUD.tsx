@@ -88,14 +88,14 @@ export default function BrunoHUD({
 
           <div className="h-6 w-[1px] bg-white/10 mx-1 hidden sm:block" />
 
-          {/* Real-time Velocity Gauge */}
-          <div className="flex items-center gap-1.5 font-mono text-xs">
-            <span className="text-zinc-500 text-[10px]">SPEED:</span>
-            <span className="text-[#E5C378] font-bold text-sm w-10 text-right">
-              {currentSpeed}
-            </span>
-            <span className="text-[9px] text-zinc-500">KM/H</span>
-          </div>
+            {/* Real-time Velocity Gauge */}
+            <div className="flex items-center gap-1.5 font-mono text-xs">
+              <span className="text-zinc-500 text-[10px]">SPEED:</span>
+              <span id="bruno-speed-val" className="text-[#E5C378] font-bold text-sm w-10 text-right">
+                {currentSpeed}
+              </span>
+              <span className="text-[9px] text-zinc-500">KM/H</span>
+            </div>
         </div>
 
         {/* Action Controls: Horn, Reset, Audio, Switch to Dossier */}

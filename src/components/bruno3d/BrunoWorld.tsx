@@ -45,6 +45,7 @@ export default function BrunoWorld({
   const autopilotTargetRef = useRef<THREE.Vector3 | null>(null);
   const targetBeaconRef = useRef<THREE.Mesh | null>(null);
   const currentLookTarget = useRef(new THREE.Vector3(0, 0.7, -0.8));
+  const lastSpeedUpdateRef = useRef<number>(0);
 
   // Keyboard state
   const keysPressed = useRef<{ [key: string]: boolean }>({});
@@ -139,32 +140,37 @@ export default function BrunoWorld({
     // Initial Front Three-Quarter View (matching the Bugatti reference photo)
     camera.position.set(-3.8, 1.8, -4.5);
 
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+    // Renderer - GPU Optimized for 60+ FPS
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      powerPreference: 'high-performance',
+      stencil: false,
+      depth: true
+    });
     renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.1;
     container.appendChild(renderer.domElement);
 
-    // 2. LIGHTING
+    // 2. LIGHTING (Optimized)
     const ambientLight = new THREE.AmbientLight('#B0B6C6', 1.4);
     scene.add(ambientLight);
 
     const sunLight = new THREE.DirectionalLight('#FFF7E6', 2.4);
     sunLight.position.set(30, 50, 25);
     sunLight.castShadow = true;
-    sunLight.shadow.mapSize.width = 2048;
-    sunLight.shadow.mapSize.height = 2048;
-    sunLight.shadow.camera.near = 5;
+    sunLight.shadow.mapSize.width = 1024;
+    sunLight.shadow.mapSize.height = 1024;
+    sunLight.shadow.camera.near = 10;
     sunLight.shadow.camera.far = 120;
-    sunLight.shadow.camera.left = -45;
-    sunLight.shadow.camera.right = 45;
-    sunLight.shadow.camera.top = 45;
-    sunLight.shadow.camera.bottom = -45;
-    sunLight.shadow.bias = -0.0005;
+    sunLight.shadow.camera.left = -50;
+    sunLight.shadow.camera.right = 50;
+    sunLight.shadow.camera.top = 50;
+    sunLight.shadow.camera.bottom = -50;
+    sunLight.shadow.bias = -0.0006;
     scene.add(sunLight);
 
     // Hemisphere ground bounce light
@@ -302,17 +308,12 @@ export default function BrunoWorld({
       const lanternMat = new THREE.MeshStandardMaterial({
         color: '#FFA726',
         emissive: '#FF9800',
-        emissiveIntensity: 4.2,
+        emissiveIntensity: 4.8,
         roughness: 0.1
       });
       const lantern = new THREE.Mesh(new THREE.CylinderGeometry(0.38, 0.25, 0.7, 6), lanternMat);
       lantern.position.y = 6.9;
       lampGroup.add(lantern);
-
-      // Warm point light casting light on wet cobblestone
-      const pointLight = new THREE.PointLight('#FFA726', 14, 32, 1.3);
-      pointLight.position.y = 6.9;
-      lampGroup.add(pointLight);
 
       scene.add(lampGroup);
     };
@@ -329,6 +330,15 @@ export default function BrunoWorld({
     ];
     lampCoords.forEach(([x, z]) => createStreetLamp(x, z));
 
+    // 2 Soft Warm Plaza Accent Lights (Optimized for 60fps, replaces 14 point lights)
+    const plazaLight1 = new THREE.PointLight('#FFA726', 6, 45, 1.5);
+    plazaLight1.position.set(-16, 7.5, -15);
+    scene.add(plazaLight1);
+
+    const plazaLight2 = new THREE.PointLight('#FFA726', 6, 45, 1.5);
+    plazaLight2.position.set(16, 7.5, -15);
+    scene.add(plazaLight2);
+
     // Neoclassical Boutique Facades lining the outer boulevard (like in the photo)
     const createBuildingFacade = (x: number, z: number, rotY: number, width: number, height: number) => {
       const facadeGroup = new THREE.Group();
@@ -339,7 +349,7 @@ export default function BrunoWorld({
       const wallMat = new THREE.MeshStandardMaterial({ color: '#1E222D', roughness: 0.8, metalness: 0.15 });
       const wall = new THREE.Mesh(new THREE.BoxGeometry(width, height, 4), wallMat);
       wall.position.y = height / 2;
-      wall.castShadow = true;
+      wall.castShadow = false;
       wall.receiveShadow = true;
       facadeGroup.add(wall);
 
@@ -717,9 +727,13 @@ export default function BrunoWorld({
       }
     };
 
+    const clock = new THREE.Clock();
+    const lastSunPos = new CANNON.Vec3(0, 0, 0);
+
     const tick = () => {
-      // Step Cannon Physics
-      world.step(fixedTimeStep);
+      // Step Cannon Physics with smooth delta time
+      const delta = Math.min(clock.getDelta(), 0.05);
+      world.step(fixedTimeStep, delta, 2);
 
       const body = carBodyRef.current;
       const keys = keysPressed.current;
@@ -838,39 +852,58 @@ export default function BrunoWorld({
         // Dynamic Taillight Braking Reaction
         setBraking(isBrake || isHandbrake);
 
-        // Speedometer update
+        // 1. Zero-latency direct DOM speedometer update (eliminates React 60fps render lag)
         const speedKmh = Math.round(Math.abs(carState.speed) * 3.6);
-        onSpeedChangeRef.current(speedKmh);
-        audioSynth.updateEngine(Math.abs(carState.speed) / carState.maxSpeed);
-
-        // Camera Follow (Dynamic GTA 6 Hypercar Perspective)
-        // When driving: 3/4 Chase perspective showcasing the Bugatti's profile and road
-        // When stationary: Cinematic 3/4 Front Showcase angle (matching the reference photo!)
-        const isMoving = Math.abs(carState.speed) > 0.4;
-        
-        const targetCamOffset = isMoving
-          ? new THREE.Vector3(2.4, 3.8, 9.2)
-          : new THREE.Vector3(-3.8, 1.8, -4.5);
-        
-        if (camOrbitAngle !== 0) {
-          if (isMoving) camOrbitAngle *= 0.94;
-          targetCamOffset.applyAxisAngle(new THREE.Vector3(0, 1, 0), camOrbitAngle);
+        const speedElem = document.getElementById('bruno-speed-val');
+        if (speedElem) {
+          speedElem.textContent = String(speedKmh);
         }
 
-        const lookTarget = isMoving
-          ? new THREE.Vector3(body.position.x - 0.3, body.position.y + 0.6, body.position.z - 3.0)
-          : new THREE.Vector3(body.position.x, body.position.y + 0.7, body.position.z - 0.8);
+        // Throttled React state notification (once every 250ms, not 60 times/sec)
+        const now = performance.now();
+        if (now - lastSpeedUpdateRef.current > 250) {
+          lastSpeedUpdateRef.current = now;
+          onSpeedChangeRef.current(speedKmh);
+        }
 
-        const targetCamPos = body.position.vadd(targetCamOffset as unknown as CANNON.Vec3);
-        camera.position.lerp(targetCamPos as unknown as THREE.Vector3, isMoving ? 0.08 : 0.05);
+        audioSynth.updateEngine(Math.abs(carState.speed) / carState.maxSpeed);
+
+        // 2. THIRD-PERSON CHASE CAMERA FOLLOWING CAR'S HEADING (GTA 6 Style)
+        // Camera stays behind the car at all times, smoothly rotating with the car's direction!
+        const effectiveAngle = carState.angle + camOrbitAngle;
         
-        currentLookTarget.current.lerp(lookTarget, 0.08);
+        const camDist = 8.5;
+        const camHeight = 3.2;
+
+        // Position directly behind the car along its current heading
+        const targetCamX = body.position.x + Math.sin(effectiveAngle) * camDist;
+        const targetCamY = body.position.y + camHeight;
+        const targetCamZ = body.position.z + Math.cos(effectiveAngle) * camDist;
+
+        camera.position.lerp(new THREE.Vector3(targetCamX, targetCamY, targetCamZ), 0.09);
+
+        // Look at point 5.5m ahead of the car along its current heading
+        const lookDist = 5.5;
+        const targetLookX = body.position.x - Math.sin(carState.angle) * lookDist;
+        const targetLookY = body.position.y + 0.8;
+        const targetLookZ = body.position.z - Math.cos(carState.angle) * lookDist;
+
+        currentLookTarget.current.lerp(new THREE.Vector3(targetLookX, targetLookY, targetLookZ), 0.12);
         camera.lookAt(currentLookTarget.current);
 
-        // Sun light shadows follow car
-        sunLight.position.set(body.position.x + 30, 50, body.position.z + 25);
-        sunLight.target.position.set(body.position.x, 0, body.position.z);
-        sunLight.target.updateMatrixWorld();
+        // Decay manual orbit back behind the car when driving
+        if (Math.abs(carState.speed) > 0.3 && camOrbitAngle !== 0) {
+          camOrbitAngle *= 0.94;
+          if (Math.abs(camOrbitAngle) < 0.005) camOrbitAngle = 0;
+        }
+
+        // Optimized shadow light update: only recalculate when car moves > 3.5m
+        if (body.position.distanceTo(lastSunPos) > 3.5) {
+          sunLight.position.set(body.position.x + 30, 50, body.position.z + 25);
+          sunLight.target.position.set(body.position.x, 0, body.position.z);
+          sunLight.target.updateMatrixWorld();
+          lastSunPos.copy(body.position);
+        }
 
         // Check Zone Proximity
         let enteredZone: WorldZone | null = null;
