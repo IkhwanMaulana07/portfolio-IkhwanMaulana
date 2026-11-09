@@ -29,33 +29,36 @@ export default function SectionHeading({
 
     // Set animated initial state
     gsap.set(letters, {
-      y: 70,
+      y: 90,
       opacity: 0,
-      scale: 1.1,
-      filter: 'blur(8px)',
+      scale: 1.15,
+      filter: 'blur(10px)',
+      letterSpacing: '-0.02em',
     });
+    gsap.set('.title-mask', { scaleX: 0, transformOrigin: 'left center' });
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
-          start: 'top 85%',
-          once: true,
+          start: 'top 78%',
+          toggleActions: 'play none none reverse',
         },
       });
 
-      tl.to(letters, {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        filter: 'blur(0px)',
-        ease: 'expo.out',
-        duration: 1.2,
-        stagger: {
-          each: 0.03,
-          from: 'center',
-        },
-      });
+      tl.to('.title-mask', { scaleX: 1, duration: 0.8, ease: 'power4.out' })
+        .to(letters, {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          filter: 'blur(0px)',
+          ease: 'expo.out',
+          duration: 1.4,
+          stagger: {
+            each: 0.04,
+            from: 'center',
+          },
+        }, '-=0.35');
     }, containerRef);
 
     return () => ctx.revert();

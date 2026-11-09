@@ -1,33 +1,91 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Activity, ShieldCheck, Zap, Server } from 'lucide-react';
+import React, { useRef, useEffect } from 'react';
+import SectionHeading from './SectionHeading';
+import { Server } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function SystemsShowcase() {
-  const [activeTab, setActiveTab] = useState<'realtime' | 'database' | 'routing'>('realtime');
+  const containerRef = useRef<HTMLElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
+
+  useEffect(() => {
+    const card = cardRef.current;
+    const path = pathRef.current;
+    if (!card) return;
+
+    const ctx = gsap.context(() => {
+      // 3D card perspective entrance
+      gsap.fromTo(
+        card,
+        {
+          opacity: 0,
+          y: 70,
+          scale: 0.95,
+          filter: 'blur(10px)',
+        },
+        {
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 82%',
+            once: true,
+          },
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          filter: 'blur(0px)',
+          duration: 1.1,
+          ease: 'expo.out',
+        }
+      );
+
+      // SVG Chart line drawing animation
+      if (path) {
+        const length = path.getTotalLength();
+        gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+        gsap.to(path, {
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 75%',
+            once: true,
+          },
+          strokeDashoffset: 0,
+          duration: 1.8,
+          ease: 'power3.out',
+          delay: 0.3,
+        });
+      }
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section id="systems" className="py-24 sm:py-32 relative overflow-hidden">
+    <section ref={containerRef} id="systems" className="py-24 sm:py-32 relative overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[55vw] h-[55vw] max-w-[650px] max-h-[650px] rounded-full bg-orange-600/8 blur-[160px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
+        {/* Section Header with Kinetic Letters */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-mono uppercase tracking-[0.3em] text-orange-400 block mb-3">
-            LIVE ARCHITECTURE
-          </span>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-techno text-white tracking-tight mb-4">
-            CORE SYSTEMS
-          </h2>
-          <p className="text-sm sm:text-base text-gray-400 leading-relaxed font-sans">
+          <SectionHeading title="CORE SYSTEMS" />
+          <p className="text-sm sm:text-base text-gray-400 leading-relaxed font-sans -mt-8">
             Relational persistence layers, sub-millisecond response times, and automated failure-tolerant dispatch pipelines.
           </p>
         </div>
 
         {/* Central Telemetry Card */}
-        <div className="max-w-5xl mx-auto rounded-[32px] border border-orange-500/25 bg-[#09090F]/90 backdrop-blur-2xl p-6 sm:p-10 md:p-12 shadow-[0_20px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,100,0,0.12)] relative overflow-hidden">
+        <div
+          ref={cardRef}
+          className="max-w-5xl mx-auto rounded-[32px] border border-orange-500/25 bg-[#09090F]/90 backdrop-blur-2xl p-6 sm:p-10 md:p-12 shadow-[0_20px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(255,100,0,0.12)] relative overflow-hidden transition-transform duration-500 hover:scale-[1.01]"
+        >
           
           {/* Card Top Bar */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-white/[0.08] gap-4">

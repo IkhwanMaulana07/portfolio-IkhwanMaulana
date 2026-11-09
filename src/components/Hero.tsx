@@ -1,10 +1,94 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { ArrowRight, Github, Linkedin, Mail, Twitter, FileText } from 'lucide-react';
+import { ArrowRight, Github, Linkedin, Mail, FileText } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function Hero() {
+  const contentRef = useRef<HTMLDivElement>(null);
+  const heroCardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const card = heroCardRef.current;
+    const content = contentRef.current;
+    if (!card || !content) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+      // Dramatic circular reveal & de-blur on card
+      tl.fromTo(
+        card,
+        {
+          opacity: 0,
+          scale: 0.8,
+          rotate: 6,
+          filter: 'blur(30px)',
+          clipPath: 'circle(0% at 50% 50%)',
+          force3D: true,
+        },
+        {
+          opacity: 1,
+          scale: 1.04,
+          rotate: -1.5,
+          filter: 'blur(6px)',
+          clipPath: 'circle(150% at 50% 50%)',
+          duration: 1.6,
+          ease: 'expo.out',
+          force3D: true,
+        }
+      ).to(card, {
+        scale: 1,
+        rotate: 0,
+        filter: 'blur(0px)',
+        duration: 1.1,
+        ease: 'power3.out',
+        force3D: true,
+      });
+
+      // Content staggered entrance
+      tl.fromTo(
+        content,
+        { opacity: 0, y: 40, filter: 'blur(12px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.3 },
+        '-=1.4'
+      );
+
+      tl.from(
+        Array.from(content.children),
+        { y: 30, opacity: 0, stagger: 0.1, duration: 0.9, ease: 'power3.out' },
+        '-=1.0'
+      );
+
+      // Continuous subtle ambient float
+      gsap.to(card, {
+        y: '+=10',
+        duration: 3.8,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
+
+      // Parallax scroll
+      gsap.to(card, {
+        yPercent: -6,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: card,
+          scrub: true,
+        },
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
       id="home"
@@ -18,7 +102,7 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
           {/* Left Column (7 Cols) */}
-          <div className="lg:col-span-7 flex flex-col items-start">
+          <div ref={contentRef} className="lg:col-span-7 flex flex-col items-start">
             
             {/* Status Pill */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs font-mono text-gray-300 mb-6 backdrop-blur-md">
@@ -101,13 +185,13 @@ export default function Hero() {
 
           {/* Right Column (5 Cols) — Glowing Hero Card */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-[340px] sm:max-w-[400px]">
+            <div ref={heroCardRef} className="relative w-full max-w-[340px] sm:max-w-[400px]">
               
               {/* Backlight Glow Behind Card */}
               <div className="absolute inset-0 bg-gradient-to-tr from-orange-600/30 to-amber-500/20 rounded-[32px] blur-2xl -z-10 transform scale-105 opacity-80" />
 
               {/* Main Photo Card Frame */}
-              <div className="relative aspect-[4/5] w-full rounded-[28px] overflow-hidden border border-orange-500/30 bg-[#0A0A10] shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_40px_rgba(255,100,0,0.15)] group">
+              <div className="relative aspect-[4/5] w-full rounded-[28px] overflow-hidden border border-orange-500/30 bg-[#0A0A10] shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_40px_rgba(255,100,0,0.15)] group transition-transform duration-500 hover:scale-[1.02]">
                 <Image
                   src="/ikhwan_studio_hero.png"
                   alt="Ikhwan Maulana - Full Stack Developer"

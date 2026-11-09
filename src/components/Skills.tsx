@@ -181,25 +181,20 @@ export default function Skills() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Heading */}
+        {/* Section Heading with Kinetic Letter Animation */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-mono uppercase tracking-[0.3em] text-orange-400 block mb-3">
-            CAPABILITIES
-          </span>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-techno text-white tracking-tight mb-4">
-            TECHNICAL STACK
-          </h2>
-          <p className="text-sm sm:text-base text-gray-400 leading-relaxed font-sans">
+          <SectionHeading title="TECHNICAL STACK" />
+          <p className="text-sm sm:text-base text-gray-400 leading-relaxed font-sans -mt-8">
             Production-tested technologies engineered for scalable and resilient modern software solutions.
           </p>
         </div>
 
-        {/* 16 Badges Grid (4x4 on desktop, 2x8 on tablet/mobile) */}
+        {/* 16 Badges Grid with Interactive Glow */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4 sm:gap-5">
           {SKILLS_LIST.map((skill, idx) => (
             <div
               key={idx}
-              className="card-cyber p-5 sm:p-6 flex flex-col items-center text-center justify-between group cursor-default relative overflow-hidden"
+              className="card-cyber p-5 sm:p-6 flex flex-col items-center text-center justify-between group cursor-default relative overflow-hidden transition-all duration-300 hover:scale-[1.03]"
             >
               {/* Subtle Ambient Backlight on Hover */}
               <div

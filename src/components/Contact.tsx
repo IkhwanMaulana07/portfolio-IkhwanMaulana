@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Mail, MessageCircle, Send, ArrowRight, Check, Copy, ExternalLink } from 'lucide-react';
+import { Mail, MessageCircle, ArrowRight, Check, ExternalLink } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import gsap from 'gsap';
+import SectionHeading from './SectionHeading';
 
 export default function Contact() {
   const [copied, setCopied] = useState<string | null>(null);
@@ -11,6 +13,38 @@ export default function Contact() {
     navigator.clipboard.writeText(text);
     setCopied(type);
     setTimeout(() => setCopied(null), 2500);
+  };
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    const fill = target.querySelector('.contact-fill');
+    const content = target.querySelectorAll('.contact-content');
+    const icon = target.querySelector('.contact-icon');
+    if (!fill) return;
+
+    gsap.killTweensOf([fill, content, icon]);
+    const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+    tl.to(fill, { height: '100%', borderRadius: '0%', duration: 0.65 }, 0);
+    tl.to(content, { color: '#000000', y: -2, duration: 0.35, stagger: 0.03 }, 0.15);
+    if (icon) {
+      tl.to(icon, { color: '#000000', scale: 1.15, rotation: -6, duration: 0.35, ease: 'back.out(1.7)' }, 0.1);
+    }
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.currentTarget;
+    const fill = target.querySelector('.contact-fill');
+    const content = target.querySelectorAll('.contact-content');
+    const icon = target.querySelector('.contact-icon');
+    if (!fill) return;
+
+    gsap.killTweensOf([fill, content, icon]);
+    const tl = gsap.timeline({ defaults: { ease: 'power4.inOut' } });
+    tl.to(content, { color: '', y: 0, duration: 0.3, stagger: 0.02 }, 0);
+    if (icon) {
+      tl.to(icon, { color: '#f97316', scale: 1, rotation: 0, duration: 0.3, ease: 'power3.out' }, 0);
+    }
+    tl.to(fill, { height: '0%', borderRadius: '50% 50% 0 0', duration: 0.55 }, 0.05);
   };
 
   const channels = [
@@ -61,13 +95,8 @@ export default function Contact() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-mono uppercase tracking-[0.3em] text-orange-400 block mb-3">
-            GET IN TOUCH
-          </span>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-techno text-white tracking-tight mb-4">
-            Start a Conversation
-          </h2>
-          <p className="text-sm sm:text-base text-gray-400 leading-relaxed font-sans">
+          <SectionHeading title="START A CONVERSATION" />
+          <p className="text-sm sm:text-base text-gray-400 leading-relaxed font-sans -mt-8">
             Have a project in mind, a role to discuss, or want to explore collaboration? Reach out through any of the preferred channels below.
           </p>
         </div>
@@ -85,33 +114,47 @@ export default function Contact() {
                   href={ch.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-orange-500/40 hover:bg-white/[0.05] transition-all flex flex-col items-center text-center group"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  className="relative p-5 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-orange-500/50 transition-all flex flex-col items-center text-center group overflow-hidden cursor-pointer"
                 >
-                  <Icon className="w-5 h-5 text-gray-400 group-hover:text-orange-400 mb-2 transition-colors" />
-                  <span className="text-xs font-techno font-bold text-white group-hover:text-orange-400">
-                    {ch.name}
-                  </span>
-                  <span className="text-[11px] font-mono text-gray-400 truncate max-w-full mt-1">
-                    {ch.handle}
-                  </span>
+                  {/* Liquid fill overlay */}
+                  <div className="contact-fill absolute bottom-0 left-0 right-0 h-0 bg-gradient-to-t from-orange-600 to-amber-400 rounded-t-[50%] pointer-events-none" />
+
+                  <div className="relative z-10 flex flex-col items-center">
+                    <Icon className="contact-icon w-6 h-6 text-orange-400 mb-2 transition-transform" />
+                    <span className="contact-content text-xs font-techno font-bold text-white">
+                      {ch.name}
+                    </span>
+                    <span className="contact-content text-[11px] font-mono text-gray-400 truncate max-w-full mt-1">
+                      {ch.handle}
+                    </span>
+                  </div>
                 </a>
               ) : (
                 <button
                   key={idx}
                   onClick={ch.action}
-                  className="p-4 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-orange-500/40 hover:bg-white/[0.05] transition-all flex flex-col items-center text-center group focus:outline-none"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  className="relative p-5 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-orange-500/50 transition-all flex flex-col items-center text-center group overflow-hidden cursor-pointer focus:outline-none"
                 >
-                  {copied === 'email' ? (
-                    <Check className="w-5 h-5 text-emerald-400 mb-2" />
-                  ) : (
-                    <Icon className="w-5 h-5 text-gray-400 group-hover:text-orange-400 mb-2 transition-colors" />
-                  )}
-                  <span className="text-xs font-techno font-bold text-white group-hover:text-orange-400">
-                    {ch.name}
-                  </span>
-                  <span className="text-[11px] font-mono text-gray-400 truncate max-w-full mt-1">
-                    {copied === 'email' ? 'Copied to Clipboard!' : ch.handle}
-                  </span>
+                  {/* Liquid fill overlay */}
+                  <div className="contact-fill absolute bottom-0 left-0 right-0 h-0 bg-gradient-to-t from-orange-600 to-amber-400 rounded-t-[50%] pointer-events-none" />
+
+                  <div className="relative z-10 flex flex-col items-center">
+                    {copied === 'email' ? (
+                      <Check className="contact-icon w-6 h-6 text-emerald-400 mb-2" />
+                    ) : (
+                      <Icon className="contact-icon w-6 h-6 text-orange-400 mb-2 transition-transform" />
+                    )}
+                    <span className="contact-content text-xs font-techno font-bold text-white">
+                      {ch.name}
+                    </span>
+                    <span className="contact-content text-[11px] font-mono text-gray-400 truncate max-w-full mt-1">
+                      {copied === 'email' ? 'Copied to Clipboard!' : ch.handle}
+                    </span>
+                  </div>
                 </button>
               );
             })}

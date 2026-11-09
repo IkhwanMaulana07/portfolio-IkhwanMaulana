@@ -1,11 +1,21 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import Image from 'next/image';
 import SectionHeading from './SectionHeading';
 import { Layers, Smartphone, Sparkles, CheckCircle2 } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function About() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const portraitRef = useRef<HTMLDivElement>(null);
+
   const highlights = [
     {
       title: 'React & Next.js',
@@ -29,8 +39,66 @@ export default function About() {
     },
   ];
 
+  useEffect(() => {
+    const cards = cardsRef.current.filter(Boolean);
+    const portrait = portraitRef.current;
+    if (!cards.length && !portrait) return;
+
+    const ctx = gsap.context(() => {
+      // 3D perspective entrance on feature cards
+      gsap.set(cards, {
+        yPercent: 90,
+        opacity: 0,
+        rotateX: -40,
+        skewY: 4,
+        filter: 'blur(8px)',
+        transformOrigin: '0% 100%',
+        transformPerspective: 1000,
+      });
+
+      cards.forEach((card, idx) => {
+        gsap.to(card, {
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            once: true,
+          },
+          yPercent: 0,
+          opacity: 1,
+          rotateX: 0,
+          skewY: 0,
+          filter: 'blur(0px)',
+          duration: 0.95,
+          ease: 'expo.out',
+          delay: idx * 0.08,
+        });
+      });
+
+      if (portrait) {
+        gsap.fromTo(
+          portrait,
+          { opacity: 0, scale: 0.88, filter: 'blur(10px)' },
+          {
+            scrollTrigger: {
+              trigger: portrait,
+              start: 'top 80%',
+              once: true,
+            },
+            opacity: 1,
+            scale: 1,
+            filter: 'blur(0px)',
+            duration: 1.2,
+            ease: 'expo.out',
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="about" className="py-24 sm:py-32 relative overflow-hidden">
+    <section ref={sectionRef} id="about" className="py-24 sm:py-32 relative overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-1/2 left-[-10%] w-[40vw] h-[40vw] max-w-[450px] max-h-[450px] rounded-full bg-orange-600/10 blur-[140px] pointer-events-none" />
 
@@ -65,7 +133,8 @@ export default function About() {
                 return (
                   <div
                     key={idx}
-                    className="card-cyber p-5 flex items-start gap-4 group"
+                    ref={(el) => { cardsRef.current[idx] = el; }}
+                    className="card-cyber p-5 flex items-start gap-4 group transition-transform duration-300 hover:scale-[1.03]"
                   >
                     <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 group-hover:scale-105 group-hover:border-orange-500/40 transition-all shrink-0">
                       <Icon className="w-5 h-5" />
@@ -86,11 +155,11 @@ export default function About() {
 
           {/* Right Column: Portrait Card with Orange Backlight (5 Cols) */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-[340px] sm:max-w-[380px]">
+            <div ref={portraitRef} className="relative w-full max-w-[340px] sm:max-w-[380px]">
               {/* Warm Orange Glow */}
               <div className="absolute inset-0 bg-gradient-to-tr from-orange-600/35 to-amber-500/20 rounded-[32px] blur-2xl -z-10 transform scale-105 opacity-80" />
 
-              <div className="relative aspect-[3/4] w-full rounded-[28px] overflow-hidden border border-orange-500/30 bg-[#09090F] shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_35px_rgba(255,100,0,0.15)] group">
+              <div className="relative aspect-[3/4] w-full rounded-[28px] overflow-hidden border border-orange-500/30 bg-[#09090F] shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_35px_rgba(255,100,0,0.15)] group transition-transform duration-500 hover:scale-[1.02]">
                 <Image
                   src="/ikhwan_studio_about.png"
                   alt="Ikhwan Maulana - About"

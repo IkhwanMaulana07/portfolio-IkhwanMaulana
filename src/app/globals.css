@@ -147,3 +147,177 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ========================================================
+   ANIMATIONS & KEYFRAMES FROM REFERENCE PORTFOLIO
+   ======================================================== */
+
+@keyframes shine {
+  0% { left: -75%; }
+  50% { left: 125%; }
+  100% { left: 125%; }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@keyframes symbioteMove {
+  0% { transform: translate(-100px, -50px) scale(1); }
+  50% { transform: translate(200px, 150px) scale(1.2); }
+  100% { transform: translate(-100px, -50px) scale(1); }
+}
+
+@keyframes glowMove {
+  0% { background-position: 0 0; }
+  50% { background-position: 200% 0; }
+  100% { background-position: 0 0; }
+}
+
+@keyframes orbMove {
+  0% { transform: translate(0); }
+  50% { transform: translate(35vw, 20vh); }
+  100% { transform: translate(0); }
+}
+
+@keyframes globalStarsMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-150px); }
+}
+
+@keyframes globalStarsMove2 {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-250px); }
+}
+
+@keyframes starsMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-120px); }
+}
+
+@keyframes starsMove2 {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-200px); }
+}
+
+@keyframes auroraMove {
+  0% { transform: scale(1) rotate(0deg); }
+  100% { transform: scale(1.2) rotate(8deg); }
+}
+
+/* Atmospheric Ambient Orbs & Stars */
+.global-orb {
+  filter: blur(180px);
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(circle, rgba(255, 120, 0, 0.12), transparent 70%);
+  border-radius: 50%;
+  width: 1000px;
+  height: 1000px;
+  animation: 20s ease-in-out infinite orbMove;
+  position: fixed;
+  top: -100px;
+  left: -200px;
+}
+
+.global-stars {
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.05;
+  background-image: radial-gradient(#ff8c00 1px, transparent 1px);
+  background-size: 150px 150px;
+  animation: 30s linear infinite globalStarsMove;
+  position: fixed;
+  inset: 0;
+}
+
+.global-stars-2 {
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.03;
+  background-image: radial-gradient(#ff8c00 0.7px, transparent 0.7px);
+  background-size: 90px 90px;
+  animation: 18s linear infinite globalStarsMove2;
+  position: fixed;
+  inset: 0;
+}
+
+.glow-text {
+  text-shadow: 0 0 10px #f90, 0 0 20px #f60, 0 0 30px #f30;
+  transition: text-shadow 0.3s ease-in-out;
+}
+
+.light-blob {
+  filter: blur(120px);
+  background: radial-gradient(circle, rgba(255, 166, 0, 0.5), rgba(255, 69, 0, 0.2));
+  border-radius: 50%;
+  width: 500px;
+  height: 500px;
+  animation: 8s ease-in-out infinite alternate symbioteMove;
+  position: absolute;
+  top: -100px;
+  left: -100px;
+}
+
+.frame-glow {
+  border-radius: 24px;
+  padding: 10px;
+  transition: all 0.4s ease-out;
+  position: relative;
+}
+
+.frame-glow::before {
+  content: "";
+  border-radius: inherit;
+  filter: blur(6px);
+  opacity: 0.4;
+  z-index: -1;
+  background: linear-gradient(45deg, #ff0000, #ff4d00, #ff8800, #ff0000) 0 0 / 300%;
+  padding: 3px;
+  transition: opacity 0.4s ease-out, filter 0.4s ease-out;
+  animation: 4s linear infinite glowMove;
+  position: absolute;
+  inset: 0;
+}
+
+.frame-glow:hover::before {
+  opacity: 1;
+  filter: blur(10px);
+}
+
+.stars-layer {
+  opacity: 0.18;
+  background-image: radial-gradient(#f25f00 1px, transparent 1px), radial-gradient(#ff8c00 0.8px, transparent 0.8px);
+  background-position: 0 0, 60px 60px;
+  background-size: 120px 120px, 180px 180px;
+  animation: 20s linear infinite starsMove;
+  position: absolute;
+  inset: 0;
+}
+
+.stars-layer-2 {
+  opacity: 0.12;
+  background-image: radial-gradient(#ff8c00 0.5px, transparent 0.5px);
+  background-size: 70px 70px;
+  animation: 12s linear infinite starsMove2;
+  position: absolute;
+  inset: 0;
+}
+
+/* Typography kinetic classes */
+.tito-letter {
+  display: inline-block;
+}
+
+.letter-wrapper {
+  vertical-align: top;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.letter {
+  will-change: transform, filter, opacity;
+  display: inline-block;
+}
+

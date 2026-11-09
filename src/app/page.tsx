@@ -15,6 +15,11 @@ import Footer from '../components/Footer';
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-[#030304] text-[#F3F3F6] relative selection:bg-orange-500/30 selection:text-orange-200 overflow-x-hidden">
+      {/* Global Atmospheric Animated Layers matching Reference */}
+      <div className="global-orb" />
+      <div className="global-stars" />
+      <div className="global-stars-2" />
+
       {/* Subtle Ambient Background Gradients */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-orange-600/[0.04] rounded-full blur-[180px]" />

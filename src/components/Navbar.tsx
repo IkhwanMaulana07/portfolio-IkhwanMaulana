@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
+import gsap from 'gsap';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -32,6 +32,32 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleNavEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const target = e.currentTarget;
+    const text = target.querySelector('.nav-text');
+    const line = target.querySelector('.nav-line');
+    const glow = target.querySelector('.nav-glow');
+    if (!text) return;
+    gsap.killTweensOf([text, line, glow]);
+    const tl = gsap.timeline({ defaults: { overwrite: 'auto', ease: 'power3.out' } });
+    tl.to(text, { y: -2, color: '#f97316', duration: 0.35, ease: 'power4.out' }, 0);
+    if (line) tl.to(line, { scaleX: 1, opacity: 1, duration: 0.45, ease: 'expo.out' }, 0.05);
+    if (glow) tl.to(glow, { opacity: 0.4, scale: 1.05, duration: 0.35, ease: 'power2.out' }, 0);
+  };
+
+  const handleNavLeave = (e: React.MouseEvent<HTMLAnchorElement>, isActive: boolean) => {
+    const target = e.currentTarget;
+    const text = target.querySelector('.nav-text');
+    const line = target.querySelector('.nav-line');
+    const glow = target.querySelector('.nav-glow');
+    if (!text) return;
+    gsap.killTweensOf([text, line, glow]);
+    const tl = gsap.timeline({ defaults: { overwrite: 'auto' } });
+    tl.to(text, { y: 0, color: isActive ? '#ffffff' : '#9ca3af', duration: 0.3, ease: 'power3.inOut' }, 0);
+    if (line) tl.to(line, { scaleX: isActive ? 1 : 0, opacity: isActive ? 1 : 0, duration: 0.3, ease: 'power3.inOut' }, 0);
+    if (glow) tl.to(glow, { opacity: 0, scale: 1, duration: 0.25, ease: 'power2.out' }, 0);
+  };
 
   const navLinks = [
     { label: 'HOME', href: '#home', id: 'home' },
@@ -78,13 +104,23 @@ export default function Navbar() {
               <a
                 key={link.id}
                 href={link.href}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-wider transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 ${
+                onMouseEnter={handleNavEnter}
+                onMouseLeave={(e) => handleNavLeave(e, isActive)}
+                className={`relative px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-wider transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 ${
                   isActive
                     ? 'text-white bg-orange-500/20 font-semibold border border-orange-500/40 shadow-[0_0_12px_rgba(255,100,0,0.3)]'
                     : 'text-gray-400 hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
-                {link.label}
+                <span className="nav-glow absolute inset-0 rounded-full bg-orange-500/15 blur-sm opacity-0 pointer-events-none" />
+                <span className="nav-text relative z-10 transition-colors">
+                  {link.label}
+                </span>
+                <span
+                  className={`nav-line absolute bottom-0.5 left-3 right-3 h-[2px] bg-orange-500 origin-left transition-transform duration-300 ${
+                    isActive ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0'
+                  }`}
+                />
               </a>
             );
           })}

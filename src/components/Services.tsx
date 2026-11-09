@@ -1,6 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import SectionHeading from './SectionHeading';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
   Code,
   Palette,
@@ -14,6 +17,10 @@ import {
   Workflow,
   ArrowUpRight
 } from 'lucide-react';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface ServiceItem {
   id: number;
@@ -90,6 +97,43 @@ const SERVICES_DATA: ServiceItem[] = [
 ];
 
 export default function Services() {
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const cards = cardsRef.current.filter(Boolean);
+    if (!cards.length) return;
+
+    const ctx = gsap.context(() => {
+      cards.forEach((card, idx) => {
+        gsap.fromTo(
+          card,
+          {
+            opacity: 0,
+            y: 45,
+            rotateX: -20,
+            filter: 'blur(8px)',
+          },
+          {
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 88%',
+              once: true,
+            },
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            filter: 'blur(0px)',
+            duration: 0.85,
+            ease: 'expo.out',
+            delay: (idx % 3) * 0.09,
+          }
+        );
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section id="services" className="py-24 sm:py-32 relative overflow-hidden">
       {/* Background Glow */}
@@ -97,25 +141,21 @@ export default function Services() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Heading */}
+        {/* Section Heading with Kinetic Letters */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-mono uppercase tracking-[0.3em] text-orange-400 block mb-3">
-            WHAT I PROVIDE
-          </span>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-techno text-white tracking-tight mb-4">
-            SPECIALIZED SERVICES
-          </h2>
-          <p className="text-sm sm:text-base text-gray-400 leading-relaxed font-sans">
+          <SectionHeading title="SPECIALIZED SERVICES" />
+          <p className="text-sm sm:text-base text-gray-400 leading-relaxed font-sans -mt-8">
             High-performance software interfaces, scalable backend systems, and data-driven infrastructure.
           </p>
         </div>
 
         {/* 3x3 Grid of Services */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {SERVICES_DATA.map((service) => (
+          {SERVICES_DATA.map((service, idx) => (
             <div
               key={service.id}
-              className="card-cyber p-7 flex flex-col justify-between group relative overflow-hidden"
+              ref={(el) => { cardsRef.current[idx] = el; }}
+              className="card-cyber p-7 flex flex-col justify-between group relative overflow-hidden transition-all duration-300 hover:scale-[1.02]"
             >
               <div>
                 {/* Icon & Tag */}

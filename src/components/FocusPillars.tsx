@@ -1,9 +1,53 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import SectionHeading from './SectionHeading';
 import { Globe, Cpu, Rocket, ArrowUpRight } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function FocusPillars() {
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const cards = cardsRef.current.filter(Boolean);
+    if (!cards.length) return;
+
+    const ctx = gsap.context(() => {
+      cards.forEach((card, idx) => {
+        gsap.fromTo(
+          card,
+          {
+            opacity: 0,
+            y: 60,
+            rotateX: -25,
+            filter: 'blur(10px)',
+          },
+          {
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 85%',
+              once: true,
+            },
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            filter: 'blur(0px)',
+            duration: 0.95,
+            ease: 'expo.out',
+            delay: idx * 0.12,
+          }
+        );
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   const pillars = [
     {
       num: '01',
@@ -35,15 +79,10 @@ export default function FocusPillars() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
+        {/* Section Header with Kinetic Reveal */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-mono uppercase tracking-[0.3em] text-orange-400 block mb-3">
-            CORE FOCUS / WORKFLOW
-          </span>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-techno text-white tracking-tight mb-4">
-            I DON&apos;T JUST BUILD.
-          </h2>
-          <p className="text-sm sm:text-base text-gray-400 leading-relaxed font-sans">
+          <SectionHeading title="I DON'T JUST BUILD." />
+          <p className="text-sm sm:text-base text-gray-400 leading-relaxed font-sans -mt-8">
             I design digital ecosystems that accelerate scale, empower workflows, and transform technical intent into customer revenue.
           </p>
         </div>
@@ -55,7 +94,8 @@ export default function FocusPillars() {
             return (
               <div
                 key={idx}
-                className="card-cyber p-8 flex flex-col justify-between group relative overflow-hidden"
+                ref={(el) => { cardsRef.current[idx] = el; }}
+                className="card-cyber p-8 flex flex-col justify-between group relative overflow-hidden transition-all duration-300 hover:scale-[1.02]"
               >
                 {/* Subtle Hover Backlight */}
                 <div className="absolute -top-10 -right-10 w-28 h-28 bg-orange-500/10 rounded-full blur-2xl group-hover:bg-orange-500/20 transition-all pointer-events-none" />
