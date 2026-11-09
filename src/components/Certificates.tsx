@@ -71,20 +71,20 @@ export default function Certificates() {
   };
 
   return (
-    <section id="certificates" className="relative overflow-hidden w-full px-6 md:px-16 py-24 text-white select-none">
+    <section id="certificates" className="relative overflow-hidden w-full px-4 sm:px-8 md:px-16 py-16 sm:py-24 text-white select-none">
       <SectionHeading title={t.certificates.title} className="text-orange-400" />
 
       {/* Subtitle info */}
-      <div className="max-w-3xl mx-auto text-center mt-3 mb-6">
-        <p className="text-sm md:text-base text-gray-400 font-sans leading-relaxed">
+      <div className="max-w-3xl mx-auto text-center mt-3 mb-6 px-2">
+        <p className="text-xs sm:text-sm md:text-base text-gray-400 font-sans leading-relaxed">
           {t.certificates.subtitle}
         </p>
       </div>
 
       {/* Ambient Glow */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-orange-500/10 rounded-full blur-[180px] pointer-events-none" />
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[350px] sm:w-[450px] h-[350px] sm:h-[450px] bg-orange-500/10 rounded-full blur-[140px] sm:blur-[180px] pointer-events-none" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto mt-14">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10 max-w-6xl mx-auto mt-8 sm:mt-14">
         {certificates.map((cert) => {
           const currentSide = activeSides[cert.id];
           const currentImg = currentSide === 'front' ? cert.frontImage : cert.backImage;
@@ -92,10 +92,10 @@ export default function Certificates() {
           return (
             <div
               key={cert.id}
-              className="cert-card group relative rounded-3xl overflow-hidden bg-black/40 backdrop-blur-xl border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(255,120,50,0.25)] hover:border-orange-500/40 transition-all duration-500 flex flex-col justify-between"
+              className="cert-card group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-black/40 backdrop-blur-xl border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.4)] hover:shadow-[0_20px_50px_rgba(255,120,50,0.25)] hover:border-orange-500/40 transition-all duration-500 flex flex-col justify-between"
             >
               {/* Top certificate visual */}
-              <div className="relative w-full h-64 sm:h-72 overflow-hidden bg-[#0c0c12]">
+              <div className="relative w-full h-52 sm:h-64 md:h-72 overflow-hidden bg-[#0c0c12]">
                 <Image
                   src={currentImg}
                   alt={cert.title}

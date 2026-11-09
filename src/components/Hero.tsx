@@ -78,48 +78,48 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="home" className="relative pt-24 pb-12 md:py-28 overflow-visible">
-      <div className="relative overflow-visible flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-24 xl:gap-36 w-full max-w-7xl mx-auto px-6 md:px-10">
+    <section id="home" className="relative pt-24 pb-12 md:py-28 overflow-visible px-4 sm:px-6 md:px-10">
+      <div className="relative overflow-visible flex flex-col-reverse lg:flex-row items-center justify-between gap-10 lg:gap-20 xl:gap-32 w-full max-w-7xl mx-auto">
         
         {/* Right Ambient Radial Blur */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange-500/20 blur-[180px] rounded-full pointer-events-none" />
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] bg-orange-500/20 blur-[140px] sm:blur-[180px] rounded-full pointer-events-none" />
 
         {/* Left Column: Identity, Typewriter, Socials & CTAs */}
         <div ref={contentRef} className="flex flex-col z-10 text-white w-full lg:w-[60%] text-left items-start">
-          <p className="text-gray-400 text-lg md:text-xl font-medium tracking-wide">
+          <p className="text-gray-400 text-base sm:text-lg md:text-xl font-medium tracking-wide">
             {t.hero.greeting}
           </p>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-orange-500 tracking-wide leading-none mt-2 font-techno">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-orange-500 tracking-wide leading-tight sm:leading-none mt-2 font-techno break-words max-w-full">
             {t.hero.name}
           </h1>
 
-          <h2 className="text-xl sm:text-2xl text-gray-300 font-semibold mt-2">
+          <h2 className="text-lg sm:text-2xl text-gray-300 font-semibold mt-1 sm:mt-2">
             (Ikhwan)
           </h2>
 
           {/* Typewriter Display */}
-          <div className="mt-3 min-h-[55px] w-full max-w-[550px]">
+          <div className="mt-3 min-h-[50px] sm:min-h-[55px] w-full max-w-[550px]">
             <Typewriter
               words={t.hero.typewriterRoles}
               typingSpeed={80}
               deletingSpeed={40}
               pauseTime={1800}
-              className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-200"
+              className="text-lg sm:text-2xl lg:text-3xl font-semibold text-gray-200"
             />
           </div>
 
-          <p className="text-gray-400 text-sm md:text-base leading-relaxed max-w-xl mt-3">
+          <p className="text-gray-400 text-xs sm:text-sm md:text-base leading-relaxed max-w-xl mt-3">
             {t.hero.tagline}
           </p>
 
           {/* Social Links with exact orange color */}
-          <div className="flex items-center gap-4 mt-6">
+          <div className="flex items-center gap-3 sm:gap-4 mt-5 sm:mt-6 flex-wrap">
             <a
               href="https://www.linkedin.com/in/ikhwan-maulana-22b9b4229/"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#ff6000] hover:text-white hover:bg-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-110 shadow-lg"
+              className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#ff6000] hover:text-white hover:bg-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-110 shadow-lg min-w-[40px] min-h-[40px]"
               aria-label="LinkedIn Profile"
             >
               <Linkedin size={20} />
@@ -128,7 +128,7 @@ export default function Hero() {
               href="https://github.com/IkhwanMaulana07"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#ff6000] hover:text-white hover:bg-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-110 shadow-lg"
+              className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#ff6000] hover:text-white hover:bg-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-110 shadow-lg min-w-[40px] min-h-[40px]"
               aria-label="GitHub Profile"
             >
               <Github size={20} />
@@ -137,14 +137,14 @@ export default function Hero() {
               href="https://wa.me/6281234567890"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#ff6000] hover:text-white hover:bg-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-110 shadow-lg"
+              className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#ff6000] hover:text-white hover:bg-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-110 shadow-lg min-w-[40px] min-h-[40px]"
               aria-label="WhatsApp Contact"
             >
               <Phone size={20} />
             </a>
             <a
               href="mailto:ikhwanmaulana0707@gmail.com"
-              className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#ff6000] hover:text-white hover:bg-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-110 shadow-lg"
+              className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#ff6000] hover:text-white hover:bg-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-110 shadow-lg min-w-[40px] min-h-[40px]"
               aria-label="Email Me"
             >
               <Mail size={20} />
@@ -152,10 +152,10 @@ export default function Hero() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-4 mt-8">
+          <div className="flex items-center gap-3 sm:gap-4 mt-6 sm:mt-8 flex-wrap">
             <a
               href="#contact"
-              className="bg-gradient-to-r from-[#FA6E00] to-[#E60026] text-white py-3 px-7 rounded-xl font-semibold shadow-[0_0_20px_rgba(250,110,0,0.5)] hover:scale-105 transition-all duration-300"
+              className="bg-gradient-to-r from-[#FA6E00] to-[#E60026] text-white py-2.5 sm:py-3 px-6 sm:px-7 rounded-xl font-semibold text-xs sm:text-sm shadow-[0_0_20px_rgba(250,110,0,0.5)] hover:scale-105 transition-all duration-300 min-h-[44px] flex items-center justify-center"
             >
               {t.hero.hireMe}
             </a>
@@ -163,7 +163,7 @@ export default function Hero() {
               href="/CV_Ikhwan_Maulana_FullStack_Developer.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="border border-gray-600 text-gray-300 font-semibold py-3 px-7 rounded-xl hover:bg-white/10 hover:border-gray-400 hover:text-white transition-all duration-300"
+              className="border border-gray-600 text-gray-300 font-semibold py-2.5 sm:py-3 px-6 sm:px-7 rounded-xl text-xs sm:text-sm hover:bg-white/10 hover:border-gray-400 hover:text-white transition-all duration-300 min-h-[44px] flex items-center justify-center"
             >
               {t.hero.downloadCv}
             </a>
@@ -171,13 +171,13 @@ export default function Hero() {
         </div>
 
         {/* Right Column: 3D Photo with Perspective & Hover Borders */}
-        <div className="relative z-10 lg:w-[40%] flex justify-center">
-          <div ref={cardRef} className="relative group w-fit [perspective:1200px]">
+        <div className="relative z-10 lg:w-[40%] flex justify-center max-w-full">
+          <div ref={cardRef} className="relative group w-fit [perspective:1200px] max-w-full">
             {/* Background offset card */}
-            <div className="absolute inset-0 translate-x-4 translate-y-4 rounded-3xl border border-orange-500/30 bg-orange-500/5 -z-10 transition-transform duration-500 group-hover:translate-x-6 group-hover:translate-y-6" />
+            <div className="absolute inset-0 translate-x-3 translate-y-3 sm:translate-x-4 sm:translate-y-4 rounded-3xl border border-orange-500/30 bg-orange-500/5 -z-10 transition-transform duration-500 group-hover:translate-x-5 group-hover:translate-y-5" />
 
             {/* Clean Portrait Image */}
-            <div className="relative w-[280px] h-[360px] sm:w-[320px] sm:h-[400px] rounded-3xl overflow-hidden border border-white/10 bg-[#0e0b0b] shadow-2xl">
+            <div className="relative w-[240px] h-[310px] sm:w-[280px] sm:h-[360px] md:w-[320px] md:h-[400px] max-w-[85vw] rounded-3xl overflow-hidden border border-white/10 bg-[#0e0b0b] shadow-2xl">
               <Image
                 src="/ikhwan_studio_hero.png"
                 alt="Ikhwan Maulana"

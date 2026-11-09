@@ -67,12 +67,12 @@ export default function SectionHeading({
   return (
     <section
       ref={containerRef}
-      className={`w-full py-16 md:py-20 flex justify-center items-center select-none ${className}`}
+      className={`w-full py-10 sm:py-16 md:py-20 flex justify-center items-center select-none px-2 ${className}`}
     >
-      <div className="relative overflow-visible text-center">
+      <div className="relative overflow-visible text-center max-w-full">
         <h2
           ref={textRef}
-          className="text-4xl md:text-6xl xl:text-7xl font-bold text-orange-400 tracking-tight leading-[1.15] text-center font-michroma"
+          className="text-2xl sm:text-4xl md:text-6xl xl:text-7xl font-bold text-orange-400 tracking-tight leading-[1.2] text-center font-michroma break-words"
         >
           {words.map((word, wIdx) => (
             <span key={wIdx} className="word">

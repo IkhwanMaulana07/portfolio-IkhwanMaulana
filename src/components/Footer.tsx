@@ -30,38 +30,38 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="relative w-full mt-24 overflow-hidden bg-[#0d0d10] text-white border-t border-white/[0.06] select-none">
+    <footer className="relative w-full mt-16 sm:mt-24 overflow-hidden bg-[#0d0d10] text-white border-t border-white/[0.06] select-none">
       {/* Footer Orb */}
-      <div className="footer-orb absolute top-[-180px] left-1/2 -translate-x-1/2 w-[420px] h-[420px] rounded-full bg-orange-500/[0.07] blur-[140px] pointer-events-none" />
+      <div className="footer-orb absolute top-[-180px] left-1/2 -translate-x-1/2 w-[350px] sm:w-[420px] h-[350px] sm:h-[420px] rounded-full bg-orange-500/[0.07] blur-[140px] pointer-events-none" />
 
-      <div className="relative max-w-6xl mx-auto px-6 md:px-10 py-12 md:py-16">
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-8 md:px-10 py-10 sm:py-16">
         {/* Top Accent Divider */}
-        <div className="relative mb-8 md:mb-10">
+        <div className="relative mb-6 sm:mb-10">
           <div className="h-px w-full bg-white/[0.05]" />
           <div className="footer-top-line absolute inset-x-0 top-0 h-px bg-gradient-to-r from-orange-500 via-orange-400/70 to-transparent" />
         </div>
 
-        <div className="grid lg:grid-cols-[1.4fr_.6fr] gap-10 lg:gap-16">
+        <div className="grid lg:grid-cols-[1.4fr_.6fr] gap-8 sm:gap-12 lg:gap-16">
           {/* Main Slogan & Mission */}
           <div>
-            <div className="footer-eyebrow flex items-center gap-3 mb-5 text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-orange-400 font-mono">
+            <div className="footer-eyebrow flex items-center gap-3 mb-4 sm:mb-5 text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-orange-400 font-mono">
               <span className="w-6 h-px bg-orange-500" />
               THE LAST FRAME
             </div>
 
             <div className="[perspective:1200px] overflow-visible">
-              <h2 className="footer-title-line-1 text-[clamp(2.35rem,6vw,5.5rem)] font-black uppercase leading-[0.84] tracking-[-0.04em] font-techno text-white">
+              <h2 className="footer-title-line-1 text-[clamp(1.9rem,6.5vw,5.5rem)] font-black uppercase leading-[0.84] tracking-[-0.04em] font-techno text-white break-words">
                 {t.footer.title1}
               </h2>
-              <div className="mt-3 md:mt-4 overflow-visible">
-                <h2 className="footer-title-line-2 text-[clamp(2.35rem,6vw,5.5rem)] font-black uppercase leading-[0.84] tracking-[-0.04em] text-orange-500 font-techno">
+              <div className="mt-2 sm:mt-4 overflow-visible">
+                <h2 className="footer-title-line-2 text-[clamp(1.9rem,6.5vw,5.5rem)] font-black uppercase leading-[0.84] tracking-[-0.04em] text-orange-500 font-techno break-words">
                   {t.footer.title2}
                 </h2>
               </div>
             </div>
 
-            <div className="max-w-xl mt-7 md:mt-8">
-              <p className="footer-description text-xs md:text-sm lg:text-base text-gray-400 leading-6 md:leading-7 font-sans">
+            <div className="max-w-xl mt-5 sm:mt-8">
+              <p className="footer-description text-xs sm:text-sm lg:text-base text-gray-400 leading-6 md:leading-7 font-sans">
                 {t.footer.desc}
               </p>
             </div>
@@ -141,7 +141,7 @@ export default function Footer() {
           <div className="mb-6 text-[9px] md:text-[10px] uppercase tracking-[0.28em] text-gray-500 text-center font-mono">
             SOCIALS
           </div>
-          <div className="flex items-center justify-center gap-5 sm:gap-8">
+          <div className="flex items-center justify-center gap-4 sm:gap-8 flex-wrap">
             {socials.map((soc, idx) => (
               <a
                 key={idx}
@@ -149,7 +149,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={soc.name}
-                className="relative group flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full border border-orange-500/20 hover:border-orange-500 transition-all duration-300 hover:scale-110 shadow-lg text-orange-500 hover:text-white hover:bg-orange-500/20"
+                className="relative group flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 min-w-[44px] min-h-[44px] rounded-full border border-orange-500/20 hover:border-orange-500 transition-all duration-300 hover:scale-110 shadow-lg text-orange-500 hover:text-white hover:bg-orange-500/20"
               >
                 <span className="absolute inset-0 rounded-full bg-orange-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
                 {soc.icon}

@@ -281,7 +281,7 @@ export default function Systems() {
     <section
       id="systems"
       ref={sectionRef}
-      className="relative min-h-screen w-full p-7 md:p-10 overflow-hidden bg-transparent text-white flex items-center justify-center select-none"
+      className="relative min-h-screen w-full p-3 sm:p-7 md:p-10 overflow-hidden bg-transparent text-white flex items-center justify-center select-none"
     >
       <div
         ref={pillRef}

@@ -221,18 +221,18 @@ export default function Intro({ onComplete }: IntroProps) {
         </div>
 
         {/* Glitch & Text */}
-        <div className="relative inline-block mt-8 [perspective:3000px]">
-          <div className="glitch-red absolute inset-0 pointer-events-none z-20 opacity-0 text-7xl md:text-[9rem] font-black tracking-[18px] uppercase text-red-500 mix-blend-screen will-change-transform">
+        <div className="relative inline-block mt-6 sm:mt-8 [perspective:3000px] max-w-full px-2">
+          <div className="glitch-red absolute inset-0 pointer-events-none z-20 opacity-0 text-4xl sm:text-6xl md:text-[9rem] font-black tracking-[6px] sm:tracking-[12px] md:tracking-[18px] uppercase text-red-500 mix-blend-screen will-change-transform">
             IKHWAN
           </div>
-          <div className="glitch-cyan absolute inset-0 pointer-events-none z-20 opacity-0 text-7xl md:text-[9rem] font-black tracking-[18px] uppercase text-cyan-400 mix-blend-screen will-change-transform">
+          <div className="glitch-cyan absolute inset-0 pointer-events-none z-20 opacity-0 text-4xl sm:text-6xl md:text-[9rem] font-black tracking-[6px] sm:tracking-[12px] md:tracking-[18px] uppercase text-cyan-400 mix-blend-screen will-change-transform">
             IKHWAN
           </div>
           <div className="glitch-line absolute left-0 top-1/2 -translate-y-1/2 h-[2px] w-full bg-orange-300 pointer-events-none z-[50] opacity-0 origin-left shadow-[0_0_8px_rgba(255,140,40,.8)]" />
           <div className="glitch-line absolute left-0 top-[42%] h-[2px] w-full bg-white/60 pointer-events-none z-[50] opacity-0 origin-left shadow-[0_0_10px_rgba(0,240,255,.55)]" />
           <div className="glitch-line absolute left-0 top-[58%] h-[2px] w-full bg-red-500/60 pointer-events-none z-[50] opacity-0 origin-left shadow-[0_0_10px_rgba(255,0,70,.55)]" />
 
-          <h1 className="tito-text will-change-transform opacity-0 text-7xl md:text-[9rem] font-black tracking-[18px] leading-none uppercase flex overflow-visible">
+          <h1 className="tito-text will-change-transform opacity-0 text-4xl sm:text-6xl md:text-[9rem] font-black tracking-[6px] sm:tracking-[12px] md:tracking-[18px] leading-none uppercase flex overflow-visible">
             {letters.map((char, idx) => (
               <span key={idx} className="tito-letter relative inline-block">
                 <span className="tito-base block text-gray-200">{char}</span>

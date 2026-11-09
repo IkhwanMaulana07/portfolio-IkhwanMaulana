@@ -122,19 +122,19 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative py-24 px-6 md:px-16 text-white select-none">
+    <section id="contact" className="relative py-16 sm:py-24 px-4 sm:px-8 md:px-16 text-white select-none">
       {/* Ambient Glows */}
-      <div className="absolute top-20 left-10 w-[450px] h-[450px] bg-gradient-to-r from-yellow-500/30 to-orange-500/20 rounded-full blur-[140px] opacity-40 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-gradient-to-r from-orange-500/30 to-red-500/20 rounded-full blur-[140px] opacity-40 pointer-events-none" />
+      <div className="absolute top-20 left-10 w-[350px] sm:w-[450px] h-[350px] sm:h-[450px] bg-gradient-to-r from-yellow-500/30 to-orange-500/20 rounded-full blur-[140px] opacity-40 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[350px] sm:w-[450px] h-[350px] sm:h-[450px] bg-gradient-to-r from-orange-500/30 to-red-500/20 rounded-full blur-[140px] opacity-40 pointer-events-none" />
 
       <SectionHeading title={t.contact.title} className="text-orange-400" />
 
-      <p className="text-center text-gray-400 max-w-2xl mx-auto mt-4 mb-14 text-sm sm:text-base font-sans">
+      <p className="text-center text-gray-400 max-w-2xl mx-auto mt-3 mb-10 sm:mb-14 text-xs sm:text-sm md:text-base font-sans px-2">
         {t.contact.subtitle}
       </p>
 
       {/* 4 Liquid-Rise Contact Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 max-w-5xl mx-auto">
         {channels.map((ch, idx) => (
           <a
             key={idx}
@@ -143,7 +143,7 @@ export default function Contact() {
             rel="noopener noreferrer"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="group relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-black/40 border border-white/10 backdrop-blur-xl transition-all duration-300 block shadow-xl"
+            className="group relative overflow-hidden p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-black/40 border border-white/10 backdrop-blur-xl transition-all duration-300 block shadow-xl min-h-[90px]"
           >
             {/* Rising orange liquid layer */}
             <div className="contact-fill absolute left-0 bottom-0 w-full h-0 bg-orange-500 rounded-[50%_50%_0_0] pointer-events-none z-0" />

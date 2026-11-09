@@ -60,7 +60,7 @@ function SkillCard({ skill }: { skill: SkillItem }) {
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="relative w-36 h-36 sm:w-40 sm:h-40 backdrop-blur-xl bg-black/40 border border-white/10 rounded-2xl shadow-xl overflow-hidden flex flex-col items-center justify-center cursor-pointer will-change-transform transition-transform duration-300 hover:scale-[1.04]"
+      className="relative w-32 h-32 sm:w-40 sm:h-40 backdrop-blur-xl bg-black/40 border border-white/10 rounded-2xl shadow-xl overflow-hidden flex flex-col items-center justify-center cursor-pointer will-change-transform transition-transform duration-300 hover:scale-[1.04]"
       style={{ '--glow-color': skill.color } as React.CSSProperties}
     >
       {/* Moving cursor glow */}
@@ -115,14 +115,14 @@ export default function Skills() {
   ];
 
   return (
-    <section id="skills" className="relative py-20 px-6 text-center select-none">
+    <section id="skills" className="relative py-16 sm:py-20 px-4 sm:px-6 text-center select-none">
       {/* Ambient background glows */}
       <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-orange-500/10 blur-[140px] rounded-full pointer-events-none" />
       <div className="absolute right-0 bottom-0 w-[250px] h-[250px] bg-yellow-500/10 blur-[120px] rounded-full pointer-events-none" />
 
       <SectionHeading title={t.skills.title} className="text-orange-400" />
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-8 place-items-center max-w-6xl mx-auto mt-12">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5 sm:gap-6 md:gap-8 place-items-center max-w-6xl mx-auto mt-8 sm:mt-12">
         {skills.map((skill, idx) => (
           <SkillCard key={idx} skill={skill} />
         ))}

@@ -205,32 +205,32 @@ export default function Projects() {
   }, [activeProject]);
 
   return (
-    <section id="projects" ref={containerRef} className="relative w-full px-6 md:px-16 py-24 text-white select-none">
+    <section id="projects" ref={containerRef} className="relative w-full px-4 sm:px-8 md:px-16 py-16 sm:py-24 text-white select-none">
       <SectionHeading title={t.projects.title} className="text-orange-400" />
 
       {/* Subheading info */}
-      <div className="max-w-3xl mx-auto text-center mt-3 mb-10">
-        <p className="text-sm md:text-base text-gray-400 font-sans leading-relaxed">
+      <div className="max-w-3xl mx-auto text-center mt-3 mb-8 sm:mb-10 px-2">
+        <p className="text-xs sm:text-sm md:text-base text-gray-400 font-sans leading-relaxed">
           {t.projects.subtitle}
         </p>
       </div>
 
       {/* Ambient center blur */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-orange-500/10 blur-[220px] rounded-full pointer-events-none" />
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[700px] h-[350px] sm:h-[700px] bg-orange-500/10 blur-[140px] sm:blur-[220px] rounded-full pointer-events-none" />
 
       {/* Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto mt-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto mt-6">
         {projects.map((proj, idx) => (
           <div
             key={proj.id}
             ref={(el) => {
               cardsRef.current[idx] = el;
             }}
-            className="group relative rounded-3xl overflow-hidden bg-black/40 backdrop-blur-xl border border-white/10 hover:border-orange-500/40 hover:-translate-y-2 transition-all duration-500 shadow-2xl flex flex-col cursor-pointer"
+            className="group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-black/40 backdrop-blur-xl border border-white/10 hover:border-orange-500/40 hover:-translate-y-2 transition-all duration-500 shadow-2xl flex flex-col cursor-pointer"
             onClick={() => setActiveProject(proj)}
           >
             {/* Project Image */}
-            <div className="relative w-full h-56 overflow-hidden bg-[#0a0a0f]">
+            <div className="relative w-full h-48 sm:h-56 overflow-hidden bg-[#0a0a0f]">
               <Image
                 src={proj.image}
                 alt={proj.title}
@@ -309,17 +309,17 @@ export default function Projects() {
       {/* Interactive Detail Modal */}
       {activeProject && (
         <div
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 md:p-6 overflow-y-auto"
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-y-auto"
           onClick={() => setActiveProject(null)}
         >
           <div
-            className="relative w-full max-w-3xl my-auto bg-[#110e14] border border-orange-500/30 rounded-3xl p-6 md:p-8 shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+            className="relative w-full max-w-3xl my-auto bg-[#110e14] border border-orange-500/30 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top Close Button */}
             <button
               onClick={() => setActiveProject(null)}
-              className="absolute top-5 right-5 p-2 rounded-full bg-white/10 hover:bg-orange-500 text-gray-300 hover:text-white transition-colors z-20"
+              className="absolute top-4 sm:top-5 right-4 sm:right-5 p-2 rounded-full bg-white/10 hover:bg-orange-500 text-gray-300 hover:text-white transition-colors z-20 min-w-[36px] min-h-[36px] flex items-center justify-center"
               aria-label="Close details modal"
             >
               <X size={18} />
@@ -335,17 +335,17 @@ export default function Projects() {
               </span>
             </div>
 
-            <h2 className="text-2xl md:text-3xl font-bold font-techno text-white text-gradient">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold font-techno text-white text-gradient">
               {activeProject.title}
             </h2>
-            <p className="text-xs md:text-sm text-orange-400/90 font-mono mt-1">
+            <p className="text-xs sm:text-sm text-orange-400/90 font-mono mt-1">
               {activeProject.tagline}
             </p>
 
             {/* Scrollable Content */}
-            <div className="overflow-y-auto mt-6 pr-2 space-y-6 flex-grow custom-scrollbar">
+            <div className="overflow-y-auto mt-4 sm:mt-6 pr-1 sm:pr-2 space-y-5 sm:space-y-6 flex-grow custom-scrollbar">
               {/* Image Preview Banner */}
-              <div className="relative w-full h-56 md:h-64 rounded-2xl overflow-hidden border border-white/10">
+              <div className="relative w-full h-44 sm:h-56 md:h-64 rounded-xl sm:rounded-2xl overflow-hidden border border-white/10">
                 <Image
                   src={activeProject.image}
                   alt={activeProject.title}

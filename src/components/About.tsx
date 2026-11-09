@@ -106,7 +106,7 @@ export default function About() {
   const stats = t.about.stats;
 
   return (
-    <section id="about" ref={containerRef} className="w-full px-6 sm:px-10 md:px-16 py-20 text-white relative">
+    <section id="about" ref={containerRef} className="w-full px-4 sm:px-8 md:px-16 py-16 sm:py-20 text-white relative">
       <SectionHeading title={t.about.title} className="text-orange-400" />
 
       <div className="relative flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-24 max-w-7xl mx-auto mt-12">
@@ -153,7 +153,7 @@ export default function About() {
         {/* Right Section: Portrait Image with Glow */}
         <div
           ref={portraitRef}
-          className="relative overflow-hidden origin-center rounded-3xl w-[280px] h-[460px] md:w-[320px] md:h-[500px] shadow-2xl shadow-orange-700/20 z-20 shrink-0 border border-white/10"
+          className="relative overflow-hidden origin-center rounded-3xl w-[240px] h-[390px] sm:w-[280px] sm:h-[460px] md:w-[320px] md:h-[500px] max-w-[85vw] shadow-2xl shadow-orange-700/20 z-20 shrink-0 border border-white/10"
         >
           <div className="absolute inset-0 bg-orange-500/20 blur-[90px] scale-110 rounded-full -z-10" />
           <div className="imageGlow" />
