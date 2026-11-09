@@ -20,13 +20,11 @@ export const translations = {
       name: 'Ikhwan Maulana',
       rolePrefix: 'Full Stack Developer &',
       typewriterRoles: [
+        'Full Stack Developer',
         'Software Engineer',
-        'Programmer BNSP',
-        'Teknisi Jaringan',
-        'Spesialis Go & React',
       ],
       tagline:
-        'Merancang arsitektur monorepo decoupled, API mikroservis Go Gin dengan latensi sub-milidetik, dan sistem machine learning terapan berskala enterprise.',
+        'Berfokus pada pengembangan aplikasi web dan mobile yang responsif, terstruktur, dan efisien dari perancangan antarmuka pengguna hingga sistem backend dan basis data.',
       hireMe: 'Hubungi Saya',
       downloadCv: 'Unduh CV',
     },
@@ -123,13 +121,11 @@ export const translations = {
       name: 'Ikhwan Maulana',
       rolePrefix: 'Full Stack Developer &',
       typewriterRoles: [
+        'Full Stack Developer',
         'Software Engineer',
-        'BNSP Programmer',
-        'Network Technician',
-        'Go & React Specialist',
       ],
       tagline:
-        'Engineering decoupled monorepo web platforms, sub-millisecond Go Gin microservices, and applied Machine Learning systems built for scale and performance.',
+        'Focused on developing responsive, structured, and efficient web and mobile applications from intuitive user interfaces to backend systems and databases.',
       hireMe: 'Hire Me',
       downloadCv: 'Download CV',
     },
@@ -226,13 +222,11 @@ export const translations = {
       name: 'Ikhwan Maulana',
       rolePrefix: '全栈开发工程师 &',
       typewriterRoles: [
-        '软件架构师',
-        'BNSP认证工程师',
-        '网络系统工程师',
-        'Go与React技术专家',
+        'Full Stack Developer',
+        'Software Engineer',
       ],
       tagline:
-        '专注于构建高扩展解耦全栈Monorepo架构、亚毫秒级Go Gin微服务API与落地级机器学习应用系统。',
+        '专注于研发响应迅速、架构严谨且高效的Web与移动端应用，覆盖从用户交互界面到后端系统与数据库的全栈全流程。',
       hireMe: '联系我',
       downloadCv: '下载简历',
     },

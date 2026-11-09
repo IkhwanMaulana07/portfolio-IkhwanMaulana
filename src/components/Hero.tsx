@@ -94,12 +94,8 @@ export default function Hero() {
             {t.hero.name}
           </h1>
 
-          <h2 className="text-lg sm:text-2xl text-gray-300 font-semibold mt-1 sm:mt-2">
-            (Ikhwan)
-          </h2>
-
           {/* Typewriter Display */}
-          <div className="mt-3 min-h-[50px] sm:min-h-[55px] w-full max-w-[550px]">
+          <div className="mt-4 sm:mt-5 min-h-[50px] sm:min-h-[55px] w-full max-w-[550px]">
             <Typewriter
               words={t.hero.typewriterRoles}
               typingSpeed={80}
