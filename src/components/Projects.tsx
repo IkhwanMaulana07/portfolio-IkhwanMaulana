@@ -26,18 +26,8 @@ export default function Projects() {
 
   const projects: ProjectItem[] = [
     {
-      id: 'veyora-erp',
-      title: 'Veyora Master ERP Hub',
-      category: 'Enterprise System',
-      description: 'Comprehensive business enterprise platform integrating inventory management, financial reporting, multi-tier user auth, and real-time operational telemetry.',
-      image: '/projects/veyora_master.jpg',
-      tags: ['Next.js', 'Go Gin', 'PostgreSQL', 'Docker', 'Tailwind'],
-      liveUrl: 'https://github.com/IkhwanMaulana07',
-      githubUrl: 'https://github.com/IkhwanMaulana07',
-    },
-    {
       id: 'veyora-portal',
-      title: 'Veyora Tech Portal',
+      title: 'Veyora Technologies',
       category: 'Corporate Platform',
       description: 'High-conversion technological ecosystem portal engineered with ultra-smooth GSAP animations, optimized server-side rendering, and responsive design.',
       image: '/projects/veyora_technologies.jpg',

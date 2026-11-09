@@ -255,3 +255,4 @@ export default function Intro({ onComplete }: IntroProps) {
     </div>
   );
 }
+
