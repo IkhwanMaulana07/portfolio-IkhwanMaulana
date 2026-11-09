@@ -6,25 +6,25 @@ import {
   Code2, 
   Layers, 
   Server, 
-  Sparkles, 
-  CheckCircle2, 
-  ShieldCheck,
+  Database,
   Terminal,
-  Zap
+  CheckCircle2, 
+  ShieldCheck
 } from 'lucide-react';
 import { COSMIC_DATA } from '../data/cosmicPortfolioData';
 import { SkillItem } from '../types/portfolio';
 
 export default function CosmicTechStack() {
   const { techStack } = COSMIC_DATA;
-  const [selectedCategory, setSelectedCategory] = useState<keyof typeof techStack>('programming');
+  const [selectedCategory, setSelectedCategory] = useState<keyof typeof techStack>('languages');
 
   const categories: { id: keyof typeof techStack; label: string; icon: React.ElementType; focus: string }[] = [
-    { id: 'programming', label: 'Languages', icon: Code2, focus: 'High-Level Core Syntax & Scripting' },
-    { id: 'frontend', label: 'Frontend Architecture', icon: Layers, focus: 'Component Systems & User Experience' },
-    { id: 'backend', label: 'Backend & Cloud', icon: Server, focus: 'Relational Schemas & API Contracts' },
-    { id: 'ai', label: 'AI & Machine Learning', icon: Cpu, focus: 'Model Training, Computer Vision & Edge Inference' },
-    { id: 'automation', label: 'Automation & APIs', icon: Sparkles, focus: 'LLM Orchestration & Enterprise Workflows' },
+    { id: 'languages', label: 'Languages', icon: Code2, focus: 'Go, PHP, JavaScript, TypeScript, Java, Python & SQL' },
+    { id: 'backend', label: 'Backend & APIs', icon: Server, focus: 'Go Gin-Gonic, PHP MVC, Laravel 11, REST APIs & GORM' },
+    { id: 'frontend', label: 'Frontend & SPAs', icon: Layers, focus: 'React.js, Next.js, Redux Toolkit, Tailwind CSS & Vue.js' },
+    { id: 'databases', label: 'Databases & ORMs', icon: Database, focus: 'MySQL, Oracle SQL, PostgreSQL, SQLite & 3NF Schemas' },
+    { id: 'devops', label: 'DevOps & Tools', icon: Terminal, focus: 'Docker & Compose, GitHub Actions, Git, Postman & Vercel' },
+    { id: 'ai', label: 'AI & Machine Learning', icon: Cpu, focus: 'Google Gemini API, PyTorch, YOLOv11s, OpenCV & Scikit-learn' },
   ];
 
   const currentSkills: SkillItem[] = techStack[selectedCategory] || [];
@@ -43,7 +43,7 @@ export default function CosmicTechStack() {
             Curated Technical Stack &amp; Standards
           </h2>
           <p className="text-base sm:text-lg text-zinc-300 leading-relaxed text-justify sm:text-center">
-            A balanced ecosystem of production-grade frameworks, high-throughput database architectures, and verified machine learning pipelines.
+            A production-grade full-stack software engineering ecosystem spanning high-concurrency Go &amp; PHP backends, reactive Next.js &amp; React interfaces, normalized relational schemas, and integrated AI.
           </p>
         </div>
 

@@ -1,40 +1,36 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-});
+import SmoothScroll from '../components/SmoothScroll';
 
 export const metadata: Metadata = {
-  title: 'Ikhwan Maulana | AI Engineer & Fullstack Systems Architect',
+  title: 'Ikhwan Maulana | Full Stack Developer & Software Engineer',
   description:
-    'Distinguished portfolio of Ikhwan Maulana, an Informatics graduate specializing in Computer Vision, Machine Learning, and High-Performance Fullstack Systems.',
+    'Portfolio of Ikhwan Maulana, Full Stack Developer and Software Engineer certified by BNSP in Software Programming and Computer & Network Engineering.',
   keywords: [
     'Ikhwan Maulana',
-    'AI Engineer',
+    'Full Stack Developer',
     'Software Engineer',
-    'Machine Learning',
-    'Computer Vision',
-    'Fullstack Developer',
+    'BNSP Programmer',
+    'BNSP Teknisi Jaringan',
+    'Go',
+    'Golang',
+    'React',
     'Next.js',
-    'TypeScript',
+    'PHP',
+    'Laravel',
+    'MySQL',
     'Tailwind CSS',
-    'YOLOv11',
-    'Python',
-    'Bekasi',
-    'Indonesia'
+    'GSAP',
+    'Lenis'
   ],
   authors: [{ name: 'Ikhwan Maulana' }],
   creator: 'Ikhwan Maulana',
   openGraph: {
-    title: 'Ikhwan Maulana | AI Engineer & Fullstack Systems Architect',
+    title: 'Ikhwan Maulana | Full Stack Developer & Software Engineer',
     description:
-      'Architecting intelligent solutions with craft and distinction. High-performance software engineering and computer vision systems.',
-    url: 'https://github.com/IkhwanMaulana07',
-    siteName: 'Ikhwan Maulana Portfolio Atelier',
+      'Full Stack Developer & Software Engineer crafting scalable, high-performance web systems and certified national technical solutions.',
+    url: 'https://my-first-portfolio-six-gilt.vercel.app',
+    siteName: 'Ikhwan Maulana Portfolio',
     locale: 'en_US',
     type: 'website',
   },
@@ -49,9 +45,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`dark scroll-smooth ${inter.variable}`}>
-      <body className="bg-[#070709] text-[#F8F8F9] antialiased min-h-screen selection:bg-amber-400/25 selection:text-amber-200">
-        {children}
+    <html lang="en" className="dark scroll-smooth">
+      <body className="bg-[#030304] text-[#F3F3F6] antialiased min-h-screen selection:bg-orange-500/30 selection:text-orange-200">
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

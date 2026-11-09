@@ -5,13 +5,15 @@ import {
   GraduationCap, 
   Award, 
   ShieldCheck, 
+  Users,
+  Presentation,
   CheckCircle2, 
   Sparkles
 } from 'lucide-react';
 import { COSMIC_DATA } from '../data/cosmicPortfolioData';
 
 export default function EducationJourney() {
-  const { education, certifications } = COSMIC_DATA;
+  const { education, certifications, conferences, organization } = COSMIC_DATA;
 
   return (
     <section id="experience" className="py-24 sm:py-32 relative">
@@ -26,12 +28,12 @@ export default function EducationJourney() {
             Distinguished Academic &amp; Professional Foundation
           </h2>
           <p className="text-base sm:text-lg text-zinc-300 leading-relaxed text-justify sm:text-center">
-            Formal computer science academic grounding reinforced with national government certifications and intensive technical masteries.
+            Formal computer science academic grounding reinforced with national government certifications, intensive technical programs, and industry symposiums.
           </p>
         </div>
 
         {/* Two Primary Panels: Left Education, Right Certifications */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
           
           {/* Left Panel: Education (6 Cols) */}
           <div className="lg:col-span-6 space-y-6">
@@ -55,7 +57,7 @@ export default function EducationJourney() {
                   </span>
                   {edu.gpa && (
                     <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">
-                      GPA: {edu.gpa} / 4.00
+                      GPA: {edu.gpa}
                     </span>
                   )}
                 </div>
@@ -132,6 +134,71 @@ export default function EducationJourney() {
                       {cert.desc}
                     </p>
                   </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+
+        {/* Secondary Row: Conferences & Seminars (Left) & Organizational Leadership (Right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Conferences (6 Cols) */}
+          <div className="lg:col-span-6 space-y-4">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-9 h-9 rounded-xl bg-amber-400/[0.08] border border-amber-200/25 flex items-center justify-center text-[#E5C378]">
+                <Presentation className="w-5 h-5" />
+              </div>
+              <h3 className="text-xl font-bold text-white font-heading">
+                Conferences &amp; Seminars
+              </h3>
+            </div>
+
+            <div className="space-y-3.5">
+              {conferences.map((conf, idx) => (
+                <div key={idx} className="luxury-panel p-5">
+                  <div className="flex items-start justify-between gap-3 mb-1.5">
+                    <h4 className="text-sm sm:text-base font-bold text-white font-heading">
+                      {conf.title}
+                    </h4>
+                    <span className="text-xs font-mono font-medium text-[#E5C378] bg-amber-400/[0.08] px-2 py-0.5 rounded shrink-0 border border-amber-200/20">
+                      {conf.year}
+                    </span>
+                  </div>
+                  <div className="text-xs font-mono text-zinc-400">
+                    {conf.organizer}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Organizational Leadership (6 Cols) */}
+          <div className="lg:col-span-6 space-y-4">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-9 h-9 rounded-xl bg-amber-400/[0.08] border border-amber-200/25 flex items-center justify-center text-[#E5C378]">
+                <Users className="w-5 h-5" />
+              </div>
+              <h3 className="text-xl font-bold text-white font-heading">
+                Organizational Leadership
+              </h3>
+            </div>
+
+            <div className="space-y-3.5">
+              {organization.map((org, idx) => (
+                <div key={idx} className="luxury-panel p-5">
+                  <div className="flex items-start justify-between gap-3 mb-1.5">
+                    <h4 className="text-sm sm:text-base font-bold text-white font-heading">
+                      {org.role}
+                    </h4>
+                  </div>
+                  <div className="text-xs font-mono text-[#E5C378] mb-2">
+                    {org.organization}
+                  </div>
+                  <p className="text-xs text-zinc-300 leading-relaxed text-justify">
+                    {org.description}
+                  </p>
                 </div>
               ))}
             </div>

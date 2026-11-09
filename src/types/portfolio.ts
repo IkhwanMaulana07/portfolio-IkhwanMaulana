@@ -68,6 +68,19 @@ export interface CertificationItem {
   desc: string;
 }
 
+export interface ConferenceItem {
+  title: string;
+  organizer: string;
+  year: string;
+  role?: string;
+}
+
+export interface OrganizationItem {
+  role: string;
+  organization: string;
+  description: string;
+}
+
 export interface BlogPost {
   id: string;
   title: string;
