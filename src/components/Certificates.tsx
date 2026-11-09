@@ -45,12 +45,12 @@ export default function Certificates() {
     {
       id: 'jaringan',
       title: 'BNSP Teknisi Jaringan (Computer & Network)',
-      regNumber: 'No. Reg. TIK 012 00045 2024',
-      certNumber: 'No. Sertifikat: 62020 2513 3 0000045 2024',
-      lsp: 'LSP Komputer & Jaringan / BNSP Republik Indonesia',
+      regNumber: 'No. Reg. TIK. 194. 00329 2022',
+      certNumber: 'No. Sertifikat: 62090 3513 2 0002879 2022',
+      lsp: 'LSP SMKN 2 Cikarang Barat / BNSP Republik Indonesia',
       frontImage: '/certificates/bnsp_teknisi_jaringan_depan.png',
       backImage: '/certificates/bnsp_teknisi_jaringan_belakang.png',
-      date: '2024 - 2027',
+      date: '2022 - 2025',
       competencies: [
         'Merancang Topologi Jaringan Komputer',
         'Memasang & Mengonfigurasi Perangkat Jaringan (Router/Switch)',
