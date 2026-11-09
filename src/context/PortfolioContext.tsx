@@ -16,7 +16,7 @@ interface PortfolioContextType {
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
 
 export function PortfolioProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Language>('en');
+  const [lang, setLangState] = useState<Language>('id');
   const [theme, setThemeState] = useState<Theme>('dark');
   const [mounted, setMounted] = useState(false);
 
@@ -65,7 +65,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     applyTheme(nextTheme);
   };
 
-  const t = translations[lang] || translations.en;
+  const t = translations[lang] || translations.id;
 
   return (
     <PortfolioContext.Provider value={{ lang, setLang, theme, toggleTheme, t }}>
