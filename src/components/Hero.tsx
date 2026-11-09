@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useRef, useLayoutEffect } from 'react';
-import Image from 'next/image';
-import { Linkedin, Github, Mail, Phone, Code2 } from 'lucide-react';
+import { Linkedin, Github, Mail, Phone } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Typewriter from './Typewriter';
+import HangingPhotoCard from './HangingPhotoCard';
 import { usePortfolio } from '../context/PortfolioContext';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -29,48 +29,26 @@ export default function Hero() {
         });
       }
 
-      // 3D Card circular entrance & float
+      // Hanging Photo Card entrance reveal
       if (cardRef.current) {
         gsap.fromTo(
           cardRef.current,
           {
-            clipPath: 'circle(0% at 50% 50%)',
-            scale: 0.85,
-            rotate: 4,
-            filter: 'blur(20px)',
+            opacity: 0,
+            y: 30,
+            scale: 0.95,
+            filter: 'blur(12px)',
           },
           {
-            clipPath: 'circle(150% at 50% 50%)',
+            opacity: 1,
+            y: 0,
             scale: 1,
-            rotate: 0,
             filter: 'blur(0px)',
-            duration: 1.6,
+            duration: 1.4,
             ease: 'expo.out',
             delay: 0.2,
           }
         );
-
-        // Continuous subtle float
-        gsap.to(cardRef.current, {
-          y: '+=8',
-          rotationZ: '-=0.5',
-          duration: 3.5,
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut',
-        });
-
-        // Parallax scroll scrub
-        gsap.to(cardRef.current, {
-          yPercent: -8,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: cardRef.current,
-            start: 'top center',
-            end: 'bottom top',
-            scrub: true,
-          },
-        });
       }
     });
 
@@ -166,42 +144,12 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right Column: 3D Photo with Perspective & Hover Borders */}
-        <div className="relative z-10 lg:w-[40%] flex justify-center max-w-full">
-          <div ref={cardRef} className="relative group w-fit [perspective:1200px] max-w-full">
-            {/* Background offset card */}
-            <div className="absolute inset-0 translate-x-3 translate-y-3 sm:translate-x-4 sm:translate-y-4 rounded-3xl border border-orange-500/30 bg-orange-500/5 -z-10 transition-transform duration-500 group-hover:translate-x-5 group-hover:translate-y-5" />
-
-            {/* Clean Portrait Image */}
-            <div className="relative w-[240px] h-[310px] sm:w-[280px] sm:h-[360px] md:w-[320px] md:h-[400px] max-w-[85vw] rounded-3xl overflow-hidden border border-white/10 bg-[#0e0b0b] shadow-2xl">
-              <Image
-                src="/ikhwan_studio_hero.png"
-                alt="Ikhwan Maulana"
-                fill
-                priority
-                sizes="(max-width: 768px) 280px, 320px"
-                className="rounded-3xl object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-              />
-
-              {/* Inner Border */}
-              <div className="hero-inner-border absolute inset-3 rounded-[24px] border border-orange-500/20 pointer-events-none" />
-
-              {/* 4 Animated Hover Border Lines */}
-              <span className="hero-hover-border absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-orange-500 to-orange-600 rounded-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-              <span className="hero-hover-border absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-orange-500 to-orange-600 rounded-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-              <span className="hero-hover-border absolute top-0 left-0 w-[3px] h-full bg-gradient-to-b from-orange-500 to-orange-600 rounded-full origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-500" />
-              <span className="hero-hover-border absolute top-0 right-0 w-[3px] h-full bg-gradient-to-b from-orange-500 to-orange-600 rounded-full origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-500" />
-            </div>
-
-            {/* Floating 3D Badge */}
-            <div
-              className="absolute -left-6 sm:-left-10 bottom-6 px-4 py-2.5 rounded-xl bg-black/75 backdrop-blur-xl border border-orange-500/30 text-white text-xs sm:text-sm font-mono font-medium flex items-center gap-2 shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20"
-              style={{ transform: 'translateZ(60px)' }}
-            >
-              <Code2 className="text-orange-500 w-4 h-4 animate-pulse" />
-              <span>Full-Stack Engineer</span>
-            </div>
-          </div>
+        {/* Right Column: Interactive Hanging Photo Card with Rope & Spring Physics */}
+        <div ref={cardRef} className="relative z-10 lg:w-[40%] flex justify-center max-w-full">
+          <HangingPhotoCard
+            photoSrc="/ikhwan_studio_hero.png"
+            badgeText="Full-Stack Engineer"
+          />
         </div>
 
       </div>
