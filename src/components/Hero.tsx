@@ -1,222 +1,216 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 import Image from 'next/image';
-import { ArrowRight, Github, Linkedin, Mail, FileText } from 'lucide-react';
+import { Linkedin, Github, Mail, Phone, Code2 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Typewriter from './Typewriter';
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
   const contentRef = useRef<HTMLDivElement>(null);
-  const heroCardRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const card = heroCardRef.current;
-    const content = contentRef.current;
-    if (!card || !content) return;
-
+  useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-
-      // Dramatic circular reveal & de-blur on card
-      tl.fromTo(
-        card,
-        {
-          opacity: 0,
-          scale: 0.8,
-          rotate: 6,
-          filter: 'blur(30px)',
-          clipPath: 'circle(0% at 50% 50%)',
-          force3D: true,
-        },
-        {
-          opacity: 1,
-          scale: 1.04,
-          rotate: -1.5,
-          filter: 'blur(6px)',
-          clipPath: 'circle(150% at 50% 50%)',
-          duration: 1.6,
-          ease: 'expo.out',
-          force3D: true,
-        }
-      ).to(card, {
-        scale: 1,
-        rotate: 0,
-        filter: 'blur(0px)',
-        duration: 1.1,
-        ease: 'power3.out',
-        force3D: true,
-      });
-
       // Content staggered entrance
-      tl.fromTo(
-        content,
-        { opacity: 0, y: 40, filter: 'blur(12px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.3 },
-        '-=1.4'
-      );
+      if (contentRef.current) {
+        gsap.from(contentRef.current.children, {
+          y: 40,
+          opacity: 0,
+          filter: 'blur(8px)',
+          stagger: 0.1,
+          duration: 1,
+          ease: 'power3.out',
+        });
+      }
 
-      tl.from(
-        Array.from(content.children),
-        { y: 30, opacity: 0, stagger: 0.1, duration: 0.9, ease: 'power3.out' },
-        '-=1.0'
-      );
+      // 3D Card circular entrance & float
+      if (cardRef.current) {
+        gsap.fromTo(
+          cardRef.current,
+          {
+            clipPath: 'circle(0% at 50% 50%)',
+            scale: 0.85,
+            rotate: 4,
+            filter: 'blur(20px)',
+          },
+          {
+            clipPath: 'circle(150% at 50% 50%)',
+            scale: 1,
+            rotate: 0,
+            filter: 'blur(0px)',
+            duration: 1.6,
+            ease: 'expo.out',
+            delay: 0.2,
+          }
+        );
 
-      // Continuous subtle ambient float
-      gsap.to(card, {
-        y: '+=10',
-        duration: 3.8,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      });
+        // Continuous subtle float
+        gsap.to(cardRef.current, {
+          y: '+=8',
+          rotationZ: '-=0.5',
+          duration: 3.5,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+        });
 
-      // Parallax scroll
-      gsap.to(card, {
-        yPercent: -6,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: card,
-          scrub: true,
-        },
-      });
+        // Parallax scroll scrub
+        gsap.to(cardRef.current, {
+          yPercent: -8,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: cardRef.current,
+            start: 'top center',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+      }
     });
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section
-      id="home"
-      className="relative min-h-[92vh] pt-32 pb-20 flex flex-col justify-center overflow-hidden"
-    >
-      {/* Background Subtle Ambient Glow */}
-      <div className="absolute top-1/4 right-[5%] w-[45vw] h-[45vw] max-w-[550px] max-h-[550px] rounded-full bg-orange-600/10 blur-[150px] pointer-events-none" />
-      <div className="absolute top-1/2 left-[-10%] w-[35vw] h-[35vw] max-w-[400px] max-h-[400px] rounded-full bg-orange-500/5 blur-[120px] pointer-events-none" />
+    <section id="home" className="relative pt-24 pb-12 md:py-28 overflow-visible">
+      <div className="relative overflow-visible flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-24 xl:gap-36 w-full max-w-7xl mx-auto px-6 md:px-10">
+        
+        {/* Right Ambient Radial Blur */}
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-orange-500/20 blur-[180px] rounded-full pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
-          {/* Left Column (7 Cols) */}
-          <div ref={contentRef} className="lg:col-span-7 flex flex-col items-start">
-            
-            {/* Status Pill */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-xs font-mono text-gray-300 mb-6 backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_8px_#ff5500] animate-pulse" />
-              <span className="text-[11px] tracking-widest uppercase">ONLINE • AVAILABLE FOR WORK</span>
-            </div>
+        {/* Left Column: Identity, Typewriter, Socials & CTAs */}
+        <div ref={contentRef} className="flex flex-col z-10 text-white w-full lg:w-[60%] text-left items-start">
+          <p className="text-gray-400 text-lg md:text-xl font-medium tracking-wide">
+            Hi I am
+          </p>
 
-            {/* Display Headline */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black font-techno tracking-tight text-white mb-2 leading-[1.05]">
-              Ikhwan Maulana
-            </h1>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-orange-500 tracking-wide leading-none mt-2 font-techno">
+            Ikhwan Maulana
+          </h1>
 
-            {/* Sub-label & Role */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-6">
-              <span className="font-techno text-xl sm:text-2xl font-bold text-orange-500 drop-shadow-[0_0_20px_rgba(255,100,0,0.5)]">
-                [Full Stack Developer]
-              </span>
-              <span className="hidden sm:inline-block text-gray-600">•</span>
-              <span className="font-techno text-xs sm:text-sm tracking-[0.25em] text-gray-400 uppercase font-semibold">
-                SOFTWARE ENGINEER
-              </span>
-            </div>
+          <h2 className="text-xl sm:text-2xl text-gray-300 font-semibold mt-2">
+            (Ikhwan)
+          </h2>
 
-            {/* Bio Description */}
-            <p className="text-base sm:text-lg text-gray-300 mb-8 leading-relaxed max-w-2xl font-sans font-normal">
-              Full Stack Developer &amp; Software Engineer with hands-on experience designing, building, and deploying end-to-end web applications with Go, PHP/Laravel, and React/Next.js. Certified by BNSP in Software Programming and Network Engineering.
-            </p>
-
-            {/* Social Links Row */}
-            <div className="flex items-center gap-3 mb-8">
-              <a
-                href="https://github.com/IkhwanMaulana07"
-                target="_blank"
-                rel="noreferrer"
-                className="w-10 h-10 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-all hover:border-orange-500/40 hover:shadow-[0_0_15px_rgba(255,100,0,0.2)]"
-                aria-label="GitHub"
-              >
-                <Github className="w-4 h-4" />
-              </a>
-              <a
-                href="https://linkedin.com/in/ikhwan-maulana-1700b842b"
-                target="_blank"
-                rel="noreferrer"
-                className="w-10 h-10 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-all hover:border-orange-500/40 hover:shadow-[0_0_15px_rgba(255,100,0,0.2)]"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a
-                href="mailto:ikhwanmaulana796@gmail.com"
-                className="w-10 h-10 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 text-gray-400 hover:text-white flex items-center justify-center transition-all hover:border-orange-500/40 hover:shadow-[0_0_15px_rgba(255,100,0,0.2)]"
-                aria-label="Email"
-              >
-                <Mail className="w-4 h-4" />
-              </a>
-            </div>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
-              <a
-                href="#contact"
-                className="btn-orange-glow w-full sm:w-auto text-sm uppercase tracking-wider"
-              >
-                <span>HIRE ME</span>
-                <ArrowRight className="w-4 h-4" />
-              </a>
-
-              <a
-                href="/CV_Ikhwan_Maulana_FullStack_Developer.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-dark-glass w-full sm:w-auto text-sm uppercase tracking-wider flex items-center justify-center gap-2"
-              >
-                <FileText className="w-4 h-4 text-orange-400" />
-                <span>CURRICULUM VITAE</span>
-              </a>
-            </div>
-
+          {/* Typewriter Display */}
+          <div className="mt-3 min-h-[55px] w-full max-w-[550px]">
+            <Typewriter
+              words={[
+                'Full-Stack Developer',
+                'Software Engineer',
+                'BNSP Certified Programmer',
+                'System Architecture Specialist',
+              ]}
+              typingSpeed={80}
+              deletingSpeed={40}
+              pauseTime={1800}
+              className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-200"
+            />
           </div>
 
-          {/* Right Column (5 Cols) — Glowing Hero Card */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end">
-            <div ref={heroCardRef} className="relative w-full max-w-[340px] sm:max-w-[400px]">
-              
-              {/* Backlight Glow Behind Card */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-orange-600/30 to-amber-500/20 rounded-[32px] blur-2xl -z-10 transform scale-105 opacity-80" />
+          <p className="text-gray-400 text-sm md:text-base leading-relaxed max-w-xl mt-3">
+            National certified programmer with deep expertise in scalable full-stack web applications, Go microservices, modern React/Next.js architectures, and enterprise business automation.
+          </p>
 
-              {/* Main Photo Card Frame */}
-              <div className="relative aspect-[4/5] w-full rounded-[28px] overflow-hidden border border-orange-500/30 bg-[#0A0A10] shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_40px_rgba(255,100,0,0.15)] group transition-transform duration-500 hover:scale-[1.02]">
-                <Image
-                  src="/ikhwan_studio_hero.png"
-                  alt="Ikhwan Maulana - Full Stack Developer"
-                  fill
-                  priority
-                  className="object-cover object-top filter grayscale contrast-110 brightness-95 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                />
-
-                {/* Subtle Gradient Overlays */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent opacity-85" />
-                <div className="absolute inset-0 bg-gradient-to-r from-orange-500/10 via-transparent to-transparent opacity-50" />
-
-                {/* Bottom Badge Tag */}
-                <div className="absolute bottom-5 right-5 left-5 flex justify-between items-center">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/85 border border-orange-500/40 text-[10px] font-mono text-orange-400 backdrop-blur-md shadow-lg">
-                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
-                    FULL STACK DEVELOPER
-                  </span>
-                </div>
-              </div>
-
-            </div>
+          {/* Social Links with exact orange color */}
+          <div className="flex items-center gap-4 mt-6">
+            <a
+              href="https://www.linkedin.com/in/ikhwan-maulana-22b9b4229/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#ff6000] hover:text-white hover:bg-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-110 shadow-lg"
+              aria-label="LinkedIn Profile"
+            >
+              <Linkedin size={20} />
+            </a>
+            <a
+              href="https://github.com/IkhwanMaulana07"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#ff6000] hover:text-white hover:bg-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-110 shadow-lg"
+              aria-label="GitHub Profile"
+            >
+              <Github size={20} />
+            </a>
+            <a
+              href="https://wa.me/6281234567890"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#ff6000] hover:text-white hover:bg-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-110 shadow-lg"
+              aria-label="WhatsApp Contact"
+            >
+              <Phone size={20} />
+            </a>
+            <a
+              href="mailto:ikhwanmaulana0707@gmail.com"
+              className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#ff6000] hover:text-white hover:bg-orange-500 hover:border-orange-500 transition-all duration-300 hover:scale-110 shadow-lg"
+              aria-label="Email Me"
+            >
+              <Mail size={20} />
+            </a>
           </div>
 
+          {/* Action Buttons */}
+          <div className="flex items-center gap-4 mt-8">
+            <a
+              href="#contact"
+              className="bg-gradient-to-r from-[#FA6E00] to-[#E60026] text-white py-3 px-7 rounded-xl font-semibold shadow-[0_0_20px_rgba(250,110,0,0.5)] hover:scale-105 transition-all duration-300"
+            >
+              Hire Me
+            </a>
+            <a
+              href="/CV_Ikhwan_Maulana_FullStack_Developer.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-gray-600 text-gray-300 font-semibold py-3 px-7 rounded-xl hover:bg-white/10 hover:border-gray-400 hover:text-white transition-all duration-300"
+            >
+              Download CV
+            </a>
+          </div>
         </div>
+
+        {/* Right Column: 3D Photo with Perspective & Hover Borders */}
+        <div className="relative z-10 lg:w-[40%] flex justify-center">
+          <div ref={cardRef} className="relative group w-fit [perspective:1200px]">
+            {/* Background offset card */}
+            <div className="absolute inset-0 translate-x-4 translate-y-4 rounded-3xl border border-orange-500/30 bg-orange-500/5 -z-10 transition-transform duration-500 group-hover:translate-x-6 group-hover:translate-y-6" />
+
+            {/* Clean Portrait Image */}
+            <div className="relative w-[280px] h-[360px] sm:w-[320px] sm:h-[400px] rounded-3xl overflow-hidden border border-white/10 bg-[#0e0b0b] shadow-2xl">
+              <Image
+                src="/ikhwan_studio_hero.png"
+                alt="Ikhwan Maulana"
+                fill
+                priority
+                sizes="(max-width: 768px) 280px, 320px"
+                className="rounded-3xl object-cover object-top filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+              />
+
+              {/* Inner Border */}
+              <div className="hero-inner-border absolute inset-3 rounded-[24px] border border-orange-500/20 pointer-events-none" />
+
+              {/* 4 Animated Hover Border Lines */}
+              <span className="hero-hover-border absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-orange-500 to-orange-600 rounded-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+              <span className="hero-hover-border absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-orange-500 to-orange-600 rounded-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+              <span className="hero-hover-border absolute top-0 left-0 w-[3px] h-full bg-gradient-to-b from-orange-500 to-orange-600 rounded-full origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-500" />
+              <span className="hero-hover-border absolute top-0 right-0 w-[3px] h-full bg-gradient-to-b from-orange-500 to-orange-600 rounded-full origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-500" />
+            </div>
+
+            {/* Floating 3D Badge */}
+            <div
+              className="absolute -left-6 sm:-left-10 bottom-6 px-4 py-2.5 rounded-xl bg-black/75 backdrop-blur-xl border border-orange-500/30 text-white text-xs sm:text-sm font-mono font-medium flex items-center gap-2 shadow-[0_10px_30px_rgba(0,0,0,0.8)] z-20"
+              style={{ transform: 'translateZ(60px)' }}
+            >
+              <Code2 className="text-orange-500 w-4 h-4 animate-pulse" />
+              <span>Full-Stack Engineer</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );

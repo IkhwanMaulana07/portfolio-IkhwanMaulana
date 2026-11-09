@@ -1,136 +1,167 @@
 'use client';
 
 import React from 'react';
-import { ArrowUp, Github, Linkedin, Mail, Twitter } from 'lucide-react';
+import { Linkedin, Github, Phone, Mail } from 'lucide-react';
 
 export default function Footer() {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const socials = [
+    {
+      name: 'LinkedIn',
+      href: 'https://www.linkedin.com/in/ikhwan-maulana-22b9b4229/',
+      icon: <Linkedin size={28} />,
+    },
+    {
+      name: 'GitHub',
+      href: 'https://github.com/IkhwanMaulana07',
+      icon: <Github size={28} />,
+    },
+    {
+      name: 'WhatsApp',
+      href: 'https://wa.me/6281234567890',
+      icon: <Phone size={28} />,
+    },
+    {
+      name: 'Email',
+      href: 'mailto:ikhwanmaulana0707@gmail.com',
+      icon: <Mail size={28} />,
+    },
+  ];
 
   return (
-    <footer className="border-t border-white/[0.08] bg-[#030305] pt-20 pb-12 relative overflow-hidden z-10">
-      
-      {/* Warm Ambient Horizon Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-24 bg-gradient-to-b from-orange-600/10 via-transparent to-transparent blur-3xl pointer-events-none" />
+    <footer className="relative w-full mt-24 overflow-hidden bg-[#0d0d10] text-white border-t border-white/[0.06] select-none">
+      {/* Footer Orb */}
+      <div className="footer-orb absolute top-[-180px] left-1/2 -translate-x-1/2 w-[420px] h-[420px] rounded-full bg-orange-500/[0.07] blur-[140px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Big Display Banner */}
-        <div className="pb-16 border-b border-white/[0.08]">
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black font-techno text-white tracking-tight mb-4 leading-tight">
-            LET&apos;S BUILD SOMETHING THAT MATTERS.
-          </h2>
-          <p className="text-sm sm:text-base text-gray-400 max-w-2xl leading-relaxed font-sans">
-            High-impact design, client-validated architecture, and production-tested software engineering that deliver lasting competitive advantage.
-          </p>
+      <div className="relative max-w-6xl mx-auto px-6 md:px-10 py-12 md:py-16">
+        {/* Top Accent Divider */}
+        <div className="relative mb-8 md:mb-10">
+          <div className="h-px w-full bg-white/[0.05]" />
+          <div className="footer-top-line absolute inset-x-0 top-0 h-px bg-gradient-to-r from-orange-500 via-orange-400/70 to-transparent" />
         </div>
 
-        {/* 4-Column Footer Information */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 py-12 border-b border-white/[0.08]">
-          
-          {/* Col 1: Identity */}
+        <div className="grid lg:grid-cols-[1.4fr_.6fr] gap-10 lg:gap-16">
+          {/* Main Slogan & Mission */}
           <div>
-            <span className="font-techno font-bold text-sm tracking-wider text-orange-400 block mb-3 uppercase">
-              IKHWAN MAULANA
-            </span>
-            <p className="text-xs text-gray-400 leading-relaxed font-sans mb-4">
-              Full Stack Developer &amp; Software Engineer crafting scalable, high-performance web systems and certified national technical solutions.
-            </p>
-            <div className="flex items-center gap-2">
-              <a
-                href="https://github.com/IkhwanMaulana07"
-                target="_blank"
-                rel="noreferrer"
-                className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-orange-500/40 transition-all"
-                aria-label="GitHub"
-              >
-                <Github className="w-3.5 h-3.5" />
-              </a>
-              <a
-                href="https://linkedin.com/in/ikhwan-maulana-1700b842b"
-                target="_blank"
-                rel="noreferrer"
-                className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-orange-500/40 transition-all"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-3.5 h-3.5" />
-              </a>
-              <a
-                href="mailto:ikhwanmaulana796@gmail.com"
-                className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-orange-500/40 transition-all"
-                aria-label="Email"
-              >
-                <Mail className="w-3.5 h-3.5" />
-              </a>
+            <div className="footer-eyebrow flex items-center gap-3 mb-5 text-[9px] md:text-[10px] uppercase tracking-[0.3em] text-orange-400 font-mono">
+              <span className="w-6 h-px bg-orange-500" />
+              THE LAST FRAME
             </div>
-          </div>
 
-          {/* Col 2: Navigation Links */}
-          <div>
-            <span className="font-techno font-bold text-xs tracking-wider text-white block mb-3 uppercase">
-              NAVIGATION
-            </span>
-            <ul className="space-y-2 text-xs font-mono text-gray-400">
-              <li><a href="#home" className="hover:text-orange-400 transition-colors">Home</a></li>
-              <li><a href="#about" className="hover:text-orange-400 transition-colors">About</a></li>
-              <li><a href="#focus" className="hover:text-orange-400 transition-colors">Focus</a></li>
-              <li><a href="#systems" className="hover:text-orange-400 transition-colors">Systems</a></li>
-              <li><a href="#certifications" className="hover:text-orange-400 transition-colors">BNSP Credentials</a></li>
-              <li><a href="#skills" className="hover:text-orange-400 transition-colors">Technical Stack</a></li>
-              <li><a href="#services" className="hover:text-orange-400 transition-colors">Services</a></li>
-              <li><a href="#contact" className="hover:text-orange-400 transition-colors">Contact</a></li>
-            </ul>
-          </div>
-
-          {/* Col 3: What I Build */}
-          <div>
-            <span className="font-techno font-bold text-xs tracking-wider text-white block mb-3 uppercase">
-              WHAT I BUILD
-            </span>
-            <ul className="space-y-2 text-xs font-mono text-gray-400">
-              <li>Web Applications (SPAs)</li>
-              <li>High-Concurrency REST APIs</li>
-              <li>SaaS &amp; Monorepo Platforms</li>
-              <li>Normalized Relational DBs</li>
-              <li>AI Chatbot Integrations</li>
-            </ul>
-          </div>
-
-          {/* Col 4: Availability */}
-          <div>
-            <span className="font-techno font-bold text-xs tracking-wider text-white block mb-3 uppercase">
-              AVAILABILITY
-            </span>
-            <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06]">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-xs font-mono text-emerald-400 font-semibold">Available for Work</span>
+            <div className="[perspective:1200px] overflow-visible">
+              <h2 className="footer-title-line-1 text-[clamp(2.35rem,6vw,5.5rem)] font-black uppercase leading-[0.84] tracking-[-0.04em] font-techno text-white">
+                LET&apos;S BUILD
+              </h2>
+              <div className="mt-3 md:mt-4 overflow-visible">
+                <h2 className="footer-title-line-2 text-[clamp(2.35rem,6vw,5.5rem)] font-black uppercase leading-[0.84] tracking-[-0.04em] text-orange-500 font-techno">
+                  SOMETHING THAT MATTERS.
+                </h2>
               </div>
-              <p className="text-[11px] text-gray-400 font-sans leading-relaxed">
-                Open to Full Stack Developer and Software Engineer opportunities.
+            </div>
+
+            <div className="max-w-xl mt-7 md:mt-8">
+              <p className="footer-description text-xs md:text-sm lg:text-base text-gray-400 leading-6 md:leading-7 font-sans">
+                Digital experiences should feel clear, intentional, and alive. I build modern interfaces and powerful web solutions that turn ideas into something people can actually experience.
               </p>
             </div>
           </div>
 
+          {/* Navigation & Services Columns */}
+          <div className="grid grid-cols-2 gap-8 lg:pt-8">
+            <div>
+              <div className="mb-4 text-[9px] md:text-[10px] uppercase tracking-[0.25em] text-gray-400 font-mono">
+                NAVIGATION
+              </div>
+              <nav className="space-y-3 font-mono text-xs">
+                {[
+                  { name: 'Home', href: '#home' },
+                  { name: 'About', href: '#about' },
+                  { name: 'Systems', href: '#systems' },
+                  { name: 'Skills', href: '#skills' },
+                  { name: 'Services', href: '#services' },
+                  { name: 'Projects', href: '#projects' },
+                  { name: 'Certificates', href: '#certificates' },
+                  { name: 'Contact', href: '#contact' },
+                ].map((item, idx) => (
+                  <a
+                    key={idx}
+                    href={item.href}
+                    className="flex items-center justify-between text-gray-400 hover:text-orange-400 transition-colors group"
+                  >
+                    <span>{item.name}</span>
+                    <span className="text-orange-500 opacity-30 group-hover:opacity-100 group-hover:translate-x-1 transition-all">
+                      →
+                    </span>
+                  </a>
+                ))}
+              </nav>
+            </div>
+
+            <div>
+              <div className="mb-4 text-[9px] md:text-[10px] uppercase tracking-[0.25em] text-gray-400 font-mono">
+                WHAT I BUILD
+              </div>
+              <div className="space-y-4 font-mono text-xs text-gray-400">
+                <div className="group cursor-default">
+                  <span className="block group-hover:text-orange-400 transition-colors">Web Experiences</span>
+                  <span className="block w-0 group-hover:w-8 h-px bg-orange-500 transition-all duration-300 mt-1" />
+                </div>
+                <div className="group cursor-default">
+                  <span className="block group-hover:text-orange-400 transition-colors">Web Applications</span>
+                  <span className="block w-0 group-hover:w-8 h-px bg-orange-500 transition-all duration-300 mt-1" />
+                </div>
+                <div className="group cursor-default">
+                  <span className="block group-hover:text-orange-400 transition-colors">Digital Systems</span>
+                  <span className="block w-0 group-hover:w-8 h-px bg-orange-500 transition-all duration-300 mt-1" />
+                </div>
+                <div className="group cursor-default">
+                  <span className="block group-hover:text-orange-400 transition-colors">RESTful APIs</span>
+                  <span className="block w-0 group-hover:w-8 h-px bg-orange-500 transition-all duration-300 mt-1" />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Bottom Credits & Back To Top */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-gray-500">
-          <p>
-            &copy; {new Date().getFullYear()} Ikhwan Maulana • All rights reserved.
+        {/* Divider */}
+        <div className="relative mt-12 md:mt-16">
+          <div className="h-px w-full bg-white/[0.06]" />
+          <div className="footer-divider absolute inset-x-0 top-0 h-px bg-gradient-to-r from-orange-500/70 via-orange-400/30 to-transparent" />
+        </div>
+
+        {/* Meta Line */}
+        <div className="footer-meta mt-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-[9px] md:text-[10px] uppercase tracking-[0.18em] font-mono">
+          <span className="text-gray-500">REACT • NEXT.JS • GSAP • TAILWIND • LENIS</span>
+          <span className="text-gray-400">DESIGNED &amp; BUILT BY IKHWAN MAULANA</span>
+        </div>
+
+        {/* Social Icons (Large Glowing Rings) */}
+        <div className="mt-14 md:mt-16">
+          <div className="mb-6 text-[9px] md:text-[10px] uppercase tracking-[0.28em] text-gray-500 text-center font-mono">
+            SOCIALS
+          </div>
+          <div className="flex items-center justify-center gap-5 sm:gap-8">
+            {socials.map((soc, idx) => (
+              <a
+                key={idx}
+                href={soc.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={soc.name}
+                className="relative group flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full border border-orange-500/20 hover:border-orange-500 transition-all duration-300 hover:scale-110 shadow-lg text-orange-500 hover:text-white hover:bg-orange-500/20"
+              >
+                <span className="absolute inset-0 rounded-full bg-orange-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                {soc.icon}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Closing Quote */}
+        <div className="mt-12 md:mt-16 text-center">
+          <p className="footer-closing max-w-3xl mx-auto text-[clamp(1.1rem,2vw,1.5rem)] font-medium tracking-tight text-gray-300 font-sans">
+            Good design gets attention. Great digital experiences stay with you.
           </p>
-
-          <button
-            onClick={scrollToTop}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 text-gray-300 hover:text-white transition-all text-xs"
-            aria-label="Back to top"
-          >
-            <span>Top</span>
-            <ArrowUp className="w-3.5 h-3.5 text-orange-400" />
-          </button>
         </div>
-
       </div>
     </footer>
   );

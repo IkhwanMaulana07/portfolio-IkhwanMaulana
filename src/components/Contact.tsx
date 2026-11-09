@@ -1,179 +1,171 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Mail, MessageCircle, ArrowRight, Check, ExternalLink } from 'lucide-react';
+import React from 'react';
+import { Mail, Linkedin, Github, Phone } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import gsap from 'gsap';
 import SectionHeading from './SectionHeading';
 
+interface ContactChannel {
+  name: string;
+  desc: string;
+  href: string;
+  icon: React.ReactNode;
+}
+
 export default function Contact() {
-  const [copied, setCopied] = useState<string | null>(null);
-
-  const handleCopy = (text: string, type: string) => {
-    navigator.clipboard.writeText(text);
-    setCopied(type);
-    setTimeout(() => setCopied(null), 2500);
-  };
-
-  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.currentTarget;
-    const fill = target.querySelector('.contact-fill');
-    const content = target.querySelectorAll('.contact-content');
-    const icon = target.querySelector('.contact-icon');
-    if (!fill) return;
-
-    gsap.killTweensOf([fill, content, icon]);
-    const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-    tl.to(fill, { height: '100%', borderRadius: '0%', duration: 0.65 }, 0);
-    tl.to(content, { color: '#000000', y: -2, duration: 0.35, stagger: 0.03 }, 0.15);
-    if (icon) {
-      tl.to(icon, { color: '#000000', scale: 1.15, rotation: -6, duration: 0.35, ease: 'back.out(1.7)' }, 0.1);
-    }
-  };
-
-  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.currentTarget;
-    const fill = target.querySelector('.contact-fill');
-    const content = target.querySelectorAll('.contact-content');
-    const icon = target.querySelector('.contact-icon');
-    if (!fill) return;
-
-    gsap.killTweensOf([fill, content, icon]);
-    const tl = gsap.timeline({ defaults: { ease: 'power4.inOut' } });
-    tl.to(content, { color: '', y: 0, duration: 0.3, stagger: 0.02 }, 0);
-    if (icon) {
-      tl.to(icon, { color: '#f97316', scale: 1, rotation: 0, duration: 0.3, ease: 'power3.out' }, 0);
-    }
-    tl.to(fill, { height: '0%', borderRadius: '50% 50% 0 0', duration: 0.55 }, 0.05);
-  };
-
-  const channels = [
+  const channels: ContactChannel[] = [
     {
-      name: 'Email (Direct)',
-      handle: 'ikhwanmaulana796@gmail.com',
-      action: () => handleCopy('ikhwanmaulana796@gmail.com', 'email'),
-      copiedText: 'Copied!',
-      icon: Mail,
+      name: 'Email',
+      desc: 'Send me an email anytime.',
+      href: 'mailto:ikhwanmaulana0707@gmail.com',
+      icon: <Mail className="w-9 h-9" />,
     },
     {
       name: 'LinkedIn',
-      handle: 'in/ikhwan-maulana-1700b842b',
-      href: 'https://linkedin.com/in/ikhwan-maulana-1700b842b',
-      icon: ExternalLink,
-    },
-    {
-      name: 'WhatsApp (Direct)',
-      handle: '+62 896-7367-4598',
-      href: 'https://wa.me/6289673674598?text=Hello%20Ikhwan,%20I%20would%20like%20to%20discuss%20a%20project',
-      icon: MessageCircle,
+      desc: "Connect and let's discuss opportunities.",
+      href: 'https://www.linkedin.com/in/ikhwan-maulana-22b9b4229/',
+      icon: <Linkedin className="w-9 h-9" />,
     },
     {
       name: 'GitHub',
-      handle: 'github.com/IkhwanMaulana07',
+      desc: 'Explore my projects and code repositories.',
       href: 'https://github.com/IkhwanMaulana07',
-      icon: ExternalLink,
+      icon: <Github className="w-9 h-9" />,
+    },
+    {
+      name: 'WhatsApp',
+      desc: 'Quick communication for project collaboration.',
+      href: 'https://wa.me/6281234567890',
+      icon: <Phone className="w-9 h-9" />,
     },
   ];
 
-  const handleConfetti = () => {
-    try {
-      confetti({
-        particleCount: 90,
-        spread: 70,
-        origin: { y: 0.7 },
-        colors: ['#ff5500', '#ff7700', '#ffa500', '#ffffff'],
+  const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const card = e.currentTarget;
+    const fill = card.querySelector('.contact-fill');
+    const content = card.querySelector('.contact-content');
+    const icon = card.querySelector('.contact-icon');
+
+    if (fill) {
+      gsap.to(fill, {
+        height: '100%',
+        borderRadius: '0%',
+        duration: 0.45,
+        ease: 'power2.out',
       });
-    } catch {}
+    }
+
+    if (content) {
+      gsap.to(content, {
+        color: '#000000',
+        duration: 0.35,
+        ease: 'power2.out',
+      });
+    }
+
+    if (icon) {
+      gsap.to(icon, {
+        color: '#000000',
+        scale: 1.15,
+        rotation: 12,
+        duration: 0.4,
+        ease: 'back.out(1.7)',
+      });
+    }
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const card = e.currentTarget;
+    const fill = card.querySelector('.contact-fill');
+    const content = card.querySelector('.contact-content');
+    const icon = card.querySelector('.contact-icon');
+
+    if (fill) {
+      gsap.to(fill, {
+        height: '0%',
+        borderRadius: '50% 50% 0 0',
+        duration: 0.4,
+        ease: 'power2.inOut',
+      });
+    }
+
+    if (content) {
+      gsap.to(content, {
+        color: '#ffffff',
+        duration: 0.35,
+        ease: 'power2.inOut',
+      });
+    }
+
+    if (icon) {
+      gsap.to(icon, {
+        color: '#ff6000',
+        scale: 1,
+        rotation: 0,
+        duration: 0.35,
+        ease: 'power2.out',
+      });
+    }
+  };
+
+  const triggerConfetti = () => {
+    confetti({
+      particleCount: 90,
+      spread: 70,
+      origin: { y: 0.8 },
+      colors: ['#ff5500', '#ff8c00', '#ff3b00', '#ffffff'],
+    });
   };
 
   return (
-    <section id="contact" className="py-24 sm:py-32 relative overflow-hidden">
-      {/* Background Center Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[55vw] h-[55vw] max-w-[600px] max-h-[600px] rounded-full bg-orange-600/12 blur-[160px] pointer-events-none" />
+    <section id="contact" className="relative py-24 px-6 md:px-16 text-white select-none">
+      {/* Ambient Glows */}
+      <div className="absolute top-20 left-10 w-[450px] h-[450px] bg-gradient-to-r from-yellow-500/30 to-orange-500/20 rounded-full blur-[140px] opacity-40 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-gradient-to-r from-orange-500/30 to-red-500/20 rounded-full blur-[140px] opacity-40 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <SectionHeading title="START A CONVERSATION" />
-          <p className="text-sm sm:text-base text-gray-400 leading-relaxed font-sans -mt-8">
-            Have a project in mind, a role to discuss, or want to explore collaboration? Reach out through any of the preferred channels below.
-          </p>
-        </div>
+      <SectionHeading title="GET IN TOUCH" className="text-orange-400" />
 
-        {/* Central Contact Monolith Box */}
-        <div className="max-w-4xl mx-auto rounded-[32px] border border-orange-500/30 bg-[#09090F]/90 backdrop-blur-2xl p-8 sm:p-12 md:p-16 shadow-[0_20px_70px_rgba(0,0,0,0.95),0_0_40px_rgba(255,100,0,0.15)] flex flex-col items-center text-center">
-          
-          {/* 4 Quick Reach Channels Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full mb-10">
-            {channels.map((ch, idx) => {
-              const Icon = ch.icon;
-              return ch.href ? (
-                <a
-                  key={idx}
-                  href={ch.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  className="relative p-5 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-orange-500/50 transition-all flex flex-col items-center text-center group overflow-hidden cursor-pointer"
-                >
-                  {/* Liquid fill overlay */}
-                  <div className="contact-fill absolute bottom-0 left-0 right-0 h-0 bg-gradient-to-t from-orange-600 to-amber-400 rounded-t-[50%] pointer-events-none" />
+      <p className="text-center text-gray-400 max-w-2xl mx-auto mt-4 mb-14 text-sm sm:text-base font-sans">
+        Have a project in mind, an engineering challenge to solve, or want to discuss full-time opportunities? Feel free to reach out through any channel below.
+      </p>
 
-                  <div className="relative z-10 flex flex-col items-center">
-                    <Icon className="contact-icon w-6 h-6 text-orange-400 mb-2 transition-transform" />
-                    <span className="contact-content text-xs font-techno font-bold text-white">
-                      {ch.name}
-                    </span>
-                    <span className="contact-content text-[11px] font-mono text-gray-400 truncate max-w-full mt-1">
-                      {ch.handle}
-                    </span>
-                  </div>
-                </a>
-              ) : (
-                <button
-                  key={idx}
-                  onClick={ch.action}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  className="relative p-5 rounded-2xl bg-white/[0.02] border border-white/[0.08] hover:border-orange-500/50 transition-all flex flex-col items-center text-center group overflow-hidden cursor-pointer focus:outline-none"
-                >
-                  {/* Liquid fill overlay */}
-                  <div className="contact-fill absolute bottom-0 left-0 right-0 h-0 bg-gradient-to-t from-orange-600 to-amber-400 rounded-t-[50%] pointer-events-none" />
-
-                  <div className="relative z-10 flex flex-col items-center">
-                    {copied === 'email' ? (
-                      <Check className="contact-icon w-6 h-6 text-emerald-400 mb-2" />
-                    ) : (
-                      <Icon className="contact-icon w-6 h-6 text-orange-400 mb-2 transition-transform" />
-                    )}
-                    <span className="contact-content text-xs font-techno font-bold text-white">
-                      {ch.name}
-                    </span>
-                    <span className="contact-content text-[11px] font-mono text-gray-400 truncate max-w-full mt-1">
-                      {copied === 'email' ? 'Copied to Clipboard!' : ch.handle}
-                    </span>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Large CTA Button */}
+      {/* 4 Liquid-Rise Contact Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        {channels.map((ch, idx) => (
           <a
-            href="https://wa.me/6289673674598?text=Hello%20Ikhwan,%20I'm%20interested%20in%20working%20together!"
+            key={idx}
+            href={ch.href}
             target="_blank"
-            rel="noreferrer"
-            onClick={handleConfetti}
-            className="btn-orange-glow text-base sm:text-lg font-bold font-techno py-4 px-10 tracking-wider shadow-[0_0_35px_rgba(255,100,0,0.6)]"
+            rel="noopener noreferrer"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="group relative overflow-hidden p-6 sm:p-8 rounded-3xl bg-black/40 border border-white/10 backdrop-blur-xl transition-all duration-300 block shadow-xl"
           >
-            <span>Let&apos;s Work Together</span>
-            <ArrowRight className="w-5 h-5" />
+            {/* Rising orange liquid layer */}
+            <div className="contact-fill absolute left-0 bottom-0 w-full h-0 bg-orange-500 rounded-[50%_50%_0_0] pointer-events-none z-0" />
+
+            {/* Content that inverts to dark text */}
+            <div className="contact-content relative z-10">
+              <div className="contact-icon text-orange-500 mb-4 inline-block transition-transform">
+                {ch.icon}
+              </div>
+              <h3 className="text-xl font-bold font-techno">{ch.name}</h3>
+              <p className="mt-2 text-sm opacity-80 font-sans">{ch.desc}</p>
+            </div>
           </a>
+        ))}
+      </div>
 
-        </div>
-
+      {/* Start a Conversation CTA */}
+      <div className="flex justify-center mt-14">
+        <a
+          href="mailto:ikhwanmaulana0707@gmail.com"
+          onClick={triggerConfetti}
+          className="bg-gradient-to-r from-[#FA6E00] to-[#E60026] text-white px-8 py-3.5 rounded-xl font-semibold shadow-[0_0_25px_rgba(250,110,0,0.5)] hover:scale-105 transition-all duration-300 font-mono tracking-wide"
+        >
+          Start a Conversation
+        </a>
       </div>
     </section>
   );

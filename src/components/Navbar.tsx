@@ -1,28 +1,36 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Menu, X } from 'lucide-react';
 import gsap from 'gsap';
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const itemsRef = useRef<(HTMLLIElement | null)[]>([]);
 
+  const navLinks = [
+    { label: 'Home', href: '#home', id: 'home' },
+    { label: 'About', href: '#about', id: 'about' },
+    { label: 'Systems', href: '#systems', id: 'systems' },
+    { label: 'Skills', href: '#skills', id: 'skills' },
+    { label: 'Services', href: '#services', id: 'services' },
+    { label: 'Projects', href: '#projects', id: 'projects' },
+    { label: 'Certificates', href: '#certificates', id: 'certificates' },
+    { label: 'Contact', href: '#contact', id: 'contact' },
+  ];
+
+  // Active section spy
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
-
-      const sectionIds = ['home', 'about', 'focus', 'systems', 'certifications', 'skills', 'services', 'contact'];
-      const scrollPos = window.scrollY + 200;
-
-      for (const id of sectionIds) {
-        const el = document.getElementById(id);
+      const scrollPos = window.scrollY + 250;
+      for (const item of navLinks) {
+        const el = document.getElementById(item.id);
         if (el) {
           const top = el.offsetTop;
           const height = el.offsetHeight;
           if (scrollPos >= top && scrollPos < top + height) {
-            setActiveSection(id);
+            setActiveSection(item.id);
             break;
           }
         }
@@ -33,143 +41,136 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const target = e.currentTarget;
-    const text = target.querySelector('.nav-text');
-    const line = target.querySelector('.nav-line');
-    const glow = target.querySelector('.nav-glow');
-    if (!text) return;
-    gsap.killTweensOf([text, line, glow]);
-    const tl = gsap.timeline({ defaults: { overwrite: 'auto', ease: 'power3.out' } });
-    tl.to(text, { y: -2, color: '#f97316', duration: 0.35, ease: 'power4.out' }, 0);
-    if (line) tl.to(line, { scaleX: 1, opacity: 1, duration: 0.45, ease: 'expo.out' }, 0.05);
-    if (glow) tl.to(glow, { opacity: 0.4, scale: 1.05, duration: 0.35, ease: 'power2.out' }, 0);
-  };
+  // GSAP roll-over letter swap on hover
+  useEffect(() => {
+    const cleanups: (() => void)[] = [];
 
-  const handleNavLeave = (e: React.MouseEvent<HTMLAnchorElement>, isActive: boolean) => {
-    const target = e.currentTarget;
-    const text = target.querySelector('.nav-text');
-    const line = target.querySelector('.nav-line');
-    const glow = target.querySelector('.nav-glow');
-    if (!text) return;
-    gsap.killTweensOf([text, line, glow]);
-    const tl = gsap.timeline({ defaults: { overwrite: 'auto' } });
-    tl.to(text, { y: 0, color: isActive ? '#ffffff' : '#9ca3af', duration: 0.3, ease: 'power3.inOut' }, 0);
-    if (line) tl.to(line, { scaleX: isActive ? 1 : 0, opacity: isActive ? 1 : 0, duration: 0.3, ease: 'power3.inOut' }, 0);
-    if (glow) tl.to(glow, { opacity: 0, scale: 1, duration: 0.25, ease: 'power2.out' }, 0);
-  };
+    itemsRef.current.forEach((item) => {
+      if (!item) return;
+      const topLetters = item.querySelectorAll('.letter-top');
+      const bottomLetters = item.querySelectorAll('.letter-bottom');
+      const underline = item.querySelector('.underline');
 
-  const navLinks = [
-    { label: 'HOME', href: '#home', id: 'home' },
-    { label: 'ABOUT', href: '#about', id: 'about' },
-    { label: 'FOCUS', href: '#focus', id: 'focus' },
-    { label: 'SYSTEMS', href: '#systems', id: 'systems' },
-    { label: 'CREDENTIALS', href: '#certifications', id: 'certifications' },
-    { label: 'STACK', href: '#skills', id: 'skills' },
-    { label: 'SERVICES', href: '#services', id: 'services' },
-    { label: 'CONTACT', href: '#contact', id: 'contact' },
-  ];
+      const onEnter = () => {
+        gsap.to(topLetters, { y: '100%', stagger: 0.03, duration: 0.35, ease: 'power2.out' });
+        gsap.to(bottomLetters, { y: '0%', stagger: 0.03, duration: 0.35, ease: 'power2.out' });
+        if (underline) gsap.to(underline, { scaleX: 1, duration: 0.4, ease: 'expo.out' });
+      };
+
+      const onLeave = () => {
+        gsap.to(topLetters, { y: '0%', stagger: 0.03, duration: 0.35, ease: 'power2.inOut' });
+        gsap.to(bottomLetters, { y: '-100%', stagger: 0.03, duration: 0.35, ease: 'power2.inOut' });
+        if (underline) gsap.to(underline, { scaleX: 0, duration: 0.3, ease: 'power2.inOut' });
+      };
+
+      item.addEventListener('mouseenter', onEnter);
+      item.addEventListener('mouseleave', onLeave);
+
+      cleanups.push(() => {
+        item.removeEventListener('mouseenter', onEnter);
+        item.removeEventListener('mouseleave', onLeave);
+      });
+    });
+
+    return () => cleanups.forEach((c) => c());
+  }, []);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-[#050508]/85 backdrop-blur-xl border-b border-white/[0.08] py-3.5 shadow-[0_10px_30px_rgba(0,0,0,0.8)]'
-          : 'bg-transparent border-b border-transparent py-5 sm:py-6'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        
-        {/* Brand Logo & Monogram */}
-        <a
-          href="#home"
-          className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 rounded-xl"
-          aria-label="Ikhwan Maulana Portfolio"
-        >
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1C1C24] via-[#101015] to-[#0A0A0E] border border-orange-500/30 flex items-center justify-center font-techno font-bold text-sm text-orange-400 shadow-[0_0_15px_rgba(255,100,0,0.2)] group-hover:border-orange-500/60 group-hover:shadow-[0_0_20px_rgba(255,100,0,0.4)] transition-all duration-300 overflow-hidden relative">
-            <span className="font-techno font-extrabold text-sm tracking-tighter text-orange-400 group-hover:text-white transition-colors">
-              IM
-            </span>
+    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+      <nav className="navbar-container group text-white">
+        {/* Sweeping Shine Overlay */}
+        <div className="shine-wrapper">
+          <div className="navbar-shine" />
+        </div>
+
+        {/* Brand Logo */}
+        <a href="#home" className="flex items-center gap-2.5 z-10" aria-label="Ikhwan Maulana">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center font-techno font-extrabold text-xs text-white shadow-[0_0_15px_rgba(255,100,0,0.5)]">
+            IM
           </div>
-          <span className="font-techno font-bold text-base tracking-wider text-white group-hover:text-orange-400 transition-colors">
+          <span className="font-techno font-bold text-sm tracking-wider text-white hidden sm:inline-block">
             IKHWAN
           </span>
         </a>
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1 bg-[#0E0E14]/80 border border-white/[0.08] rounded-full px-5 py-2 backdrop-blur-xl shadow-inner">
-          {navLinks.map((link) => {
-            const isActive = activeSection === link.id;
+        {/* Desktop Links with Roll-over letter swap */}
+        <ul className="hidden lg:flex items-center gap-7 z-10">
+          {navLinks.map((item, idx) => {
+            const isActive = activeSection === item.id;
             return (
-              <a
-                key={link.id}
-                href={link.href}
-                onMouseEnter={handleNavEnter}
-                onMouseLeave={(e) => handleNavLeave(e, isActive)}
-                className={`relative px-3.5 py-1.5 rounded-full text-xs font-mono font-medium tracking-wider transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 ${
-                  isActive
-                    ? 'text-white bg-orange-500/20 font-semibold border border-orange-500/40 shadow-[0_0_12px_rgba(255,100,0,0.3)]'
-                    : 'text-gray-400 hover:text-white hover:bg-white/[0.04]'
-                }`}
+              <li
+                key={item.id}
+                ref={(el) => { itemsRef.current[idx] = el; }}
+                className="relative cursor-pointer will-change-transform overflow-hidden py-1 px-0.5"
               >
-                <span className="nav-glow absolute inset-0 rounded-full bg-orange-500/15 blur-sm opacity-0 pointer-events-none" />
-                <span className="nav-text relative z-10 transition-colors">
-                  {link.label}
-                </span>
+                <a href={item.href} className="inline-block text-xs uppercase tracking-wider font-medium font-sans">
+                  {item.label.split('').map((char, cIdx) => (
+                    <span key={cIdx} className="relative inline-block overflow-hidden align-top">
+                      <span className={`letter-top block transition-colors duration-200 ${isActive ? 'text-orange-400 font-semibold' : 'text-gray-300'}`}>
+                        {char === ' ' ? '\u00A0' : char}
+                      </span>
+                      <span className="letter-bottom absolute top-0 left-0 block -translate-y-full text-orange-500 font-semibold">
+                        {char === ' ' ? '\u00A0' : char}
+                      </span>
+                    </span>
+                  ))}
+                </a>
                 <span
-                  className={`nav-line absolute bottom-0.5 left-3 right-3 h-[2px] bg-orange-500 origin-left transition-transform duration-300 ${
-                    isActive ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0'
+                  className={`underline absolute bottom-0 left-0 w-full h-[2px] bg-orange-500 transition-transform origin-left ${
+                    isActive ? 'scale-x-100' : 'scale-x-0'
                   }`}
                 />
-              </a>
+              </li>
             );
           })}
-        </nav>
+        </ul>
 
-        {/* Right CTA Button */}
-        <div className="hidden sm:flex items-center gap-3">
+        {/* CTA Button & Mobile Toggle */}
+        <div className="flex items-center gap-3 z-10">
           <a
             href="#contact"
-            className="btn-orange-glow text-xs uppercase tracking-wider py-2.5 px-6"
+            className="contact-btn text-xs font-mono font-semibold uppercase tracking-wider hidden sm:inline-flex items-center gap-1.5"
           >
-            <span>LET&apos;S TALK</span>
-            <ArrowUpRight className="w-3.5 h-3.5" />
+            Hire Me
           </a>
-        </div>
 
-        {/* Mobile Hamburger Toggle */}
-        <div className="flex sm:hidden items-center">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center text-gray-300 hover:text-white focus:outline-none"
-            aria-label="Toggle menu"
+            className="lg:hidden p-2 text-gray-300 hover:text-white focus:outline-none"
+            aria-label="Toggle navigation menu"
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
+      </nav>
 
-      </div>
-
-      {/* Mobile Drawer */}
+      {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="sm:hidden bg-[#07070B]/95 backdrop-blur-2xl border-b border-white/10 px-6 py-6 space-y-3">
-          {navLinks.map((link) => (
-            <a
-              key={link.id}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-4 py-2.5 rounded-xl text-sm font-mono text-gray-300 hover:text-white hover:bg-white/[0.05] transition-colors"
-            >
-              {link.label}
-            </a>
-          ))}
-          <a
-            href="#contact"
-            onClick={() => setMobileMenuOpen(false)}
-            className="btn-orange-glow w-full text-center text-xs uppercase tracking-wider py-3 mt-4"
-          >
-            LET&apos;S TALK
-          </a>
+        <div className="lg:hidden mx-auto w-[90%] bg-[#0e0b0b]/95 backdrop-blur-2xl border border-white/10 rounded-3xl p-6 mt-2 shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
+          <ul className="flex flex-col gap-4">
+            {navLinks.map((item) => (
+              <li key={item.id}>
+                <a
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block py-2 text-sm uppercase tracking-wider font-mono ${
+                    activeSection === item.id ? 'text-orange-500 font-bold' : 'text-gray-300 hover:text-white'
+                  }`}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+            <li className="pt-2">
+              <a
+                href="#contact"
+                onClick={() => setMobileMenuOpen(false)}
+                className="contact-btn w-full text-center block text-xs uppercase tracking-wider"
+              >
+                Start a Conversation
+              </a>
+            </li>
+          </ul>
         </div>
       )}
     </header>
