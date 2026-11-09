@@ -425,3 +425,132 @@
   display: inline-block;
 }
 
+/* ========================================================
+   LIGHT THEME MODE OVERRIDES
+   ======================================================== */
+
+html.light {
+  color-scheme: light;
+  --bg-dark: #f8f9fc;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+}
+
+html.light body {
+  background-color: #f8f9fc;
+  color: #18181b;
+}
+
+html.light main {
+  background-color: #f8f9fc !important;
+  color: #18181b !important;
+}
+
+html.light .vignette {
+  background: radial-gradient(circle, transparent 70%, rgba(200, 205, 215, 0.4));
+}
+
+html.light .global-grid {
+  background-image: linear-gradient(rgba(255, 100, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 100, 0, 0.06) 1px, transparent 1px);
+}
+
+html.light .global-stars,
+html.light .global-stars-2,
+html.light .stars-layer,
+html.light .stars-layer-2 {
+  opacity: 0.02;
+}
+
+html.light .navbar-container {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(245, 245, 250, 0.85)) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  color: #18181b !important;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light .navbar-container .letter-top {
+  color: #374151 !important;
+}
+
+html.light .text-white {
+  color: #111827 !important;
+}
+
+html.light .text-gray-300 {
+  color: #374151 !important;
+}
+
+html.light .text-gray-400 {
+  color: #4b5563 !important;
+}
+
+html.light .text-gray-600 {
+  color: #9ca3af !important;
+}
+
+/* Light Theme Cards & Containers */
+html.light .bg-black\/40,
+html.light .bg-black\/50,
+html.light .bg-black\/60,
+html.light .bg-black\/70,
+html.light .bg-black\/80,
+html.light .bg-black\/85,
+html.light .bg-black\/95,
+html.light .card-cyber,
+html.light .bg-\[\#0a0a0f\],
+html.light .bg-\[\#110e14\],
+html.light .bg-\[\#0e0b0b\],
+html.light .bg-\[\#0e0e14\],
+html.light .bg-\[\#0d0d10\],
+html.light .bg-\[\#090909\],
+html.light .bg-\[\#09090b\] {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 0 20px rgba(255, 100, 0, 0.04) !important;
+}
+
+html.light .border-white\/10,
+html.light .border-white\/5,
+html.light .border-white\/15,
+html.light .border-white\/20,
+html.light .border-white\/\[0\.05\],
+html.light .border-white\/\[0\.06\],
+html.light .border-white\/\[0\.08\] {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light .bg-white\/5,
+html.light .bg-white\/10,
+html.light .bg-white\/\[0\.02\],
+html.light .bg-white\/\[0\.03\],
+html.light .bg-white\/\[0\.04\] {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Buttons with white text preserved */
+html.light .btn-orange-glow,
+html.light .contact-btn,
+html.light .bg-gradient-to-r,
+html.light .bg-orange-500,
+html.light .bg-orange-600 {
+  color: #ffffff !important;
+}
+
+/* Footer in light mode */
+html.light footer {
+  background-color: #f0f2f6 !important;
+  border-top-color: rgba(0, 0, 0, 0.08) !important;
+  color: #18181b !important;
+}
+
+html.light footer .footer-title-line-1 {
+  color: #111827 !important;
+}
+
+/* Smooth theme transitions */
+body, main, nav, footer, section, .navbar-container {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+

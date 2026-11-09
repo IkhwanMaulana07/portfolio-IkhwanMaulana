@@ -5,6 +5,7 @@ import Image from 'next/image';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionHeading from './SectionHeading';
+import { usePortfolio } from '../context/PortfolioContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +14,7 @@ export default function About() {
   const linesRef = useRef<(HTMLParagraphElement | null)[]>([]);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const portraitRef = useRef<HTMLDivElement>(null);
+  const { t } = usePortfolio();
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -101,16 +103,11 @@ export default function About() {
     return () => ctx.revert();
   }, []);
 
-  const stats = [
-    { title: 'React & Next.js', desc: 'Modern Front-End Development' },
-    { title: 'Go & REST APIs', desc: 'High-Performance Backend Systems' },
-    { title: 'BNSP Certified', desc: 'Programmer & Network Technician' },
-    { title: 'Available', desc: 'Open For Opportunities' },
-  ];
+  const stats = t.about.stats;
 
   return (
     <section id="about" ref={containerRef} className="w-full px-6 sm:px-10 md:px-16 py-20 text-white relative">
-      <SectionHeading title="ABOUT ME" className="text-orange-400" />
+      <SectionHeading title={t.about.title} className="text-orange-400" />
 
       <div className="relative flex flex-col lg:flex-row items-center justify-between gap-16 lg:gap-24 max-w-7xl mx-auto mt-12">
         {/* Ambient Glow */}
@@ -121,19 +118,19 @@ export default function About() {
           <div className="text-gray-300 leading-relaxed text-base sm:text-lg md:text-xl space-y-6">
             <div className="about-line-mask overflow-hidden [perspective:1000px]">
               <p ref={(el) => { linesRef.current[0] = el; }} className="about-line">
-                I am a Full-Stack Developer and Software Engineer certified by BNSP (Badan Nasional Sertifikasi Profesi) in Software Programming and Computer & Network Engineering, passionate about building robust, high-performance web systems and intuitive digital products.
+                {t.about.bio1}
               </p>
             </div>
 
             <div className="about-line-mask overflow-hidden [perspective:1000px]">
               <p ref={(el) => { linesRef.current[1] = el; }} className="about-line">
-                Equipped with strong proficiency across Go, React.js, Next.js, TypeScript, PHP, Laravel, and SQL databases, I combine deep technical problem solving with clean architectural principles to deliver scalable, reliable applications.
+                {t.about.bio2}
               </p>
             </div>
 
             <div className="about-line-mask overflow-hidden [perspective:1000px]">
               <p ref={(el) => { linesRef.current[2] = el; }} className="about-line">
-                My focus centers on end-to-end craftsmanship: intuitive user interfaces, rock-solid backend logic, optimized database queries, and frictionless automated workflows that create genuine business impact.
+                {t.about.bio3}
               </p>
             </div>
           </div>

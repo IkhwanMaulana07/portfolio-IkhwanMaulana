@@ -6,12 +6,14 @@ import { Linkedin, Github, Mail, Phone, Code2 } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Typewriter from './Typewriter';
+import { usePortfolio } from '../context/PortfolioContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
   const contentRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const { t } = usePortfolio();
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -85,11 +87,11 @@ export default function Hero() {
         {/* Left Column: Identity, Typewriter, Socials & CTAs */}
         <div ref={contentRef} className="flex flex-col z-10 text-white w-full lg:w-[60%] text-left items-start">
           <p className="text-gray-400 text-lg md:text-xl font-medium tracking-wide">
-            Hi I am
+            {t.hero.greeting}
           </p>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-orange-500 tracking-wide leading-none mt-2 font-techno">
-            Ikhwan Maulana
+            {t.hero.name}
           </h1>
 
           <h2 className="text-xl sm:text-2xl text-gray-300 font-semibold mt-2">
@@ -99,12 +101,7 @@ export default function Hero() {
           {/* Typewriter Display */}
           <div className="mt-3 min-h-[55px] w-full max-w-[550px]">
             <Typewriter
-              words={[
-                'Full-Stack Developer',
-                'Software Engineer',
-                'BNSP Certified Programmer',
-                'System Architecture Specialist',
-              ]}
+              words={t.hero.typewriterRoles}
               typingSpeed={80}
               deletingSpeed={40}
               pauseTime={1800}
@@ -113,7 +110,7 @@ export default function Hero() {
           </div>
 
           <p className="text-gray-400 text-sm md:text-base leading-relaxed max-w-xl mt-3">
-            National certified programmer with deep expertise in scalable full-stack web applications, Go microservices, modern React/Next.js architectures, and enterprise business automation.
+            {t.hero.tagline}
           </p>
 
           {/* Social Links with exact orange color */}
@@ -160,7 +157,7 @@ export default function Hero() {
               href="#contact"
               className="bg-gradient-to-r from-[#FA6E00] to-[#E60026] text-white py-3 px-7 rounded-xl font-semibold shadow-[0_0_20px_rgba(250,110,0,0.5)] hover:scale-105 transition-all duration-300"
             >
-              Hire Me
+              {t.hero.hireMe}
             </a>
             <a
               href="/CV_Ikhwan_Maulana_FullStack_Developer.pdf"
@@ -168,7 +165,7 @@ export default function Hero() {
               rel="noopener noreferrer"
               className="border border-gray-600 text-gray-300 font-semibold py-3 px-7 rounded-xl hover:bg-white/10 hover:border-gray-400 hover:text-white transition-all duration-300"
             >
-              Download CV
+              {t.hero.downloadCv}
             </a>
           </div>
         </div>

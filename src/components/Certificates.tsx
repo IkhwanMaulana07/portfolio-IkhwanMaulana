@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { X, Award, CheckCircle2, Maximize2 } from 'lucide-react';
 import SectionHeading from './SectionHeading';
+import { usePortfolio } from '../context/PortfolioContext';
 
 interface CertData {
   id: string;
@@ -23,6 +24,7 @@ export default function Certificates() {
     jaringan: 'front',
   });
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const { t } = usePortfolio();
 
   const certificates: CertData[] = [
     {
@@ -70,7 +72,14 @@ export default function Certificates() {
 
   return (
     <section id="certificates" className="relative overflow-hidden w-full px-6 md:px-16 py-24 text-white select-none">
-      <SectionHeading title="NATIONAL CERTIFICATIONS" className="text-orange-400" />
+      <SectionHeading title={t.certificates.title} className="text-orange-400" />
+
+      {/* Subtitle info */}
+      <div className="max-w-3xl mx-auto text-center mt-3 mb-6">
+        <p className="text-sm md:text-base text-gray-400 font-sans leading-relaxed">
+          {t.certificates.subtitle}
+        </p>
+      </div>
 
       {/* Ambient Glow */}
       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-orange-500/10 rounded-full blur-[180px] pointer-events-none" />
@@ -101,7 +110,7 @@ export default function Certificates() {
                     onClick={() => toggleSide(cert.id)}
                     className="px-3 py-1.5 rounded-full text-[10px] font-mono tracking-wider bg-black/80 border border-orange-500/40 text-orange-400 hover:bg-orange-500 hover:text-white transition-all backdrop-blur-md"
                   >
-                    TAMPILKAN {currentSide === 'front' ? 'BELAKANG' : 'DEPAN'}
+                    {currentSide === 'front' ? t.certificates.flipToBack : t.certificates.flipToFront}
                   </button>
                   <button
                     onClick={() => setLightboxImage(currentImg)}

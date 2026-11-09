@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { PortfolioProvider } from '../context/PortfolioContext';
 import Intro from '../components/Intro';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
@@ -25,7 +26,7 @@ export default function Home() {
   }, []);
 
   return (
-    <>
+    <PortfolioProvider>
       {/* Intro / Preloader Screen */}
       <Intro onComplete={() => setIntroCompleted(true)} />
 
@@ -61,6 +62,6 @@ export default function Home() {
         {/* Footer */}
         <Footer />
       </main>
-    </>
+    </PortfolioProvider>
   );
 }

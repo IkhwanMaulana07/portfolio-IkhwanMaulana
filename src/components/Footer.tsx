@@ -2,8 +2,10 @@
 
 import React from 'react';
 import { Linkedin, Github, Phone, Mail } from 'lucide-react';
+import { usePortfolio } from '../context/PortfolioContext';
 
 export default function Footer() {
+  const { t } = usePortfolio();
   const socials = [
     {
       name: 'LinkedIn',
@@ -49,18 +51,18 @@ export default function Footer() {
 
             <div className="[perspective:1200px] overflow-visible">
               <h2 className="footer-title-line-1 text-[clamp(2.35rem,6vw,5.5rem)] font-black uppercase leading-[0.84] tracking-[-0.04em] font-techno text-white">
-                LET&apos;S BUILD
+                {t.footer.title1}
               </h2>
               <div className="mt-3 md:mt-4 overflow-visible">
                 <h2 className="footer-title-line-2 text-[clamp(2.35rem,6vw,5.5rem)] font-black uppercase leading-[0.84] tracking-[-0.04em] text-orange-500 font-techno">
-                  SOMETHING THAT MATTERS.
+                  {t.footer.title2}
                 </h2>
               </div>
             </div>
 
             <div className="max-w-xl mt-7 md:mt-8">
               <p className="footer-description text-xs md:text-sm lg:text-base text-gray-400 leading-6 md:leading-7 font-sans">
-                Digital experiences should feel clear, intentional, and alive. I build modern interfaces and powerful web solutions that turn ideas into something people can actually experience.
+                {t.footer.desc}
               </p>
             </div>
           </div>
@@ -131,7 +133,7 @@ export default function Footer() {
         {/* Meta Line */}
         <div className="footer-meta mt-5 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-[9px] md:text-[10px] uppercase tracking-[0.18em] font-mono">
           <span className="text-gray-500">REACT • NEXT.JS • GSAP • TAILWIND • LENIS</span>
-          <span className="text-gray-400">DESIGNED &amp; BUILT BY IKHWAN MAULANA</span>
+          <span className="text-gray-400">{t.footer.designedBy}</span>
         </div>
 
         {/* Social Icons (Large Glowing Rings) */}

@@ -5,6 +5,7 @@ import { Mail, Linkedin, Github, Phone } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import gsap from 'gsap';
 import SectionHeading from './SectionHeading';
+import { usePortfolio } from '../context/PortfolioContext';
 
 interface ContactChannel {
   name: string;
@@ -14,28 +15,30 @@ interface ContactChannel {
 }
 
 export default function Contact() {
+  const { t } = usePortfolio();
+
   const channels: ContactChannel[] = [
     {
       name: 'Email',
-      desc: 'Send me an email anytime.',
+      desc: t.contact.channels.email,
       href: 'mailto:ikhwanmaulana0707@gmail.com',
       icon: <Mail className="w-9 h-9" />,
     },
     {
       name: 'LinkedIn',
-      desc: "Connect and let's discuss opportunities.",
+      desc: t.contact.channels.linkedin,
       href: 'https://www.linkedin.com/in/ikhwan-maulana-22b9b4229/',
       icon: <Linkedin className="w-9 h-9" />,
     },
     {
       name: 'GitHub',
-      desc: 'Explore my projects and code repositories.',
+      desc: t.contact.channels.github,
       href: 'https://github.com/IkhwanMaulana07',
       icon: <Github className="w-9 h-9" />,
     },
     {
       name: 'WhatsApp',
-      desc: 'Quick communication for project collaboration.',
+      desc: t.contact.channels.whatsapp,
       href: 'https://wa.me/6281234567890',
       icon: <Phone className="w-9 h-9" />,
     },
@@ -124,10 +127,10 @@ export default function Contact() {
       <div className="absolute top-20 left-10 w-[450px] h-[450px] bg-gradient-to-r from-yellow-500/30 to-orange-500/20 rounded-full blur-[140px] opacity-40 pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-gradient-to-r from-orange-500/30 to-red-500/20 rounded-full blur-[140px] opacity-40 pointer-events-none" />
 
-      <SectionHeading title="GET IN TOUCH" className="text-orange-400" />
+      <SectionHeading title={t.contact.title} className="text-orange-400" />
 
       <p className="text-center text-gray-400 max-w-2xl mx-auto mt-4 mb-14 text-sm sm:text-base font-sans">
-        Have a project in mind, an engineering challenge to solve, or want to discuss full-time opportunities? Feel free to reach out through any channel below.
+        {t.contact.subtitle}
       </p>
 
       {/* 4 Liquid-Rise Contact Cards */}

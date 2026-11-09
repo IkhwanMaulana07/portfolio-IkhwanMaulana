@@ -6,6 +6,7 @@ import { X, Layers, Cpu, CheckCircle2, ArrowUpRight, Sparkles } from 'lucide-rea
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionHeading from './SectionHeading';
+import { usePortfolio } from '../context/PortfolioContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,6 +32,7 @@ export default function Projects() {
   const containerRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [activeProject, setActiveProject] = useState<ProjectItem | null>(null);
+  const { t } = usePortfolio();
 
   const projects: ProjectItem[] = [
     {
@@ -204,12 +206,12 @@ export default function Projects() {
 
   return (
     <section id="projects" ref={containerRef} className="relative w-full px-6 md:px-16 py-24 text-white select-none">
-      <SectionHeading title="FEATURED PROJECTS" className="text-orange-400" />
+      <SectionHeading title={t.projects.title} className="text-orange-400" />
 
       {/* Subheading info */}
       <div className="max-w-3xl mx-auto text-center mt-3 mb-10">
         <p className="text-sm md:text-base text-gray-400 font-sans leading-relaxed">
-          Production systems, enterprise monorepo architectures, and applied machine learning models engineered with high performance, scalability, and modern standards.
+          {t.projects.subtitle}
         </p>
       </div>
 
@@ -250,7 +252,7 @@ export default function Projects() {
 
               {/* Click to inspect cue on hover */}
               <div className="absolute bottom-3 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1.5 text-xs text-orange-300 font-mono bg-black/80 px-2.5 py-1 rounded-full border border-orange-500/30">
-                <span>View Architecture</span>
+                <span>{t.projects.viewArch}</span>
                 <ArrowUpRight size={13} />
               </div>
             </div>
@@ -295,7 +297,7 @@ export default function Projects() {
                 </div>
 
                 <div className="flex items-center gap-1 text-xs text-orange-400 font-mono group-hover:translate-x-1 transition-transform">
-                  <span>Specs</span>
+                  <span>{t.projects.specsBtn}</span>
                   <ArrowUpRight size={14} />
                 </div>
               </div>
@@ -356,7 +358,7 @@ export default function Projects() {
               {/* Key Metrics Grid */}
               <div>
                 <h4 className="text-xs font-mono uppercase tracking-wider text-gray-400 flex items-center gap-2 mb-3">
-                  <Sparkles size={14} className="text-orange-400" /> Key Architectural Metrics
+                  <Sparkles size={14} className="text-orange-400" /> {t.projects.metricsHeading}
                 </h4>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {activeProject.metrics.map((m, idx) => (
@@ -371,7 +373,7 @@ export default function Projects() {
               {/* Overview */}
               <div>
                 <h4 className="text-xs font-mono uppercase tracking-wider text-gray-400 flex items-center gap-2 mb-2">
-                  <Layers size={14} className="text-orange-400" /> Project Scope & Overview
+                  <Layers size={14} className="text-orange-400" /> {t.projects.overviewHeading}
                 </h4>
                 <p className="text-sm text-gray-300 leading-relaxed font-sans">
                   {activeProject.description}
@@ -381,7 +383,7 @@ export default function Projects() {
               {/* Architecture & Engineering Highlights */}
               <div>
                 <h4 className="text-xs font-mono uppercase tracking-wider text-gray-400 flex items-center gap-2 mb-3">
-                  <Cpu size={14} className="text-orange-400" /> Engineering Specifications (From CV)
+                  <Cpu size={14} className="text-orange-400" /> {t.projects.specsHeading}
                 </h4>
                 <div className="space-y-2.5">
                   {activeProject.architecturePoints.map((point, idx) => (
@@ -398,7 +400,7 @@ export default function Projects() {
               {/* Full Tech Stack */}
               <div>
                 <h4 className="text-xs font-mono uppercase tracking-wider text-gray-400 mb-2">
-                  Technology Stack
+                  {t.projects.stackHeading}
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {activeProject.tags.map((tag, idx) => (
@@ -412,12 +414,12 @@ export default function Projects() {
 
             {/* Modal Footer */}
             <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
-              <span className="text-xs text-gray-400 font-mono">Press Esc or click outside to dismiss</span>
+              <span className="text-xs text-gray-400 font-mono">{t.projects.pressEsc}</span>
               <button
                 onClick={() => setActiveProject(null)}
                 className="px-5 py-2 rounded-xl bg-white/10 hover:bg-orange-500 text-white text-xs font-mono uppercase tracking-wider transition-colors"
               >
-                Close
+                {t.projects.closeModal}
               </button>
             </div>
           </div>

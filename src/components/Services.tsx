@@ -4,6 +4,7 @@ import React, { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionHeading from './SectionHeading';
+import { usePortfolio } from '../context/PortfolioContext';
 import {
   Code,
   Sparkles,
@@ -29,6 +30,7 @@ interface ServiceItem {
 export default function Services() {
   const containerRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const { t } = usePortfolio();
 
   const services: ServiceItem[] = [
     {
@@ -200,7 +202,7 @@ export default function Services() {
       ref={containerRef}
       className="relative w-full px-6 md:px-16 py-24 text-white [contain:layout_paint] select-none"
     >
-      <SectionHeading title="SPECIALIZED SERVICES" className="text-orange-400" />
+      <SectionHeading title={t.services.title} className="text-orange-400" />
 
       {/* Ambient glows */}
       <div className="absolute left-[-150px] top-[30%] w-[400px] h-[400px] rounded-full bg-orange-500/10 blur-[180px] pointer-events-none" />

@@ -3,6 +3,7 @@
 import React, { useRef } from 'react';
 import gsap from 'gsap';
 import SectionHeading from './SectionHeading';
+import { usePortfolio } from '../context/PortfolioContext';
 import {
   Code,
   Layers,
@@ -89,6 +90,7 @@ function SkillCard({ skill }: { skill: SkillItem }) {
 }
 
 export default function Skills() {
+  const { t } = usePortfolio();
   const skills: SkillItem[] = [
     { name: 'React JS', color: '#38bdf8', icon: <Code className="w-10 h-10" /> },
     { name: 'Next.js', color: '#ffffff', icon: <Layers className="w-10 h-10" /> },
@@ -118,7 +120,7 @@ export default function Skills() {
       <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-orange-500/10 blur-[140px] rounded-full pointer-events-none" />
       <div className="absolute right-0 bottom-0 w-[250px] h-[250px] bg-yellow-500/10 blur-[120px] rounded-full pointer-events-none" />
 
-      <SectionHeading title="TECHNICAL STACK" className="text-orange-400" />
+      <SectionHeading title={t.skills.title} className="text-orange-400" />
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 sm:gap-8 place-items-center max-w-6xl mx-auto mt-12">
         {skills.map((skill, idx) => (
