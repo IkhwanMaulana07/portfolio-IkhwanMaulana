@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: 'Ikhwan Maulana | Full Stack Developer & Software Engineer',
     description:
       'Full Stack Developer & Software Engineer crafting scalable, high-performance web systems and certified national technical solutions.',
-    url: 'https://my-first-portfolio-six-gilt.vercel.app',
+    url: 'https://portfolio-ikhwan-maulana.vercel.app',
     siteName: 'Ikhwan Maulana Portfolio',
     locale: 'en_US',
     type: 'website',
