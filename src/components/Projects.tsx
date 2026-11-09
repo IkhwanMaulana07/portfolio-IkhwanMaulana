@@ -2,7 +2,7 @@
 
 import React, { useRef, useLayoutEffect, useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ExternalLink, Github, X, Layers, Cpu, CheckCircle2, ArrowUpRight, Sparkles } from 'lucide-react';
+import { X, Layers, Cpu, CheckCircle2, ArrowUpRight, Sparkles } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionHeading from './SectionHeading';
@@ -25,8 +25,6 @@ interface ProjectItem {
   tags: string[];
   metrics: MetricItem[];
   architecturePoints: string[];
-  liveUrl?: string;
-  githubUrl?: string;
 }
 
 export default function Projects() {
@@ -58,8 +56,6 @@ export default function Projects() {
         'Configured Next.js dynamic runtime reverse proxy to seamlessly bridge client requests to backend API services under a unified domain.',
         'Implemented Docker multi-stage builds and Docker Compose orchestration, reducing production container image footprint by ~60% and enabling one-command development environments.',
       ],
-      liveUrl: 'https://github.com/IkhwanMaulana07',
-      githubUrl: 'https://github.com/IkhwanMaulana07',
     },
     {
       id: 'umkm-portal',
@@ -83,8 +79,6 @@ export default function Projects() {
         'Built mobile-first responsive interfaces using semantic HTML and vanilla CSS, featuring product showcase directories, merchant store management, and administrative audit dashboards.',
         'Integrated Google Gemini API (gemini-1.5-flash) to power an intelligent interactive AI chatbot assistant capable of answering resident inquiries about local MSME products and community information.',
       ],
-      liveUrl: 'https://github.com/IkhwanMaulana07',
-      githubUrl: 'https://github.com/IkhwanMaulana07',
     },
     {
       id: 'smp-alamin',
@@ -109,8 +103,6 @@ export default function Projects() {
         'Developed self-service digital report cards allowing students and parents to view real-time academic progression, download standardized grade sheets, and export report cards to Excel (.xls).',
         'Containerized the full-stack system using Docker Compose for isolated dev environments, and configured GitHub Actions CI/CD workflows for automated PHPUnit test suites and linting on every push.',
       ],
-      liveUrl: 'https://github.com/IkhwanMaulana07',
-      githubUrl: 'https://github.com/IkhwanMaulana07',
     },
     {
       id: 'movie-ai',
@@ -133,8 +125,6 @@ export default function Projects() {
         'Image Classification App: Built and deployed deep learning inference pipelines using TensorFlow/Keras, featuring real-time image upload, preprocessing, model prediction with confidence scoring, and interactive visual feedback.',
         'Engineered intuitive, responsive user interfaces with real-time search, category filtering, and dynamic content rendering directly within Streamlit’s reactive framework.',
       ],
-      liveUrl: 'https://ikhwanmaulana07-rekomendasi-film-app-ovnbhf.streamlit.app',
-      githubUrl: 'https://github.com/IkhwanMaulana07',
     },
     {
       id: 'bsf-mobile',
@@ -158,8 +148,6 @@ export default function Projects() {
         'Quantized and optimized trained models into lightweight TensorFlow Lite (.tflite) formats for efficient on-device inference with low-latency mobile deployment.',
         'Developed an intuitive mobile front-end using Flutter, integrating device camera feeds for real-time inference, bounding-box visualization, confidence display, and cultivation monitoring.',
       ],
-      liveUrl: 'https://github.com/IkhwanMaulana07',
-      githubUrl: 'https://github.com/IkhwanMaulana07',
     },
   ];
 
@@ -291,9 +279,9 @@ export default function Projects() {
                 ))}
               </div>
 
-              {/* Tags & Action Links */}
+              {/* Tags & Action Cue */}
               <div className="mt-5 pt-4 border-t border-white/[0.08] flex items-center justify-between">
-                <div className="flex flex-wrap gap-1.5 max-w-[70%]">
+                <div className="flex flex-wrap gap-1.5 max-w-[75%]">
                   {proj.tags.slice(0, 3).map((tag, tIdx) => (
                     <span key={tIdx} className="text-[10px] font-mono text-gray-300 bg-white/5 px-2 py-0.5 rounded border border-white/5">
                       {tag}
@@ -306,29 +294,9 @@ export default function Projects() {
                   )}
                 </div>
 
-                <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
-                  {proj.githubUrl && (
-                    <a
-                      href={proj.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-orange-400 transition-colors p-1"
-                      aria-label="View source code on GitHub"
-                    >
-                      <Github size={18} />
-                    </a>
-                  )}
-                  {proj.liveUrl && (
-                    <a
-                      href={proj.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-orange-400 transition-colors p-1"
-                      aria-label="View live project"
-                    >
-                      <ExternalLink size={18} />
-                    </a>
-                  )}
+                <div className="flex items-center gap-1 text-xs text-orange-400 font-mono group-hover:translate-x-1 transition-transform">
+                  <span>Specs</span>
+                  <ArrowUpRight size={14} />
                 </div>
               </div>
             </div>
@@ -442,33 +410,15 @@ export default function Projects() {
               </div>
             </div>
 
-            {/* Modal Footer Links */}
-            <div className="mt-6 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+            {/* Modal Footer */}
+            <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
               <span className="text-xs text-gray-400 font-mono">Press Esc or click outside to dismiss</span>
-              <div className="flex items-center gap-3">
-                {activeProject.githubUrl && (
-                  <a
-                    href={activeProject.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-sm font-sans font-medium text-white transition-colors"
-                  >
-                    <Github size={16} />
-                    <span>View Repository</span>
-                  </a>
-                )}
-                {activeProject.liveUrl && (
-                  <a
-                    href={activeProject.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-sm font-sans font-medium transition-colors shadow-lg shadow-orange-500/25"
-                  >
-                    <span>Live Demo</span>
-                    <ExternalLink size={16} />
-                  </a>
-                )}
-              </div>
+              <button
+                onClick={() => setActiveProject(null)}
+                className="px-5 py-2 rounded-xl bg-white/10 hover:bg-orange-500 text-white text-xs font-mono uppercase tracking-wider transition-colors"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
